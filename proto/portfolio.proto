@@ -1,0 +1,37 @@
+syntax = "proto3";
+package pokt;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/pokt-labs/pokt/proto/portfoliopb";
+
+message SpotPrice {
+    google.protobuf.Timestamp time = 1;
+    uint32 price = 2;
+}
+
+message CoinState {
+    string state = 1;
+    uint32 amount = 2;
+}
+
+message Token {
+    string name = 1;
+    repeated CoinState states = 3;
+}
+
+message Chain {
+    string name = 1; 
+    repeated Token tokens = 2;
+    google.protobuf.Timestamp last_updated = 3;
+}
+
+message Account { 
+    string name = 1;
+    string addr = 2;
+    repeated Chain chains = 3;
+}
+
+message Portflio { 
+    
+}
