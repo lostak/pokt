@@ -23,26 +23,16 @@ import (
 )
 
 // printCoinIdsCmd represents the printCoinIds command
-var printCoinIdsCmd = &cobra.Command{
+var printAllCoinIdsCmd = &cobra.Command{
 	Use:   "printCoinIds",
 	Short: "Prints the id, symbol and name of all coins supported by the CoinGecko API",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("printCoinIds called")
 
-		types.PrintCoinIdList()
+		types.PrintAllCoinIds()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(printCoinIdsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// printCoinIdsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// printCoinIdsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.AddCommand(printAllCoinIdsCmd)
 }

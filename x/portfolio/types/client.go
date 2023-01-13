@@ -68,7 +68,7 @@ func GetTokenPrice(coinId string, denom string) (float64, error) {
 	return price, nil
 }
 
-func PrintCoinIdList() {
+func PrintAllCoinIds() {
 	const url = "https://api.coingecko.com/api/v3/coins/list"
 
 	req, err := http.NewRequest("GET", url, nil)
