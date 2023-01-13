@@ -22,4 +22,4 @@ jobs:
         go-version: 1.19
 
     - name: Print $ATOM price
-      run: go run ./x/portfolio/main.go tokenPrice cosmos usd
+      run: cd ./x/portfolio && go run main.go tokenPrice cosmos usd
