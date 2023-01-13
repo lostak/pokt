@@ -31,14 +31,16 @@ var tokenPriceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("\ntokenPrice called")
 
+		/*
+			TODO: validate args
+		*/
+
 		price, err := types.GetTokenPrice(args[0], args[1])
-
-		fmt.Printf("\nPrice: %f %s\n\n", price, args[1])
-
 		if err != nil {
 			fmt.Println(err.Error())
 		}
 
+		fmt.Printf("\nPrice: %f %s\n\n", price, args[1])
 	},
 }
 
