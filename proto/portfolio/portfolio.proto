@@ -1,5 +1,5 @@
 syntax = "proto3";
-package portfolio;
+package types;
 
 import "google/protobuf/timestamp.proto";
 
@@ -51,7 +51,7 @@ message Account {
     repeated Chain chains = 3;
 }
 
-message Portflio { 
+message Portfolio { 
     string name = 1;
     repeated PriceHistory trackedTokens = 2;
     repeated Account accounts = 3; 
