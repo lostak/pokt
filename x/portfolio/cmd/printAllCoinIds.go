@@ -24,10 +24,10 @@ import (
 
 // printCoinIdsCmd represents the printCoinIds command
 var printAllCoinIdsCmd = &cobra.Command{
-	Use:   "printCoinIds",
+	Use:   "printAllCoinIds",
 	Short: "Prints the id, symbol and name of all coins supported by the CoinGecko API",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("printCoinIds called")
+		fmt.Println("printAllCoinIds called")
 
 		types.PrintAllCoinIds()
 	},
