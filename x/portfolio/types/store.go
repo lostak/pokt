@@ -10,8 +10,12 @@ import (
 
 const (
 	FileName = "portfolio.db"
-	filePath = "../"
+	filePath = "poktdb/"
 )
+
+/*
+	BOLD ASSUMPTION: only one portfolio supportedd
+*/
 
 func GetPortfolio() (*Portfolio, error) {
 	data, err := os.ReadFile(filePath + FileName)
@@ -40,6 +44,8 @@ func SetPortfolio(portfolio *Portfolio) error {
 
 	if err := os.WriteFile(filePath+FileName, b, 0700); err != nil {
 		fmt.Print(err.Error())
+		return err
 	}
 
+	return nil
 }
