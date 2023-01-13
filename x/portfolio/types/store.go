@@ -15,7 +15,8 @@ const (
 )
 
 func GetPortfolio() (*Portfolio, error) {
-	data, err := os.ReadFile(filePath + FileName + FileExt)
+	path := filePath + FileName + FileExt
+	data, err := os.ReadFile(path)
 	if err != nil {
 		fmt.Print(err.Error())
 		return &Portfolio{}, err
@@ -39,7 +40,9 @@ func SetPortfolio(portfolio *Portfolio) error {
 		return err
 	}
 
-	if err := os.WriteFile(filePath+FileName, b, 0700); err != nil {
+	path := filePath + FileName + FileExt
+
+	if err := os.WriteFile(path, b, 0700); err != nil {
 		fmt.Print(err.Error())
 		return err
 	}

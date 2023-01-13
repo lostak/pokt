@@ -24,13 +24,9 @@ import (
 // addTokenStateCmd represents the addTokenState command
 var addTokenStateCmd = &cobra.Command{
 	Use:   "addTokenState",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Args:  cobra.ExactArgs(5), // [account] [chain] [token] [status] [amount]
+	Short: "Add a new status for an existing token on the designated chain for the designated account",
+	Long:  "Add a new status for an existing token on the designated chain for the designated account",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addTokenState called")
 	},
