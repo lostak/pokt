@@ -16,11 +16,9 @@ limitations under the License.
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 
+	"github.com/pokt-labs/pokt/types"
 	"github.com/spf13/cobra"
 )
 
@@ -38,69 +36,13 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("\ntokenPrice called")
 
-		const baseURL = "https://api.coingecko.com/api/v3/simple/price?ids=%s&vs_currencies=%s"
-		url := fmt.Sprintf(baseURL, args[0], args[1])
+		price, err := types.GetTokenPrice(args[0], args[1])
 
-		req, err := http.NewRequest("GET", url, nil)
+		fmt.Printf("\nPrice: %f %s\n\n", price, args[1])
+
 		if err != nil {
-			fmt.Print(err.Error())
-			return
+			fmt.Println(err.Error())
 		}
-
-		res, err := http.DefaultClient.Do(req)
-		if err != nil {
-			fmt.Print(err.Error())
-			return
-		}
-
-		defer res.Body.Close()
-		body, readErr := ioutil.ReadAll(res.Body)
-		if readErr != nil {
-			fmt.Print(err.Error())
-			return
-		}
-
-		// Unmarshal using a generic interface
-		var f interface{}
-		err = json.Unmarshal(body, &f)
-		if err != nil {
-			fmt.Println("Error parsing JSON: ", err)
-		}
-
-		// JSON object parses into a map with string keys
-		chainIdMap := f.(map[string]interface{})
-		var price float64
-
-		for _, v := range chainIdMap {
-			// type assert value is JSON
-			switch jsonObj := v.(type) {
-			case interface{}:
-				for baseDenom, amount := range jsonObj.(map[string]interface{}) {
-					switch baseDenom {
-					case args[1]:
-						// make sure value is a number
-						switch amount := amount.(type) {
-						case float64:
-							price = float64(amount)
-							break
-						default:
-							fmt.Println("Incorrect type for ", baseDenom)
-							break
-						}
-						break
-					default:
-						fmt.Println("Unkown key")
-					}
-				}
-				break
-			default:
-				fmt.Println("Expected JSON object, got something else")
-			}
-		}
-
-		prettyJSON, _ := json.MarshalIndent(f, "", "  ")
-
-		fmt.Printf("\nResponse:\n\n%s\n\nPrice: %f\n\n", prettyJSON, price)
 
 	},
 }

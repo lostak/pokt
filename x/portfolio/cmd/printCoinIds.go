@@ -16,12 +16,9 @@ limitations under the License.
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 
-	"io/ioutil"
-	"net/http"
-
+	"github.com/pokt-labs/pokt/types"
 	"github.com/spf13/cobra"
 )
 
@@ -38,36 +35,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("printCoinIds called")
 
-		const url = "https://api.coingecko.com/api/v3/coins/list"
-
-		req, err := http.NewRequest("GET", url, nil)
-		if err != nil {
-			fmt.Print(err.Error())
-			return
-		}
-
-		res, err := http.DefaultClient.Do(req)
-		if err != nil {
-			fmt.Print(err.Error())
-			return
-		}
-
-		defer res.Body.Close()
-		body, readErr := ioutil.ReadAll(res.Body)
-		if readErr != nil {
-			fmt.Print(err.Error())
-			return
-		}
-
-		var f interface{}
-		err = json.Unmarshal(body, &f)
-		if err != nil {
-			fmt.Print(err.Error())
-			return
-		}
-
-		response, _ := json.MarshalIndent(f, "", "\t")
-		fmt.Println(string(response))
+		types.PrintCoinIdList()
 	},
 }
 

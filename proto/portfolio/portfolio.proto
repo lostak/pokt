@@ -1,0 +1,58 @@
+syntax = "proto3";
+package portfolio;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "x/portfolio/types";
+
+
+message SpotPrice {
+    google.protobuf.Timestamp time = 2;
+    double price = 3;
+}
+
+message PriceHistory {
+    string tokenName = 1;
+    string geckoId = 2;
+    string baseDenomId = 3;
+    repeated SpotPrice prices = 4;    
+}
+
+enum States {
+    AVAILABLE = 0;
+    STAKED = 1;
+    UNSTAKING = 2;
+    BONDED = 3;
+    UNBONDING = 4;
+    CLAIMABLE = 5;
+}
+
+message StateHistory {    
+    States state = 1;
+    repeated uint32 amount = 2;
+    repeated google.protobuf.Timestamp update_times = 3;
+}
+
+message Token {
+    string name = 1;
+    repeated StateHistory states = 3;
+}
+
+message Chain {
+    string name = 1; 
+    repeated Token tokens = 2;
+    google.protobuf.Timestamp last_updated = 3;
+}
+
+message Account { 
+    string name = 1;
+    string addr = 2;
+
+    repeated Chain chains = 3;
+}
+
+message Portflio { 
+    string name = 1;
+    repeated PriceHistory trackedTokens = 2;
+    repeated Account accounts = 3; 
+}

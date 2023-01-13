@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "pokt/portfolio/cmd"
+import "github.com/pokt-labs/pokt/cmd"
 
 func main() {
 	cmd.Execute()
