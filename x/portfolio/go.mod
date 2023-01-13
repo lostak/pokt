@@ -1,9 +1,9 @@
-module github.com/pokt-labs/pokt
+module github.com/lostak/pokt
 
 go 1.18
 
-replace github.com/pokt-labs/pokt/types => ./types
-replace github.com/pokt-labs/pokt/cmd => ./cmd
+replace github.com/lostak/pokt/types => ./types
+replace github.com/lostak/pokt/cmd => ./cmd
 require (
 	github.com/golang/protobuf v1.5.2
 	github.com/spf13/cobra v1.6.1

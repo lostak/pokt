@@ -7,8 +7,8 @@ option go_package = "x/portfolio/types";
 
 
 message SpotPrice {
-    google.protobuf.Timestamp time = 2;
-    double price = 3;
+    google.protobuf.Timestamp time = 1;
+    double price = 2;
 }
 
 message PriceHistory {
@@ -30,12 +30,19 @@ enum States {
 message StateHistory {    
     States state = 1;
     repeated uint32 amount = 2;
+    /*
+        Time recorded is when the amount is updated and added to the list on manual user input 
+    */
     repeated google.protobuf.Timestamp update_times = 3;
 }
 
 message Token {
     string name = 1;
-    repeated StateHistory states = 3;
+    /* 
+    1 StateHistory per States that a coin can and has been in on this chain
+        - Adding a new sub-column w/in the token for distr w/in chain on a spreadsheet
+    */
+    repeated StateHistory states = 2;
 }
 
 message Chain {
