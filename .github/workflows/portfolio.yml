@@ -25,4 +25,4 @@ jobs:
       run: cd ./x/portfolio && go run main.go tokenPrice cosmos usd
 
     - name: Print All CoinGecko Coin Names, Ids and Symbols
-      run: go run main.go printAllCoinIds
+      run: cd ./x/portfolio && go run main.go printAllCoinIds
