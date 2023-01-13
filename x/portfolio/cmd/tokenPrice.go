@@ -34,8 +34,9 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tokenPrice called")
+		fmt.Println("\ntokenPrice called")
 
 		const baseURL = "https://api.coingecko.com/api/v3/simple/price?ids=%s&vs_currencies=%s"
 		url := fmt.Sprintf(baseURL, args[0], args[1])
@@ -97,7 +98,9 @@ to quickly create a Cobra application.`,
 			}
 		}
 
-		fmt.Printf("Response: %s\nPrice: %f\n", string(body), price)
+		prettyJSON, _ := json.MarshalIndent(f, "", "  ")
+
+		fmt.Printf("\nResponse:\n\n%s\n\nPrice: %f\n\n", prettyJSON, price)
 
 	},
 }
