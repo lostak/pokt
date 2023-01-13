@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/pokt-labs/pokt/types"
+	"github.com/lostak/pokt/types"
 	"github.com/spf13/cobra"
 )
 
