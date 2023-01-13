@@ -23,3 +23,6 @@ jobs:
 
     - name: Print $ATOM price
       run: cd ./x/portfolio && go run main.go tokenPrice cosmos usd
+
+    - name: Print All CoinGecko Coin Names, Ids and Symbols
+      run: go run main.go printAllCoinIds
