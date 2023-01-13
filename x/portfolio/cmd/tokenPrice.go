@@ -25,14 +25,9 @@ import (
 // tokenPriceCmd represents the tokenPrice command
 var tokenPriceCmd = &cobra.Command{
 	Use:   "tokenPrice",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Args: cobra.ExactArgs(2),
+	Short: "Prints the token price for the given coin ID pair using the CoinGecko API",
+	Long:  `Prints the token price for the given coin ID pair using the CoinGecko API`,
+	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("\ntokenPrice called")
 
@@ -49,7 +44,7 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(tokenPriceCmd)
-
+	tokenPriceCmd.SetUsageTemplate("Usage:\n\tportfolio tokenPrice [coinId] [vs-currency]\n")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

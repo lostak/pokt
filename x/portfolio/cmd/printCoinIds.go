@@ -25,13 +25,7 @@ import (
 // printCoinIdsCmd represents the printCoinIds command
 var printCoinIdsCmd = &cobra.Command{
 	Use:   "printCoinIds",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Prints the id, symbol and name of all coins supported by the CoinGecko API",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("printCoinIds called")
 
