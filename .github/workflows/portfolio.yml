@@ -3,11 +3,7 @@
 
 name: Portfolio
 
-on:
-  push:
-    branches: [ "main", "workflow" ]
-  pull_request:
-    branches: [ "main", "workflow" ]
+on: [push, pull_request, fork]
 
 jobs:
 
