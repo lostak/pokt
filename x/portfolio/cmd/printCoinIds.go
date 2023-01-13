@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"io/ioutil"
@@ -58,7 +59,15 @@ to quickly create a Cobra application.`,
 			return
 		}
 
-		fmt.Println(string(body))
+		var f interface{}
+		err = json.Unmarshal(body, &f)
+		if err != nil {
+			fmt.Print(err.Error())
+			return
+		}
+
+		response, _ := json.MarshalIndent(f, "", "\t")
+		fmt.Println(string(response))
 	},
 }
 
