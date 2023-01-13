@@ -9,16 +9,13 @@ import (
 )
 
 const (
-	FileName = "portfolio.db"
-	filePath = "poktdb/"
+	filePath = "~/.poktdb/"
+	FileName = "portfolio"
+	FileExt  = ".db"
 )
 
-/*
-	BOLD ASSUMPTION: only one portfolio supportedd
-*/
-
 func GetPortfolio() (*Portfolio, error) {
-	data, err := os.ReadFile(filePath + FileName)
+	data, err := os.ReadFile(filePath + FileName + FileExt)
 	if err != nil {
 		fmt.Print(err.Error())
 		return &Portfolio{}, err
@@ -43,6 +40,43 @@ func SetPortfolio(portfolio *Portfolio) error {
 	}
 
 	if err := os.WriteFile(filePath+FileName, b, 0700); err != nil {
+		fmt.Print(err.Error())
+		return err
+	}
+
+	return nil
+}
+
+func GetPortfolioFromId(id uint32) (*Portfolio, error) {
+	path := fmt.Sprintf("%s%s%d%s", filePath, FileName, id, FileExt)
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Print(err.Error())
+		return &Portfolio{}, err
+	}
+
+	portfolio := &Portfolio{}
+
+	err = json.Unmarshal(data, &portfolio)
+	if err != nil {
+		fmt.Print(err.Error())
+		return &Portfolio{}, err
+	}
+
+	return portfolio, nil
+}
+
+func SetPortfolioWithId(id uint32, portfolio *Portfolio) error {
+	b, err := proto.Marshal(portfolio)
+	if err != nil {
+		fmt.Print(err.Error())
+		return err
+	}
+
+	path := fmt.Sprintf("%s%s%d%s", filePath, FileName, id, FileExt)
+
+	if err := os.WriteFile(path, b, 0700); err != nil {
 		fmt.Print(err.Error())
 		return err
 	}
