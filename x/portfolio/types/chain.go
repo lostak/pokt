@@ -36,7 +36,6 @@ func (c *Chain) addBlankToken(tokenName string) error {
 
 	// Create and add new Token
 	token := createBlankToken(tokenName)
-	token.setTokenStatusWithIndex(tokenName, States_AVAILABLE, 0)
 	c.Tokens = append(c.Tokens, token)
 
 	fmt.Println("Token added")

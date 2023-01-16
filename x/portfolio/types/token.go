@@ -34,8 +34,3 @@ func createTokenWithHistory(name string, stateHistory []*StateHistory) *Token {
 		States: stateHistory,
 	}
 }
-
-func (t *Token) setTokenStatusWithIndex(name string, state States, index uint32) {
-	states := t.GetStates()
-	states[index].State = state
-}
