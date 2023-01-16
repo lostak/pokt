@@ -28,7 +28,7 @@ func createPortfolioWithAccount(portfolioName, accountName, chainName, tokenName
 func (p *Portfolio) AddAccount(accountName string) error {
 	for _, account := range p.Accounts {
 		if account.Name == accountName {
-			return fmt.Errorf("Account name:% s already exists", accountName)
+			return fmt.Errorf("Account name: %s already exists", accountName)
 		}
 	}
 
@@ -36,4 +36,21 @@ func (p *Portfolio) AddAccount(accountName string) error {
 
 	p.Accounts = append(p.Accounts, account)
 	return nil
+}
+
+func (p *Portfolio) RemoveAccount(accountName string) bool {
+	var accounts []*Account
+	found := false
+
+	for _, account := range p.Accounts {
+		if account.Name == accountName {
+			found = true
+			fmt.Println("Account removed")
+		} else {
+			accounts = append(accounts, account)
+		}
+	}
+
+	p.Accounts = accounts
+	return found
 }

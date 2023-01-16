@@ -25,7 +25,7 @@ import (
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "Initial setup command for a portfolio",
+	Short: "Initial setup command for a portfolio - WILL OVERWRITE EXISTING PORTFOLIO",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("serve called")
