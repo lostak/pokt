@@ -150,7 +150,7 @@ func (p *Portfolio) PrintTokens() {
 		for _, chain := range account.GetChains() {
 			fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", chain.GetName())
 			for _, token := range chain.GetTokens() {
-				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\n\t\t\t\tid:%s\n\t\t\t\tamount:%d\n", token.GetName(), token.GetGeckoId(), token.GetAmounts().Amount[len(token.GetAmounts().Amount)-1])
+				fmt.Printf("\n\t\t\tToken:\n\t\t\t\tAmount: %d %s\n\t\t\t\tCoinGecko Id: %s\n", token.GetAmounts().Amount[len(token.GetAmounts().Amount)-1], token.GetName(), token.GetGeckoId())
 			}
 		}
 	}
