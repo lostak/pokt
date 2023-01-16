@@ -41,5 +41,5 @@ jobs:
     - name: Remove Account named AccountName 
       run: cd ./x/portfolio && go run main.go removeAccount AccountName
 
-    - name: Print All CoinGecko Coin Names, Ids and Symbols
-      run: cd ./x/portfolio && go run main.go printAllCoinIds
+#    - name: Print All CoinGecko Coin Names, Ids and Symbols
+#      run: cd ./x/portfolio && go run main.go printAllCoinIds
