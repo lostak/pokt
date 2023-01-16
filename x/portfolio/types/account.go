@@ -79,3 +79,13 @@ func (a *Account) RemoveToken(chainName, tokenName string) error {
 
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
+
+func (a *Account) UpdateTokenGeckoId(chainName, tokenName, geckoId string) error {
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			return chain.UpdateTokenGeckoId(tokenName, geckoId)
+		}
+	}
+
+	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+}

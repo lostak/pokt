@@ -108,6 +108,15 @@ func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error 
 	return account.RemoveToken(chainName, tokenName)
 }
 
+func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoId string) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.UpdateTokenGeckoId(chainName, tokenName, geckoId)
+}
+
 func (p *Portfolio) PrintAccounts() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
 	for _, account := range p.GetAccounts() {
@@ -132,7 +141,7 @@ func (p *Portfolio) PrintTokens() {
 		for _, chain := range account.GetChains() {
 			fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", chain.GetName())
 			for _, token := range chain.GetTokens() {
-				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\n", token.GetName())
+				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\tid:%s\n", token.GetName(), token.GetGeckoId())
 			}
 		}
 	}

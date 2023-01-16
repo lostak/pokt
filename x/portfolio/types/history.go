@@ -1,23 +1,23 @@
 package types
 
-/*
+import (
+	"google.golang.org/protobuf/types/known/timestamppb"
+) /*
 	TODO:
 		- Add PriceHistory CRUD
 		- Add StateHistory CRUD
 */
 
-func createAmountHistory(amount uint32) []*AmountHistory {
-	var history []*AmountHistory
-	var amounts []uint32
-	amounts[0] = amount
-
-	// TODO: Add timestamp
-
-	history[0] = &AmountHistory{
-		Amount: amounts,
+func createAmountHistory(amount uint32) (h *AmountHistory) {
+	return &AmountHistory{
+		Amount:      append(h.Amount, amount),
+		UpdateTimes: append(h.UpdateTimes, timestamppb.Now()),
 	}
+}
 
-	return history
+func (h *AmountHistory) addAmount(amount uint32) {
+	h.Amount = append(h.Amount, amount)
+	h.UpdateTimes = append(h.UpdateTimes, timestamppb.Now())
 }
 
 func createPriceHistory(name, geckoId, baseDenomId string, firstPrice float64) *PriceHistory {

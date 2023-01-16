@@ -7,7 +7,8 @@ package types
 
 func createBlankToken(name string) *Token {
 	return &Token{
-		Name: name,
+		Name:    name,
+		GeckoId: name,
 	}
 }
 
@@ -28,7 +29,7 @@ func createTokens(names []string, amounts []uint32) []*Token {
 	return tokens
 }
 
-func createTokenWithHistory(name string, amountHistory []*AmountHistory) *Token {
+func createTokenWithHistory(name string, amountHistory *AmountHistory) *Token {
 	return &Token{
 		Name:    name,
 		Amounts: amountHistory,

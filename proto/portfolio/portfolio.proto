@@ -29,7 +29,7 @@ message AmountHistory {
 message Token {
     string name = 1;
     string geckoId = 2;
-    repeated AmountHistory amounts = 3;
+    AmountHistory amounts = 3;
 }
 
 message Chain {
