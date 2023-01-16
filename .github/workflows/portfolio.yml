@@ -20,5 +20,26 @@ jobs:
     - name: Print $ATOM price
       run: cd ./x/portfolio && go run main.go tokenPrice cosmos usd
 
+    - name: Build PortfolioName Portfolio
+      run: cd ./x/portfolio && go run main.go serve PortfolioName
+
+    - name: Add Account AccountName to Portfolio
+      run: cd ./x/portfolio && go run main.go addAccount AccountName
+
+    - name: Add Chain named Cosmos-Hub to Account named AccountName
+      run: cd ./x/portfolio && go run main.go addChain AccountName Cosmos-Hub Address 
+
+    - name: Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName
+      run: cd ./x/portfolio && go run main.go addToken AccountName Cosmos-Hub ATOM
+
+    - name: Remove Token named ATOM from Cosmos-Hub from Account named AccountName
+      run: cd ./x/portfolio && go run main.go removeToken AccountName Cosmos-Hub ATOM
+
+    - name: Remove Chain named Cosmos-Hub from Account named AccountName 
+      run: cd ./x/portfolio && go run main.go removeChain AccountName Cosmos-Hub
+
+    - name: Remove Account named AccountName 
+      run: cd ./x/portfolio && go run main.go removeAccount AccountName
+
     - name: Print All CoinGecko Coin Names, Ids and Symbols
       run: cd ./x/portfolio && go run main.go printAllCoinIds

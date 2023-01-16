@@ -22,14 +22,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// addChainCmd represents the addChain command
-var addChainCmd = &cobra.Command{
-	Use:   "addChain",
-	Short: "Add a new chain for an existing account",
-	Long:  "Add a new chain for an existing account",
-	Args:  cobra.ExactArgs(3),
+// removeChainCmd represents the removeChain command
+var removeChainCmd = &cobra.Command{
+	Use:   "removeChain",
+	Short: "From move a chain from an account",
+	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("addChain called")
+		fmt.Println("removeChain called")
 
 		portfolio, err := types.GetPortfolio()
 		if err != nil {
@@ -37,22 +36,21 @@ var addChainCmd = &cobra.Command{
 			return
 		}
 
-		err = portfolio.AddChain(args[0], args[1], args[2])
+		err = portfolio.RemoveChain(args[0], args[1])
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
-		err = types.SetPortfolio(portfolio)
-		if err != nil {
+		if err := types.SetPortfolio(portfolio); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
+
 		portfolio.Println()
-
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(addChainCmd)
+	rootCmd.AddCommand(removeChainCmd)
 }

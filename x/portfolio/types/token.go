@@ -5,6 +5,12 @@ package types
 		- Add Token CRUD
 */
 
+func createBlankToken(name string) *Token {
+	return &Token{
+		Name: name,
+	}
+}
+
 func createToken(name string, state States, amount uint32) *Token {
 	return &Token{
 		Name:   name,

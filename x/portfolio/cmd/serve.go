@@ -38,6 +38,8 @@ var serveCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Portfolio created with name: %s\n", portfolio.Name)
+
+		portfolio.Println()
 	},
 }
 

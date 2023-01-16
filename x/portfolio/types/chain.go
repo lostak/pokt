@@ -1,9 +1,18 @@
 package types
 
+import "fmt"
+
 /*
 	TODO:
 		- Add Chain CRUD
 */
+
+func CreateBlankChain(chainName, address string) *Chain {
+	return &Chain{
+		Name: chainName,
+		Addr: address,
+	}
+}
 
 func createChainWithToken(chainName string, address string, tokenName string, state States, amount uint32) *Chain {
 	var tokens []*Token
@@ -15,4 +24,42 @@ func createChainWithToken(chainName string, address string, tokenName string, st
 		Addr:   address,
 		Tokens: tokens,
 	}
+}
+
+func (c *Chain) addBlankToken(tokenName string) error {
+	// Check for existence
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			return fmt.Errorf("Token: %s already exists on chain: %s", tokenName, c.GetName())
+		}
+	}
+
+	// Create and add new Token
+	token := createBlankToken(tokenName)
+	c.Tokens = append(c.Tokens, token)
+
+	fmt.Println("Token added")
+	return nil
+}
+
+func (c *Chain) removeToken(tokenName string) error {
+	var tokens []*Token
+	found := false
+
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			found = true
+			fmt.Println("Token removed")
+		} else {
+			tokens = append(tokens, token)
+		}
+	}
+
+	if !found {
+		return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+	}
+
+	c.Tokens = tokens
+
+	return nil
 }

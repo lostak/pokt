@@ -36,9 +36,9 @@ var removeAccountCmd = &cobra.Command{
 			return
 		}
 
-		found := portfolio.RemoveAccount(args[0])
-		if !found {
-			fmt.Println("Account not found")
+		err = portfolio.RemoveAccount(args[0])
+		if err != nil {
+			fmt.Println(err.Error())
 			return
 		}
 
@@ -47,20 +47,10 @@ var removeAccountCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("Account(s) removed")
+		portfolio.Println()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(removeAccountCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// removeAccountCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// removeAccountCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
