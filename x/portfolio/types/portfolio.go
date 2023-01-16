@@ -38,10 +38,11 @@ func (p *Portfolio) AddAccount(accountName string) error {
 	return nil
 }
 
-func (p *Portfolio) RemoveAccount(accountName string) bool {
+func (p *Portfolio) RemoveAccount(accountName string) error {
 	var accounts []*Account
 	found := false
 
+	// Iterate through accounts and omit all accounts w/ same name
 	for _, account := range p.GetAccounts() {
 		if account.GetName() == accountName {
 			found = true
@@ -51,27 +52,44 @@ func (p *Portfolio) RemoveAccount(accountName string) bool {
 		}
 	}
 
+	if !found {
+		return fmt.Errorf("Account: %s not found", accountName)
+	}
+
+	// update portfolio
 	p.Accounts = accounts
-	return found
+	return nil
 }
 
-func (p *Portfolio) GetAccount(accountName string) (bool, *Account) {
+func (p *Portfolio) GetAccount(accountName string) (error, *Account) {
 	for _, account := range p.GetAccounts() {
 		if account.GetName() == accountName {
-			return true, account
+			return nil, account
 		}
 	}
 
-	return false, nil
+	return fmt.Errorf("Account: %s not found\n", accountName), nil
 }
 
 func (p *Portfolio) AddChain(accountName, chainName, address string) error {
-	found, account := p.GetAccount(accountName)
-	if !found {
-		return fmt.Errorf("Account: %s not found\n", accountName)
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
 	}
 
-	err := account.AddChain(chainName, address)
+	return account.AddChain(chainName, address)
+}
+
+func (p *Portfolio) RemoveChain(accountName, chainName string) error {
+	var chains []*Chain
+	found := false
+
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	err = account.RemoveChain(chainName)
 	if err != nil {
 		return err
 	}

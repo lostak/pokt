@@ -22,13 +22,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// removeAccountCmd represents the removeAccount command
-var removeAccountCmd = &cobra.Command{
-	Use:   "removeAccount",
-	Short: "Removes all accounts with the given account from the portfolio",
-	Args:  cobra.ExactArgs(1),
+// removeChainCmd represents the removeChain command
+var removeChainCmd = &cobra.Command{
+	Use:   "removeChain",
+	Short: "From move a chain from an account",
+	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("removeAccount called")
+		fmt.Println("removeChain called")
 
 		portfolio, err := types.GetPortfolio()
 		if err != nil {
@@ -36,7 +36,7 @@ var removeAccountCmd = &cobra.Command{
 			return
 		}
 
-		err = portfolio.RemoveAccount(args[0])
+		err = portfolio.RemoveChain(args[0], args[1])
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -47,10 +47,10 @@ var removeAccountCmd = &cobra.Command{
 			return
 		}
 
-		portfolio.PrintAccounts()
+		portfolio.PrintChains()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(removeAccountCmd)
+	rootCmd.AddCommand(removeChainCmd)
 }

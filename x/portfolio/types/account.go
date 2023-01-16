@@ -36,7 +36,7 @@ func (a *Account) AddChain(chainName, address string) error {
 	return nil
 }
 
-func (a *Account) RemoveChain(chainName string) bool {
+func (a *Account) RemoveChain(chainName string) error {
 	var chains []*Chain
 	found := false
 
@@ -49,6 +49,10 @@ func (a *Account) RemoveChain(chainName string) bool {
 		}
 	}
 
+	if !found {
+		return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+	}
+
 	a.Chains = chains
-	return found
+	return nil
 }
