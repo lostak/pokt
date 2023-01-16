@@ -73,3 +73,15 @@ func (c *Chain) UpdateTokenGeckoId(tokenName, geckoId string) error {
 	}
 	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
 }
+
+func (c *Chain) AddTokenAmount(tokenName string, amount uint32) error {
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			amounts := token.GetAmounts()
+			amounts.addAmount(amount)
+			return nil
+		}
+	}
+
+	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+}

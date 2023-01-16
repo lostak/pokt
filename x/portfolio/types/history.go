@@ -9,14 +9,21 @@ import (
 */
 
 func createAmountHistory(amount uint32) (h *AmountHistory) {
+	amounts := make([]uint32, 0)
+	times := make([]*timestamppb.Timestamp, 0)
+
+	amounts = append(amounts, amount)
+	times = append(times, timestamppb.Now())
+
 	return &AmountHistory{
-		Amount:      append(h.Amount, amount),
-		UpdateTimes: append(h.UpdateTimes, timestamppb.Now()),
+		Amount:      amounts,
+		UpdateTimes: times,
 	}
 }
 
 func (h *AmountHistory) addAmount(amount uint32) {
-	h.Amount = append(h.Amount, amount)
+	amounts := h.GetAmount()
+	h.Amount = append(amounts, amount)
 	h.UpdateTimes = append(h.UpdateTimes, timestamppb.Now())
 }
 

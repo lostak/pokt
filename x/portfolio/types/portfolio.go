@@ -117,6 +117,15 @@ func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoI
 	return account.UpdateTokenGeckoId(chainName, tokenName, geckoId)
 }
 
+func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount uint32) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.AddTokenAmount(chainName, tokenName, amount)
+}
+
 func (p *Portfolio) PrintAccounts() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
 	for _, account := range p.GetAccounts() {
@@ -141,7 +150,7 @@ func (p *Portfolio) PrintTokens() {
 		for _, chain := range account.GetChains() {
 			fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", chain.GetName())
 			for _, token := range chain.GetTokens() {
-				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\tid:%s\n", token.GetName(), token.GetGeckoId())
+				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\n\t\t\t\tid:%s\n\t\t\t\tamount:%d\n", token.GetName(), token.GetGeckoId(), token.GetAmounts().Amount[len(token.GetAmounts().Amount)-1])
 			}
 		}
 	}
