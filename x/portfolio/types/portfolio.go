@@ -140,5 +140,5 @@ func (p *Portfolio) PrintTokens() {
 
 func (p *Portfolio) Println() {
 	p.PrintTokens()
-	fmt.Print('\n')
+	fmt.Print("\n")
 }
