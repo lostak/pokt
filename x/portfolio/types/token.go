@@ -5,6 +5,12 @@ package types
 		- Add Token CRUD
 */
 
+func createBlankToken(name string) *Token {
+	return &Token{
+		Name: name,
+	}
+}
+
 func createToken(name string, state States, amount uint32) *Token {
 	return &Token{
 		Name:   name,
@@ -27,4 +33,9 @@ func createTokenWithHistory(name string, stateHistory []*StateHistory) *Token {
 		Name:   name,
 		States: stateHistory,
 	}
+}
+
+func (t *Token) setTokenStatusWithIndex(name string, state States, index uint32) {
+	states := t.GetStates()
+	states[index].State = state
 }

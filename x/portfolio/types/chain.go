@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 /*
 	TODO:
 		- Add Chain CRUD
@@ -22,4 +24,21 @@ func createChainWithToken(chainName string, address string, tokenName string, st
 		Addr:   address,
 		Tokens: tokens,
 	}
+}
+
+func (c *Chain) addBlankToken(tokenName string) error {
+	// Check for existence
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			return fmt.Errorf("Token: %s already exists in state: %s on chain: %s", tokenName, token.GetStates()[0], c.GetName())
+		}
+	}
+
+	// Create and add new Token
+	token := createBlankToken(tokenName)
+	token.setTokenStatusWithIndex(tokenName, States_AVAILABLE, 0)
+	c.Tokens = append(c.Tokens, token)
+
+	fmt.Println("Token added")
+	return nil
 }

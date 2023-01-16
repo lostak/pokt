@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/lostak/pokt/types"
 	"github.com/spf13/cobra"
 )
 
@@ -26,8 +27,28 @@ var addTokenCmd = &cobra.Command{
 	Use:   "addToken",
 	Short: "Add a new token for an existing chain for the designated account",
 	Long:  "Add a new token for an existing chain for the designated account",
+	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addToken called")
+
+		portfolio, err := types.GetPortfolio()
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		err = portfolio.AddToken(args[0], args[1], args[2])
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		if err := types.SetPortfolio(portfolio); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		portfolio.PrintTokens()
 	},
 }
 

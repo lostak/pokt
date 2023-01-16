@@ -35,6 +35,7 @@ func (p *Portfolio) AddAccount(accountName string) error {
 	account := createBlankAccount(accountName)
 	p.Accounts = append(p.Accounts, account)
 
+	fmt.Println("Account added")
 	return nil
 }
 
@@ -94,6 +95,15 @@ func (p *Portfolio) RemoveChain(accountName, chainName string) error {
 	return nil
 }
 
+func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.AddToken(chainName, tokenName)
+}
+
 func (p *Portfolio) PrintAccounts() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
 	for _, account := range p.GetAccounts() {
@@ -107,6 +117,19 @@ func (p *Portfolio) PrintChains() {
 		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
 		for _, chain := range account.GetChains() {
 			fmt.Printf("\t\tChain:\n\t\t\t%s\n", chain.GetName())
+		}
+	}
+}
+
+func (p *Portfolio) PrintTokens() {
+	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
+	for _, account := range p.GetAccounts() {
+		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
+		for _, chain := range account.GetChains() {
+			fmt.Printf("\t\tChain:\n\t\t\t%s\n", chain.GetName())
+			for _, token := range chain.GetTokens() {
+				fmt.Printf("\t\t\tToken:\n\t\t\t\t%s\n", token.GetName())
+			}
 		}
 	}
 }

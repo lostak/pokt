@@ -24,15 +24,18 @@ func createAccountWithChain(accountName, address, chainName, tokenName string, s
 }
 
 func (a *Account) AddChain(chainName, address string) error {
+	// Check for existence
 	for _, chain := range a.GetChains() {
-		if chain.Name == chainName {
+		if chain.GetName() == chainName {
 			return fmt.Errorf("Chain name: %s already exists on account: %s", chainName, a.GetName())
 		}
 	}
 
+	// Create and add new Chain
 	chain := CreateBlankChain(chainName, address)
 	a.Chains = append(a.GetChains(), chain)
 
+	fmt.Println("Chain added")
 	return nil
 }
 
@@ -55,4 +58,14 @@ func (a *Account) RemoveChain(chainName string) error {
 
 	a.Chains = chains
 	return nil
+}
+
+func (a *Account) AddToken(chainName, tokenName string) error {
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			return chain.addBlankToken(tokenName)
+		}
+	}
+
+	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
