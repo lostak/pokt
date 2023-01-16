@@ -33,7 +33,7 @@ func (a *Account) AddChain(chainName, address string) error {
 
 	// Create and add new Chain
 	chain := CreateBlankChain(chainName, address)
-	a.Chains = append(a.GetChains(), chain)
+	a.Chains = append(a.Chains, chain)
 
 	fmt.Println("Chain added")
 	return nil
@@ -64,6 +64,16 @@ func (a *Account) AddToken(chainName, tokenName string) error {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
 			return chain.addBlankToken(tokenName)
+		}
+	}
+
+	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+}
+
+func (a *Account) RemoveToken(chainName, tokenName string) error {
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			return chain.removeToken(tokenName)
 		}
 	}
 

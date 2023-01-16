@@ -30,7 +30,7 @@ func (c *Chain) addBlankToken(tokenName string) error {
 	// Check for existence
 	for _, token := range c.GetTokens() {
 		if token.GetName() == tokenName {
-			return fmt.Errorf("Token: %s already exists in state: %s on chain: %s", tokenName, token.GetStates()[0], c.GetName())
+			return fmt.Errorf("Token: %s already exists on chain: %s", tokenName, c.GetName())
 		}
 	}
 
@@ -39,5 +39,27 @@ func (c *Chain) addBlankToken(tokenName string) error {
 	c.Tokens = append(c.Tokens, token)
 
 	fmt.Println("Token added")
+	return nil
+}
+
+func (c *Chain) removeToken(tokenName string) error {
+	var tokens []*Token
+	found := false
+
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			found = true
+			fmt.Println("Token removed")
+		} else {
+			tokens = append(tokens, token)
+		}
+	}
+
+	if !found {
+		return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+	}
+
+	c.Tokens = tokens
+
 	return nil
 }

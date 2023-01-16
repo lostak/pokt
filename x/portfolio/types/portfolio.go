@@ -87,12 +87,7 @@ func (p *Portfolio) RemoveChain(accountName, chainName string) error {
 		return err
 	}
 
-	err = account.RemoveChain(chainName)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return account.RemoveChain(chainName)
 }
 
 func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
@@ -102,6 +97,15 @@ func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
 	}
 
 	return account.AddToken(chainName, tokenName)
+}
+
+func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.RemoveToken(chainName, tokenName)
 }
 
 func (p *Portfolio) PrintAccounts() {
