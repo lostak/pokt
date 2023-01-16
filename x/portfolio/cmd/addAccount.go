@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/lostak/pokt/types"
 	"github.com/spf13/cobra"
 )
 
@@ -26,8 +27,28 @@ var addAccountCmd = &cobra.Command{
 	Use:   "addAccount",
 	Short: "Add a new account for an existing portfolio",
 	Long:  "Add a new account for an existing portfolio",
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addAccount called")
+
+		portfolio, err := types.GetPortfolio()
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		err = portfolio.AddAccount(args[0])
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		if err := types.SetPortfolio(portfolio); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		fmt.Println("Account added")
 	},
 }
 

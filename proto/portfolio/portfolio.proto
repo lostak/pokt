@@ -47,13 +47,13 @@ message Token {
 
 message Chain {
     string name = 1; 
-    repeated Token tokens = 2;
-    google.protobuf.Timestamp last_updated = 3;
+    string addr = 2;
+    repeated Token tokens = 3;
+    google.protobuf.Timestamp last_updated = 4;
 }
 
 message Account { 
     string name = 1;
-    string addr = 2;
 
     repeated Chain chains = 3;
 }

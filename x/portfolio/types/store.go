@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 
@@ -9,7 +10,7 @@ import (
 )
 
 const (
-	filePath = "~/.poktdb/"
+	filePath = "poktdb/"
 	FileName = "portfolio"
 	FileExt  = ".db"
 )
@@ -24,8 +25,7 @@ func GetPortfolio() (*Portfolio, error) {
 
 	portfolio := &Portfolio{}
 
-	err = json.Unmarshal(data, &portfolio)
-	if err != nil {
+	if err := proto.Unmarshal(data, portfolio); err != nil {
 		fmt.Print(err.Error())
 		return &Portfolio{}, err
 	}
@@ -36,14 +36,28 @@ func GetPortfolio() (*Portfolio, error) {
 func SetPortfolio(portfolio *Portfolio) error {
 	b, err := proto.Marshal(portfolio)
 	if err != nil {
-		fmt.Print(err.Error())
 		return err
 	}
 
 	path := filePath + FileName + FileExt
+	// check for .poktdb dir
+	if _, err := os.Stat(filePath); errors.Is(err, os.ErrNotExist) {
+		err := os.Mkdir(filePath, 0755)
+		if err != nil {
+			return err
+		}
+	}
 
-	if err := os.WriteFile(path, b, 0700); err != nil {
-		fmt.Print(err.Error())
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+	if err != nil {
+		return err
+	}
+
+	if _, err := f.Write(b); err != nil {
+		return err
+	}
+
+	if err := f.Close(); err != nil {
 		return err
 	}
 
