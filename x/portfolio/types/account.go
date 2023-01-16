@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 /*
 	TODO:
 		- Add Account CRUD
@@ -19,4 +21,34 @@ func createAccountWithChain(accountName, address, chainName, tokenName string, s
 		Name:   accountName,
 		Chains: chains,
 	}
+}
+
+func (a *Account) AddChain(chainName, address string) error {
+	for _, chain := range a.GetChains() {
+		if chain.Name == chainName {
+			return fmt.Errorf("Chain name: %s already exists on account: %s", chainName, a.GetName())
+		}
+	}
+
+	chain := CreateBlankChain(chainName, address)
+	a.Chains = append(a.GetChains(), chain)
+
+	return nil
+}
+
+func (a *Account) RemoveChain(chainName string) bool {
+	var chains []*Chain
+	found := false
+
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			found = true
+			fmt.Println("Chain removed")
+		} else {
+			chains = append(chains, chain)
+		}
+	}
+
+	a.Chains = chains
+	return found
 }

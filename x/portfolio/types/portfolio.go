@@ -33,8 +33,8 @@ func (p *Portfolio) AddAccount(accountName string) error {
 	}
 
 	account := createBlankAccount(accountName)
-
 	p.Accounts = append(p.Accounts, account)
+
 	return nil
 }
 
@@ -55,9 +55,43 @@ func (p *Portfolio) RemoveAccount(accountName string) bool {
 	return found
 }
 
+func (p *Portfolio) GetAccount(accountName string) (bool, *Account) {
+	for _, account := range p.GetAccounts() {
+		if account.GetName() == accountName {
+			return true, account
+		}
+	}
+
+	return false, nil
+}
+
+func (p *Portfolio) AddChain(accountName, chainName, address string) error {
+	found, account := p.GetAccount(accountName)
+	if !found {
+		return fmt.Errorf("Account: %s not found\n", accountName)
+	}
+
+	err := account.AddChain(chainName, address)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (p *Portfolio) PrintAccounts() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
-	for _, account := range p.Accounts {
+	for _, account := range p.GetAccounts() {
 		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
+	}
+}
+
+func (p *Portfolio) PrintChains() {
+	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
+	for _, account := range p.GetAccounts() {
+		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
+		for _, chain := range account.GetChains() {
+			fmt.Printf("\t\tChain:\n\t\t\t%s\n", chain.GetName())
+		}
 	}
 }

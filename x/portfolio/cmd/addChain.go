@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/lostak/pokt/types"
 	"github.com/spf13/cobra"
 )
 
@@ -26,8 +27,29 @@ var addChainCmd = &cobra.Command{
 	Use:   "addChain",
 	Short: "Add a new chain for an existing account",
 	Long:  "Add a new chain for an existing account",
+	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addChain called")
+
+		portfolio, err := types.GetPortfolio()
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		err = portfolio.AddChain(args[0], args[1], args[2])
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		err = types.SetPortfolio(portfolio)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		portfolio.PrintChains()
+
 	},
 }
 

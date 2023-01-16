@@ -31,3 +31,6 @@ jobs:
 
     - name: Remove Account named AccountName from Portfolio
       run: cd ./x/portfolio && go run main.go removeAccount AccountName
+
+    - name: Add Chain named Cosmos-Hub to Account named AccountName
+      run: cd ./x/portfolio && go run main.go addChain AccountName Cosmos-Hub Address 
