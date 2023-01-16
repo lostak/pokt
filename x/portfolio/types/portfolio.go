@@ -128,12 +128,17 @@ func (p *Portfolio) PrintChains() {
 func (p *Portfolio) PrintTokens() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
 	for _, account := range p.GetAccounts() {
-		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
+		fmt.Printf("\n\tAccount:\n\t\t%s\n", account.GetName())
 		for _, chain := range account.GetChains() {
-			fmt.Printf("\t\tChain:\n\t\t\t%s\n", chain.GetName())
+			fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", chain.GetName())
 			for _, token := range chain.GetTokens() {
-				fmt.Printf("\t\t\tToken:\n\t\t\t\t%s\n", token.GetName())
+				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\n", token.GetName())
 			}
 		}
 	}
+}
+
+func (p *Portfolio) Println() {
+	p.PrintTokens()
+	fmt.Print('\n')
 }

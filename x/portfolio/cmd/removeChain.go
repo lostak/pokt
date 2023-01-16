@@ -47,7 +47,7 @@ var removeChainCmd = &cobra.Command{
 			return
 		}
 
-		portfolio.PrintChains()
+		portfolio.Println()
 	},
 }
 

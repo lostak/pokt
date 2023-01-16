@@ -22,27 +22,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// removeTokenCmd represents the removeToken command
-var removeTokenCmd = &cobra.Command{
-	Use:   "removeToken",
-	Short: "Remove token from a chain on account",
-	Args:  cobra.ExactArgs(3),
+// printCmd represents the print command
+var printCmd = &cobra.Command{
+	Use:   "print",
+	Short: "Print the saved portfolio",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("removeToken called")
+		fmt.Println("print called")
 
 		portfolio, err := types.GetPortfolio()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		err = portfolio.RemoveToken(args[0], args[1], args[2])
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		if err := types.SetPortfolio(portfolio); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -52,15 +40,15 @@ var removeTokenCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(removeTokenCmd)
+	rootCmd.AddCommand(printCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// removeTokenCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// printCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// removeTokenCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// printCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

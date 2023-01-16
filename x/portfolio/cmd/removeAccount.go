@@ -47,7 +47,7 @@ var removeAccountCmd = &cobra.Command{
 			return
 		}
 
-		portfolio.PrintAccounts()
+		portfolio.Println()
 	},
 }
 

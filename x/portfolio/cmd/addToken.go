@@ -48,7 +48,7 @@ var addTokenCmd = &cobra.Command{
 			return
 		}
 
-		portfolio.PrintTokens()
+		portfolio.Println()
 	},
 }
 

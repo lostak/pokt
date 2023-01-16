@@ -48,7 +48,7 @@ var addChainCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			return
 		}
-		portfolio.PrintChains()
+		portfolio.Println()
 
 	},
 }

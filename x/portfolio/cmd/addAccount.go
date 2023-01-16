@@ -48,7 +48,7 @@ var addAccountCmd = &cobra.Command{
 			return
 		}
 
-		portfolio.PrintAccounts()
+		portfolio.Println()
 	},
 }
 
