@@ -29,6 +29,9 @@ jobs:
     - name: Add Chain named Cosmos-Hub to Account named AccountName
       run: cd ./x/portfolio && go run main.go addChain AccountName Cosmos-Hub Address 
 
+    - name: Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName
+      run: cd ./x/portfolio && go run main.go addToken AccountName Cosmos-Hub ATOM
+
     - name: Remove Chain named Cosmos-Hub from Account named AccountName 
       run: cd ./x/portfolio && go run main.go removeChain AccountName Cosmos-Hub
 
