@@ -22,3 +22,12 @@ jobs:
 
     - name: Print All CoinGecko Coin Names, Ids and Symbols
       run: cd ./x/portfolio && go run main.go printAllCoinIds
+
+    - name: Build PortfolioName Portfolio
+      run: cd ./x/portfolio && go run main.go serve PortfolioName
+
+    - name: Add Account AccountName to Portfolio
+      run: cd ./x/portfolio && go run main.go addAccount AccountName
+
+    - name: Remove Account named AccountName from Portfolio
+      run: cd ./x/portfolio && go run main.go removeAccount AccountName
