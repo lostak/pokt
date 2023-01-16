@@ -20,9 +20,6 @@ jobs:
     - name: Print $ATOM price
       run: cd ./x/portfolio && go run main.go tokenPrice cosmos usd
 
-    - name: Print All CoinGecko Coin Names, Ids and Symbols
-      run: cd ./x/portfolio && go run main.go printAllCoinIds
-
     - name: Build PortfolioName Portfolio
       run: cd ./x/portfolio && go run main.go serve PortfolioName
 
@@ -37,3 +34,6 @@ jobs:
 
     - name: Remove Account named AccountName 
       run: cd ./x/portfolio && go run main.go removeAccount AccountName
+
+    - name: Print All CoinGecko Coin Names, Ids and Symbols
+      run: cd ./x/portfolio && go run main.go printAllCoinIds
