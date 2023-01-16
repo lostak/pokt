@@ -14,9 +14,9 @@ func CreateBlankPortfolio(name string) *Portfolio {
 	}
 }
 
-func createPortfolioWithAccount(portfolioName, accountName, chainName, tokenName, address string, state States, amount uint32) *Portfolio {
+func createPortfolioWithAccount(portfolioName, accountName, chainName, tokenName, address string, amount uint32) *Portfolio {
 	var accounts []*Account
-	accounts[0] = createAccountWithChain(accountName, address, chainName, tokenName, state, amount)
+	accounts[0] = createAccountWithChain(accountName, address, chainName, tokenName, amount)
 
 	// TODO: add price histroy
 	return &Portfolio{

@@ -14,9 +14,9 @@ func CreateBlankChain(chainName, address string) *Chain {
 	}
 }
 
-func createChainWithToken(chainName string, address string, tokenName string, state States, amount uint32) *Chain {
+func createChainWithToken(chainName string, address string, tokenName string, amount uint32) *Chain {
 	var tokens []*Token
-	tokens[0] = createToken(tokenName, state, amount)
+	tokens[0] = createToken(tokenName, amount)
 
 	// TODO: Add timestamp
 	return &Chain{

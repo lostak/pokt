@@ -13,9 +13,9 @@ func createBlankAccount(accountName string) *Account {
 	}
 }
 
-func createAccountWithChain(accountName, address, chainName, tokenName string, state States, amount uint32) *Account {
+func createAccountWithChain(accountName, address, chainName, tokenName string, amount uint32) *Account {
 	var chains []*Chain
-	chains[0] = createChainWithToken(chainName, address, tokenName, state, amount)
+	chains[0] = createChainWithToken(chainName, address, tokenName, amount)
 
 	return &Account{
 		Name:   accountName,

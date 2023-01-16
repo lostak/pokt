@@ -11,26 +11,26 @@ func createBlankToken(name string) *Token {
 	}
 }
 
-func createToken(name string, state States, amount uint32) *Token {
+func createToken(name string, amount uint32) *Token {
 	return &Token{
-		Name:   name,
-		States: createStateHistory(state, amount),
+		Name:    name,
+		Amounts: createAmountHistory(amount),
 	}
 }
 
-func createTokens(names []string, states []States, amounts []uint32) []*Token {
+func createTokens(names []string, amounts []uint32) []*Token {
 	var tokens []*Token
 
 	for i := range names {
-		tokens[i] = createToken(names[i], states[i], amounts[i])
+		tokens[i] = createToken(names[i], amounts[i])
 	}
 
 	return tokens
 }
 
-func createTokenWithHistory(name string, stateHistory []*StateHistory) *Token {
+func createTokenWithHistory(name string, amountHistory []*AmountHistory) *Token {
 	return &Token{
-		Name:   name,
-		States: stateHistory,
+		Name:    name,
+		Amounts: amountHistory,
 	}
 }

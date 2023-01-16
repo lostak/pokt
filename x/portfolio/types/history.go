@@ -6,15 +6,14 @@ package types
 		- Add StateHistory CRUD
 */
 
-func createStateHistory(state States, amount uint32) []*StateHistory {
-	var history []*StateHistory
+func createAmountHistory(amount uint32) []*AmountHistory {
+	var history []*AmountHistory
 	var amounts []uint32
 	amounts[0] = amount
 
 	// TODO: Add timestamp
 
-	history[0] = &StateHistory{
-		State:  state,
+	history[0] = &AmountHistory{
 		Amount: amounts,
 	}
 
