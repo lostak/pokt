@@ -81,9 +81,6 @@ func (p *Portfolio) AddChain(accountName, chainName, address string) error {
 }
 
 func (p *Portfolio) RemoveChain(accountName, chainName string) error {
-	var chains []*Chain
-	found := false
-
 	err, account := p.GetAccount(accountName)
 	if err != nil {
 		return err
