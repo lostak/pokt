@@ -71,11 +71,11 @@ jobs:
 
     - name: Delete the token history for ATOM
       working-directory: ./x/portfolio
-      run: cd ./x/portfolio && go run main.go deleteTokenHistory AccountName Cosmos-Hub ATOM 
+      run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 
 
     - name: Add a new amount and then clear the chain token history
       working-directory: ./x/portfolio
-      run: cd ./x/portfolio && go run main.go addAmount AccountName Cosmos-Hub ATOM 10 && go run main.go deleteChainHistory AccountName Cosmos-Hub 
+      run: ./pokt addAmount AccountName Cosmos-Hub ATOM 10 && go run main.go deleteChainHistory AccountName Cosmos-Hub 
 
     - name: Remove Token named ATOM from Cosmos-Hub from Account named AccountName
       working-directory: ./x/portfolio
