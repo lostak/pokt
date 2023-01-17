@@ -18,7 +18,7 @@ jobs:
         go-version: 1.19
     
     - name: Build
-      run: cd ./x/portfolio/pokt && go build
+      run: cd ./x/portfolio && go build
 
     - name: Print $ATOM price
       run: ./x/portfolio/pokt tokenPrice cosmos usd
