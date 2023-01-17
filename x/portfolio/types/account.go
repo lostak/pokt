@@ -114,6 +114,12 @@ func (a *Account) clearChainHistory(chainName string) error {
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
 
+func (a *Account) deleteHistory() {
+	for _, chain := range a.GetChains() {
+		chain.deleteHistory()
+	}
+}
+
 func (a *Account) nestedPrint(indent, incr string) {
 	fmt.Printf("%sAccount: %s\n", indent, a.GetName())
 	indent += incr

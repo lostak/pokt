@@ -51,18 +51,18 @@ func (p *Portfolio) RemoveAccount(accountName string) error {
 	return nil
 }
 
-func (p *Portfolio) GetAccount(accountName string) (error, *Account) {
+func (p *Portfolio) GetAccount(accountName string) (*Account, error) {
 	for _, account := range p.GetAccounts() {
 		if account.GetName() == accountName {
-			return nil, account
+			return account, nil
 		}
 	}
 
-	return fmt.Errorf("Account: %s not found\n", accountName), nil
+	return nil, fmt.Errorf("Account: %s not found\n", accountName)
 }
 
 func (p *Portfolio) AddChain(accountName, chainName, address string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func (p *Portfolio) AddChain(accountName, chainName, address string) error {
 }
 
 func (p *Portfolio) RemoveChain(accountName, chainName string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -80,7 +80,7 @@ func (p *Portfolio) RemoveChain(accountName, chainName string) error {
 }
 
 func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -89,7 +89,7 @@ func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
 }
 
 func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -98,7 +98,7 @@ func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error 
 }
 
 func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoId string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -107,7 +107,7 @@ func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoI
 }
 
 func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount uint32) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -116,7 +116,7 @@ func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amo
 }
 
 func (p *Portfolio) ClearTokenHistory(accountName, chainName, tokenName string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
@@ -125,12 +125,32 @@ func (p *Portfolio) ClearTokenHistory(accountName, chainName, tokenName string) 
 }
 
 func (p *Portfolio) ClearChainHistory(accountName, chainName string) error {
-	err, account := p.GetAccount(accountName)
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
 
 	return account.clearChainHistory(chainName)
+}
+
+func (p *Portfolio) ClearAccountHistory(accountName string) error {
+	account, err := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	account.deleteHistory()
+	return nil
+}
+
+func (p *Portfolio) deleteHistory() {
+	for _, account := range p.GetAccounts() {
+		account.deleteHistory()
+	}
+}
+
+func (p *Portfolio) ClearHistory() {
+	p.deleteHistory()
 }
 
 func (p *Portfolio) nestedPrint(indent, incr string) {
