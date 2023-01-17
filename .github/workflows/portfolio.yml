@@ -28,6 +28,8 @@ jobs:
   demo:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+
     - name: Print $ATOM price
       run: ./pokt tokenPrice cosmos usd
 
