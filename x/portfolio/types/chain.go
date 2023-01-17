@@ -91,11 +91,11 @@ func (c *Chain) deleteHistory() {
 	}
 }
 
-func (c *Chain) nestedPrint(indent string) {
+func (c *Chain) nestedPrint(indent, incr string) {
 	fmt.Printf("%sChain: %s\n", indent, c.GetName())
-	indent += "  "
+	indent += incr
 
 	for _, token := range c.GetTokens() {
-		token.nestedPrint(indent)
+		token.nestedPrint(indent, incr)
 	}
 }

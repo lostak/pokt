@@ -29,12 +29,12 @@ func (h *AmountHistory) addAmount(amount uint32) {
 	h.UpdateTimes = append(h.UpdateTimes, timestamppb.Now())
 }
 
-func (h *AmountHistory) nestedPrint(indent, symbol string) {
+func (h *AmountHistory) nestedPrint(indent, incr, symbol string) {
 	fmt.Printf("%sHistory:\n", indent)
-	indent += "  "
+	indent += incr
 
 	for i := range h.GetAmount() {
-		fmt.Printf("%s%s:\t%d %s\n", indent, h.GetUpdateTimes()[i], h.GetAmount()[i], symbol)
+		fmt.Printf("%s%s:%s%d %s\n", indent, h.GetUpdateTimes()[i], incr, h.GetAmount()[i], symbol)
 	}
 
 	fmt.Println("")
