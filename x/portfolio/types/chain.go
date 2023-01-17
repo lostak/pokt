@@ -14,12 +14,21 @@ func createBlankChain(chainName, address string) *Chain {
 	}
 }
 
-func (c *Chain) addBlankToken(tokenName string) error {
-	// Check for existence
+func (c *Chain) getToken(tokenName string) (*Token, error) {
 	for _, token := range c.GetTokens() {
 		if token.GetName() == tokenName {
-			return fmt.Errorf("Token: %s already exists on chain: %s", tokenName, c.GetName())
+			return token, nil
 		}
+	}
+
+	return nil, fmt.Errorf("Token name: %s not found on account: %s", tokenName, c.GetName())
+}
+
+func (c *Chain) addToken(tokenName string) error {
+	// Check for existence
+	_, err := c.getToken(tokenName)
+	if err == nil {
+		return fmt.Errorf("Token: %s already exists on account: %s", tokenName, c.GetName())
 	}
 
 	// Create and add new Token
@@ -53,36 +62,34 @@ func (c *Chain) removeToken(tokenName string) error {
 }
 
 func (c *Chain) updateTokenGeckoId(tokenName, geckoId string) error {
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			token.GeckoId = geckoId
-			return nil
-		}
+	token, err := c.getToken(tokenName)
+	if err != nil {
+		return err
 	}
-	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+
+	token.GeckoId = geckoId
+	return nil
 }
 
 func (c *Chain) addTokenAmount(tokenName string, amount uint32) error {
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			amounts := token.GetAmounts()
-			amounts.addAmount(amount)
-			return nil
-		}
+	token, err := c.getToken(tokenName)
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+	amounts := token.GetAmounts()
+	amounts.addAmount(amount)
+	return nil
 }
 
 func (c *Chain) clearTokenHistory(tokenName string) error {
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			token.GetAmounts().deleteHistory()
-			return nil
-		}
+	token, err := c.getToken(tokenName)
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+	token.GetAmounts().deleteHistory()
+	return nil
 }
 
 func (c *Chain) deleteHistory() {

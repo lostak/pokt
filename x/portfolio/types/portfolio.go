@@ -135,7 +135,6 @@ func (p *Portfolio) ClearChainHistory(accountName, chainName string) error {
 
 func (p *Portfolio) nestedPrint(indent, incr string) {
 	fmt.Printf("Portfolio: %s\n", p.GetName())
-	indent += incr
 
 	for _, account := range p.GetAccounts() {
 		account.nestedPrint(indent, incr)
@@ -143,5 +142,5 @@ func (p *Portfolio) nestedPrint(indent, incr string) {
 }
 
 func (p *Portfolio) Println() {
-	p.nestedPrint("  ", "  ")
+	p.nestedPrint(" | ", " | ")
 }
