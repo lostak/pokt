@@ -13,16 +13,6 @@ func createBlankAccount(accountName string) *Account {
 	}
 }
 
-func createAccountWithChain(accountName, address, chainName, tokenName string, state States, amount uint32) *Account {
-	var chains []*Chain
-	chains[0] = createChainWithToken(chainName, address, tokenName, state, amount)
-
-	return &Account{
-		Name:   accountName,
-		Chains: chains,
-	}
-}
-
 func (a *Account) AddChain(chainName, address string) error {
 	// Check for existence
 	for _, chain := range a.GetChains() {
@@ -74,6 +64,26 @@ func (a *Account) RemoveToken(chainName, tokenName string) error {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
 			return chain.removeToken(tokenName)
+		}
+	}
+
+	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+}
+
+func (a *Account) UpdateTokenGeckoId(chainName, tokenName, geckoId string) error {
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			return chain.UpdateTokenGeckoId(tokenName, geckoId)
+		}
+	}
+
+	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+}
+
+func (a *Account) AddTokenAmount(chainName, tokenName string, amount uint32) error {
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			return chain.AddTokenAmount(tokenName, amount)
 		}
 	}
 

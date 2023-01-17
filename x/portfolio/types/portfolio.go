@@ -14,17 +14,6 @@ func CreateBlankPortfolio(name string) *Portfolio {
 	}
 }
 
-func createPortfolioWithAccount(portfolioName, accountName, chainName, tokenName, address string, state States, amount uint32) *Portfolio {
-	var accounts []*Account
-	accounts[0] = createAccountWithChain(accountName, address, chainName, tokenName, state, amount)
-
-	// TODO: add price histroy
-	return &Portfolio{
-		Name:     portfolioName,
-		Accounts: accounts,
-	}
-}
-
 func (p *Portfolio) AddAccount(accountName string) error {
 	for _, account := range p.GetAccounts() {
 		if account.GetName() == accountName {
@@ -108,6 +97,24 @@ func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error 
 	return account.RemoveToken(chainName, tokenName)
 }
 
+func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoId string) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.UpdateTokenGeckoId(chainName, tokenName, geckoId)
+}
+
+func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount uint32) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.AddTokenAmount(chainName, tokenName, amount)
+}
+
 func (p *Portfolio) PrintAccounts() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
 	for _, account := range p.GetAccounts() {
@@ -132,7 +139,7 @@ func (p *Portfolio) PrintTokens() {
 		for _, chain := range account.GetChains() {
 			fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", chain.GetName())
 			for _, token := range chain.GetTokens() {
-				fmt.Printf("\n\t\t\tToken:\n\t\t\t\t%s\n", token.GetName())
+				fmt.Printf("\n\t\t\tToken:\n\t\t\t\tAmount: %d %s\n\t\t\t\tCoinGecko Id: %s\n", token.GetAmounts().Amount[len(token.GetAmounts().Amount)-1], token.GetName(), token.GetGeckoId())
 			}
 		}
 	}

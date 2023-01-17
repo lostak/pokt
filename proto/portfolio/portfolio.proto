@@ -18,17 +18,7 @@ message PriceHistory {
     repeated SpotPrice prices = 4;    
 }
 
-enum States {
-    AVAILABLE = 0;
-    STAKED = 1;
-    UNSTAKING = 2;
-    BONDED = 3;
-    UNBONDING = 4;
-    CLAIMABLE = 5;
-}
-
-message StateHistory {    
-    States state = 1;
+message AmountHistory {    
     repeated uint32 amount = 2;
     /*
         Time recorded is when the amount is updated and added to the list on manual user input 
@@ -38,11 +28,8 @@ message StateHistory {
 
 message Token {
     string name = 1;
-    /* 
-    1 StateHistory per States that a coin can and has been in on this chain
-        - Adding a new sub-column w/in the token for distr w/in chain on a spreadsheet
-    */
-    repeated StateHistory states = 2;
+    string geckoId = 2;
+    AmountHistory amounts = 3;
 }
 
 message Chain {

@@ -14,18 +14,6 @@ func CreateBlankChain(chainName, address string) *Chain {
 	}
 }
 
-func createChainWithToken(chainName string, address string, tokenName string, state States, amount uint32) *Chain {
-	var tokens []*Token
-	tokens[0] = createToken(tokenName, state, amount)
-
-	// TODO: Add timestamp
-	return &Chain{
-		Name:   chainName,
-		Addr:   address,
-		Tokens: tokens,
-	}
-}
-
 func (c *Chain) addBlankToken(tokenName string) error {
 	// Check for existence
 	for _, token := range c.GetTokens() {
@@ -62,4 +50,26 @@ func (c *Chain) removeToken(tokenName string) error {
 	c.Tokens = tokens
 
 	return nil
+}
+
+func (c *Chain) UpdateTokenGeckoId(tokenName, geckoId string) error {
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			token.GeckoId = geckoId
+			return nil
+		}
+	}
+	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+}
+
+func (c *Chain) AddTokenAmount(tokenName string, amount uint32) error {
+	for _, token := range c.GetTokens() {
+		if token.GetName() == tokenName {
+			amounts := token.GetAmounts()
+			amounts.addAmount(amount)
+			return nil
+		}
+	}
+
+	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
 }

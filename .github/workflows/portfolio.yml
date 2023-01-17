@@ -32,6 +32,12 @@ jobs:
     - name: Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName
       run: cd ./x/portfolio && go run main.go addToken AccountName Cosmos-Hub ATOM
 
+    - name: Update ATOM's CoinGecko Id to be cosmos
+      run: cd ./x/portfolio && go run main.go updateGeckoId AccountName Cosmos-Hub ATOM cosmos
+
+    - name: Add an amount to ATOM's amount history 
+      run: cd ./x/portfolio && go run main.go addAmount AccountName Cosmos-Hub ATOM 10
+
     - name: Remove Token named ATOM from Cosmos-Hub from Account named AccountName
       run: cd ./x/portfolio && go run main.go removeToken AccountName Cosmos-Hub ATOM
 
@@ -41,5 +47,5 @@ jobs:
     - name: Remove Account named AccountName 
       run: cd ./x/portfolio && go run main.go removeAccount AccountName
 
-    - name: Print All CoinGecko Coin Names, Ids and Symbols
-      run: cd ./x/portfolio && go run main.go printAllCoinIds
+#    - name: Print All CoinGecko Coin Names, Ids and Symbols
+#      run: cd ./x/portfolio && go run main.go printAllCoinIds
