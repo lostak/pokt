@@ -13,7 +13,7 @@ func createBlankAccount(accountName string) *Account {
 	}
 }
 
-func (a *Account) AddChain(chainName, address string) error {
+func (a *Account) addChain(chainName, address string) error {
 	// Check for existence
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
@@ -22,14 +22,14 @@ func (a *Account) AddChain(chainName, address string) error {
 	}
 
 	// Create and add new Chain
-	chain := CreateBlankChain(chainName, address)
+	chain := createBlankChain(chainName, address)
 	a.Chains = append(a.Chains, chain)
 
 	fmt.Println("Chain added")
 	return nil
 }
 
-func (a *Account) RemoveChain(chainName string) error {
+func (a *Account) removeChain(chainName string) error {
 	var chains []*Chain
 	found := false
 
@@ -50,7 +50,7 @@ func (a *Account) RemoveChain(chainName string) error {
 	return nil
 }
 
-func (a *Account) AddToken(chainName, tokenName string) error {
+func (a *Account) addToken(chainName, tokenName string) error {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
 			return chain.addBlankToken(tokenName)
@@ -60,7 +60,7 @@ func (a *Account) AddToken(chainName, tokenName string) error {
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
 
-func (a *Account) RemoveToken(chainName, tokenName string) error {
+func (a *Account) removeToken(chainName, tokenName string) error {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
 			return chain.removeToken(tokenName)
@@ -70,22 +70,29 @@ func (a *Account) RemoveToken(chainName, tokenName string) error {
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
 
-func (a *Account) UpdateTokenGeckoId(chainName, tokenName, geckoId string) error {
+func (a *Account) updateTokenGeckoId(chainName, tokenName, geckoId string) error {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
-			return chain.UpdateTokenGeckoId(tokenName, geckoId)
+			return chain.updateTokenGeckoId(tokenName, geckoId)
 		}
 	}
 
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
 
-func (a *Account) AddTokenAmount(chainName, tokenName string, amount uint32) error {
+func (a *Account) addTokenAmount(chainName, tokenName string, amount uint32) error {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
-			return chain.AddTokenAmount(tokenName, amount)
+			return chain.addTokenAmount(tokenName, amount)
 		}
 	}
 
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+}
+
+func (a *Account) nestedPrint() {
+	fmt.Printf("\tAccount:\n\t\t%s\n", a.GetName())
+	for _, chain := range a.GetChains() {
+		chain.nestedPrint()
+	}
 }

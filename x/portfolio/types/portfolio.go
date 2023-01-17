@@ -67,7 +67,7 @@ func (p *Portfolio) AddChain(accountName, chainName, address string) error {
 		return err
 	}
 
-	return account.AddChain(chainName, address)
+	return account.addChain(chainName, address)
 }
 
 func (p *Portfolio) RemoveChain(accountName, chainName string) error {
@@ -76,7 +76,7 @@ func (p *Portfolio) RemoveChain(accountName, chainName string) error {
 		return err
 	}
 
-	return account.RemoveChain(chainName)
+	return account.removeChain(chainName)
 }
 
 func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
@@ -85,7 +85,7 @@ func (p *Portfolio) AddToken(accountName, chainName, tokenName string) error {
 		return err
 	}
 
-	return account.AddToken(chainName, tokenName)
+	return account.addToken(chainName, tokenName)
 }
 
 func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error {
@@ -94,7 +94,7 @@ func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error 
 		return err
 	}
 
-	return account.RemoveToken(chainName, tokenName)
+	return account.removeToken(chainName, tokenName)
 }
 
 func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoId string) error {
@@ -103,7 +103,7 @@ func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoI
 		return err
 	}
 
-	return account.UpdateTokenGeckoId(chainName, tokenName, geckoId)
+	return account.updateTokenGeckoId(chainName, tokenName, geckoId)
 }
 
 func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount uint32) error {
@@ -112,40 +112,17 @@ func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amo
 		return err
 	}
 
-	return account.AddTokenAmount(chainName, tokenName, amount)
+	return account.addTokenAmount(chainName, tokenName, amount)
 }
 
-func (p *Portfolio) PrintAccounts() {
+func (p *Portfolio) nestedPrint() {
 	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
 	for _, account := range p.GetAccounts() {
-		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
-	}
-}
-
-func (p *Portfolio) PrintChains() {
-	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
-	for _, account := range p.GetAccounts() {
-		fmt.Printf("\tAccount:\n\t\t%s\n", account.GetName())
-		for _, chain := range account.GetChains() {
-			fmt.Printf("\t\tChain:\n\t\t\t%s\n", chain.GetName())
-		}
-	}
-}
-
-func (p *Portfolio) PrintTokens() {
-	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
-	for _, account := range p.GetAccounts() {
-		fmt.Printf("\n\tAccount:\n\t\t%s\n", account.GetName())
-		for _, chain := range account.GetChains() {
-			fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", chain.GetName())
-			for _, token := range chain.GetTokens() {
-				fmt.Printf("\n\t\t\tToken:\n\t\t\t\tAmount: %d %s\n\t\t\t\tCoinGecko Id: %s\n", token.GetAmounts().Amount[len(token.GetAmounts().Amount)-1], token.GetName(), token.GetGeckoId())
-			}
-		}
+		account.nestedPrint()
 	}
 }
 
 func (p *Portfolio) Println() {
-	p.PrintTokens()
+	p.nestedPrint()
 	fmt.Print("\n")
 }

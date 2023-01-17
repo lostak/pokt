@@ -7,7 +7,7 @@ import "fmt"
 		- Add Chain CRUD
 */
 
-func CreateBlankChain(chainName, address string) *Chain {
+func createBlankChain(chainName, address string) *Chain {
 	return &Chain{
 		Name: chainName,
 		Addr: address,
@@ -52,7 +52,7 @@ func (c *Chain) removeToken(tokenName string) error {
 	return nil
 }
 
-func (c *Chain) UpdateTokenGeckoId(tokenName, geckoId string) error {
+func (c *Chain) updateTokenGeckoId(tokenName, geckoId string) error {
 	for _, token := range c.GetTokens() {
 		if token.GetName() == tokenName {
 			token.GeckoId = geckoId
@@ -62,7 +62,7 @@ func (c *Chain) UpdateTokenGeckoId(tokenName, geckoId string) error {
 	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
 }
 
-func (c *Chain) AddTokenAmount(tokenName string, amount uint32) error {
+func (c *Chain) addTokenAmount(tokenName string, amount uint32) error {
 	for _, token := range c.GetTokens() {
 		if token.GetName() == tokenName {
 			amounts := token.GetAmounts()
@@ -72,4 +72,11 @@ func (c *Chain) AddTokenAmount(tokenName string, amount uint32) error {
 	}
 
 	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+}
+
+func (c *Chain) nestedPrint() {
+	fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", c.GetName())
+	for _, token := range c.GetTokens() {
+		token.nestedPrint()
+	}
 }
