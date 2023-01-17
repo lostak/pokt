@@ -65,8 +65,7 @@ jobs:
       run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 
 
     - name: Add a new amount and then clear the chain token history
-      run: ./pokt addAmount AccountName Cosmos-Hub ATOM 10 ./pokt deleteChainHistory AccountName Cosmos-Hub 
-
+      run: ./pokt addAmount AccountName Cosmos-Hub ATOM 10 && ./pokt deleteChainHistory AccountName Cosmos-Hub 
 
     - name: Remove Token named ATOM from Cosmos-Hub from Account named AccountName
       run: ./pokt removeToken AccountName Cosmos-Hub ATOM
