@@ -41,9 +41,8 @@ jobs:
     - name: Delete the token history for ATOM
       run: cd ./x/portfolio && go run main.go deleteTokenHistory AccountName Cosmos-Hub ATOM 
 
-    - name: Add a new amount and then clear the chain token history
-      run: cd ./x/portfolio && go run main.go addAmount AccountName Cosmos-Hub ATOM 10 && go run main.go deleteChainHistory AccountName Cosmos-Hub 
-
+    - name: Add a new token to Cosmos-Hub and then clear all the chain tokens' histories
+      run: cd ./x/portfolio && go run main.go addToken AccountName Cosmos-Hub USDC && go run main.go deleteChainHistory AccountName Cosmos-Hub 
 
     - name: Remove Token named ATOM from Cosmos-Hub from Account named AccountName
       run: cd ./x/portfolio && go run main.go removeToken AccountName Cosmos-Hub ATOM
