@@ -5,6 +5,11 @@ name: Portfolio
 
 on: [push, pull_request, fork]
 
+defaults:
+  run: 
+    working-directory: ./x/portfolio
+
+
 jobs:
 
   build:
@@ -18,75 +23,58 @@ jobs:
         go-version: 1.19
     
     - name: Build
-      working-directory: ./x/portfolio
       run: go build
 
     - name: Print $ATOM price
-      working-directory: ./x/portfolio
       run: ./pokt tokenPrice cosmos usd
 
     - name: Build PortfolioName Portfolio
-      working-directory: ./x/portfolio
       run: ./pokt serve PortfolioName
 
     - name: Add Account AccountName to Portfolio
-      working-directory: ./x/portfolio
       run: ./pokt addAccount AccountName
 
     - name: Add Chain named Cosmos-Hub to Account named AccountName
-      working-directory: ./x/portfolio
       run: ./pokt addChain AccountName Cosmos-Hub Address 
 
     - name: Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName
-      working-directory: ./x/portfolio
       run: ./pokt addToken AccountName Cosmos-Hub ATOM
 
     - name: Update ATOM's CoinGecko Id to be cosmos
-      working-directory: ./x/portfolio
       run: ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
     - name: Add an amount to ATOM's amount history 
-      working-directory: ./x/portfolio
       run: ./pokt addAmount AccountName Cosmos-Hub ATOM 10
 
     - name: Delete the token history for ATOM
-      working-directory: ./x/portfolio
       run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 
 
     - name: Add a new token to Cosmos-Hub and then clear all the chain tokens' histories
-      working-directory: ./x/portfolio
       run: ./pokt addToken AccountName Cosmos-Hub USDC && ./pokt deleteChainHistory AccountName Cosmos-Hub 
 
     - name: Clear the Cosmos-Hub history
-      working-directory: ./x/portfolio
       run: ./pokt deleteChainHistory AccountName Cosmos-Hub
 
     - name: Clear AccountName History 
-      working-directory: ./x/portfolio
       run: ./pokt deleteAccountHistory AccountName 
 
     - name: Clear Portfolio History
-      working-directory: ./x/portfolio
       run: ./pokt deletePortfolioHistory 
 
     - name: Delete the token history for ATOM
-      working-directory: ./x/portfolio
       run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 
 
     - name: Add a new amount and then clear the chain token history
-      working-directory: ./x/portfolio
-      run: ./pokt addAmount AccountName Cosmos-Hub ATOM 10 && go run main.go deleteChainHistory AccountName Cosmos-Hub 
+      run: ./pokt addAmount AccountName Cosmos-Hub ATOM 10 ./pokt deleteChainHistory AccountName Cosmos-Hub 
+
 
     - name: Remove Token named ATOM from Cosmos-Hub from Account named AccountName
-      working-directory: ./x/portfolio
       run: ./pokt removeToken AccountName Cosmos-Hub ATOM
 
     - name: Remove Chain named Cosmos-Hub from Account named AccountName 
-      working-directory: ./x/portfolio
       run: ./pokt removeChain AccountName Cosmos-Hub
 
     - name: Remove Account named AccountName 
-      working-directory: ./x/portfolio
       run: ./pokt removeAccount AccountName
 
 #    - name: Print All CoinGecko Coin Names, Ids and Symbols
