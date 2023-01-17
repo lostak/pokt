@@ -28,12 +28,10 @@ jobs:
   demo:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-
     - name: Print $ATOM price
       run: ./pokt tokenPrice cosmos usd
 
-    - name: Build PortfolioName Portfolio
+    - name: Create initial PortfolioName Portfolio
       run: ./pokt serve PortfolioName
 
     - name: Add Account AccountName to Portfolio
