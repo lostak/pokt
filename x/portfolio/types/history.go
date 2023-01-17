@@ -1,6 +1,8 @@
 package types
 
 import (
+	"fmt"
+
 	"google.golang.org/protobuf/types/known/timestamppb"
 ) /*
 	TODO:
@@ -25,4 +27,13 @@ func (h *AmountHistory) addAmount(amount uint32) {
 	amounts := h.GetAmount()
 	h.Amount = append(amounts, amount)
 	h.UpdateTimes = append(h.UpdateTimes, timestamppb.Now())
+}
+
+func (h *AmountHistory) nestedPrint(indent, symbol string) {
+	fmt.Printf("%sHistory:\n", indent)
+	indent += "  "
+
+	for i := range h.GetAmount() {
+		fmt.Printf("%s%s:\t%d %s\n", indent, h.GetUpdateTimes()[i], h.GetAmount()[i], symbol)
+	}
 }

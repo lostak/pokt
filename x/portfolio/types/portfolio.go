@@ -115,14 +115,14 @@ func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amo
 	return account.addTokenAmount(chainName, tokenName, amount)
 }
 
-func (p *Portfolio) nestedPrint() {
-	fmt.Printf("Portfolio:\n\t%s\n", p.GetName())
+func (p *Portfolio) nestedPrint(indent string) {
+	fmt.Printf("Portfolio:\n%s%s\n", indent, p.GetName())
 	for _, account := range p.GetAccounts() {
-		account.nestedPrint()
+		account.nestedPrint(indent + "  ")
 	}
 }
 
 func (p *Portfolio) Println() {
-	p.nestedPrint()
+	p.nestedPrint("  ")
 	fmt.Print("\n")
 }

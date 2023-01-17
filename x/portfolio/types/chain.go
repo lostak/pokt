@@ -74,9 +74,11 @@ func (c *Chain) addTokenAmount(tokenName string, amount uint32) error {
 	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
 }
 
-func (c *Chain) nestedPrint() {
-	fmt.Printf("\n\t\tChain:\n\t\t\t%s\n", c.GetName())
+func (c *Chain) nestedPrint(indent string) {
+	nextIndent := indent + "  "
+
+	fmt.Printf("%sChain:\n%s%s\n", indent, nextIndent, c.GetName())
 	for _, token := range c.GetTokens() {
-		token.nestedPrint()
+		token.nestedPrint(indent + "  ")
 	}
 }

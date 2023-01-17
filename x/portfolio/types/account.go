@@ -90,9 +90,10 @@ func (a *Account) addTokenAmount(chainName, tokenName string, amount uint32) err
 	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
 }
 
-func (a *Account) nestedPrint() {
-	fmt.Printf("\tAccount:\n\t\t%s\n", a.GetName())
+func (a *Account) nestedPrint(indent string) {
+	nextIndent := indent + "  "
+	fmt.Printf("%sAccount:\n%s%s\n", indent, nextIndent, a.GetName())
 	for _, chain := range a.GetChains() {
-		chain.nestedPrint()
+		chain.nestedPrint(nextIndent)
 	}
 }
