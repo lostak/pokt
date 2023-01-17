@@ -14,17 +14,6 @@ func CreateBlankPortfolio(name string) *Portfolio {
 	}
 }
 
-func createPortfolioWithAccount(portfolioName, accountName, chainName, tokenName, address string, amount uint32) *Portfolio {
-	var accounts []*Account
-	accounts[0] = createAccountWithChain(accountName, address, chainName, tokenName, amount)
-
-	// TODO: add price histroy
-	return &Portfolio{
-		Name:     portfolioName,
-		Accounts: accounts,
-	}
-}
-
 func (p *Portfolio) AddAccount(accountName string) error {
 	for _, account := range p.GetAccounts() {
 		if account.GetName() == accountName {

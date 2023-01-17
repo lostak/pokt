@@ -13,16 +13,6 @@ func createBlankAccount(accountName string) *Account {
 	}
 }
 
-func createAccountWithChain(accountName, address, chainName, tokenName string, amount uint32) *Account {
-	var chains []*Chain
-	chains[0] = createChainWithToken(chainName, address, tokenName, amount)
-
-	return &Account{
-		Name:   accountName,
-		Chains: chains,
-	}
-}
-
 func (a *Account) AddChain(chainName, address string) error {
 	// Check for existence
 	for _, chain := range a.GetChains() {

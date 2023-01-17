@@ -14,18 +14,6 @@ func CreateBlankChain(chainName, address string) *Chain {
 	}
 }
 
-func createChainWithToken(chainName string, address string, tokenName string, amount uint32) *Chain {
-	var tokens []*Token
-	tokens[0] = createToken(tokenName, amount)
-
-	// TODO: Add timestamp
-	return &Chain{
-		Name:   chainName,
-		Addr:   address,
-		Tokens: tokens,
-	}
-}
-
 func (c *Chain) addBlankToken(tokenName string) error {
 	// Check for existence
 	for _, token := range c.GetTokens() {
