@@ -36,4 +36,14 @@ func (h *AmountHistory) nestedPrint(indent, symbol string) {
 	for i := range h.GetAmount() {
 		fmt.Printf("%s%s:\t%d %s\n", indent, h.GetUpdateTimes()[i], h.GetAmount()[i], symbol)
 	}
+
+	fmt.Println("")
+}
+
+func (h *AmountHistory) deleteHistory() {
+	amounts := make([]uint32, 0)
+	times := make([]*timestamppb.Timestamp, 0)
+
+	h.Amount = append(amounts, 0)
+	h.UpdateTimes = append(times, timestamppb.Now())
 }

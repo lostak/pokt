@@ -19,6 +19,6 @@ func createBlankToken(name string) *Token {
 
 func (t *Token) nestedPrint(indent string) {
 	nextIndent := indent + "  "
-	fmt.Printf("%sToken:\n%sCurrent Amount: %d %s\n%sCoinGecko Id: %s\n", indent, nextIndent, t.GetAmounts().Amount[len(t.GetAmounts().Amount)-1], t.GetName(), nextIndent, t.GetGeckoId())
+	fmt.Printf("%sToken: %s\n%sCurrent Amount: %d %s\n%sCoinGecko Id: %s\n", indent, t.GetName(), nextIndent, t.GetAmounts().Amount[len(t.GetAmounts().Amount)-1], t.GetName(), nextIndent, t.GetGeckoId())
 	t.GetAmounts().nestedPrint(nextIndent, t.GetName())
 }

@@ -74,11 +74,28 @@ func (c *Chain) addTokenAmount(tokenName string, amount uint32) error {
 	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
 }
 
-func (c *Chain) nestedPrint(indent string) {
-	nextIndent := indent + "  "
-
-	fmt.Printf("%sChain:\n%s%s\n", indent, nextIndent, c.GetName())
+func (c *Chain) clearTokenHistory(tokenName string) error {
 	for _, token := range c.GetTokens() {
-		token.nestedPrint(indent + "  ")
+		if token.GetName() == tokenName {
+			token.GetAmounts().deleteHistory()
+			return nil
+		}
+	}
+
+	return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
+}
+
+func (c *Chain) deleteHistory() {
+	for _, tokens := range c.GetTokens() {
+		tokens.GetAmounts().deleteHistory()
+	}
+}
+
+func (c *Chain) nestedPrint(indent string) {
+	fmt.Printf("%sChain: %s\n", indent, c.GetName())
+	indent += "  "
+
+	for _, token := range c.GetTokens() {
+		token.nestedPrint(indent)
 	}
 }

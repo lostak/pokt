@@ -115,6 +115,24 @@ func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amo
 	return account.addTokenAmount(chainName, tokenName, amount)
 }
 
+func (p *Portfolio) ClearTokenHistory(accountName, chainName, tokenName string) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.clearTokenHistory(chainName, tokenName)
+}
+
+func (p *Portfolio) ClearChainHistory(accountName, chainName string) error {
+	err, account := p.GetAccount(accountName)
+	if err != nil {
+		return err
+	}
+
+	return account.clearChainHistory(chainName)
+}
+
 func (p *Portfolio) nestedPrint(indent string) {
 	fmt.Printf("Portfolio:\n%s%s\n", indent, p.GetName())
 	for _, account := range p.GetAccounts() {
