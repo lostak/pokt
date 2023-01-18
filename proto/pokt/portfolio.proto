@@ -3,7 +3,7 @@ package pokt.types;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "x/pokt/types";
+option go_package = "github.com/lostak/pokt/types";
 
 message SpotPrice {
     google.protobuf.Timestamp time = 1;
