@@ -1,7 +1,9 @@
 syntax = "proto3";
-package pokt;
+package pokt.types;
 
 import "google/protobuf/timestamp.proto";
+
+option go_package = "x/pokt/types";
 
 message SpotPrice {
     google.protobuf.Timestamp time = 1;
