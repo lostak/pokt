@@ -21,6 +21,24 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
+
+    - name: Set up Protoc
+      uses: actions/setup-protoc@v1
+      with:
+        version: '3.x'
+      
+    - name: Generate proto 
+      working-directory: ./
+      run: >
+        protoc --go_out=x/pokt/keeper 
+        --go_opt=paths=source_relative
+        --go-grpc_out=x/pokt/keeper
+        --go-grpc_opt=paths=source_relative
+        proto/pokt/tx.proto &&
+        protoc --proto_path=proto/pokt 
+        --go_out=x/pokt/types 
+        --go_opt=paths=source_relative 
+        portfolio.prot &&
     
     - name: Build
       run: go build
