@@ -1,7 +1,7 @@
 syntax = "proto3";
 package pokt.keeper;
 
-import "proto/pokt/portfolio.proto";
+import "portfolio.proto";
 
 option go_package = "x/pokt/keeper";
 
@@ -30,7 +30,7 @@ message MsgCreatePortfolio {
 }
 
 message MsgCreatePortfolioResponse {
-    types.Portfolio portfolio = 1;
+    pokt.types.Portfolio portfolio = 1;
 }
 
 message MsgCreateAccount {
