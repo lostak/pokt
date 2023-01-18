@@ -1,9 +1,9 @@
 syntax = "proto3";
 package pokt.keeper;
 
-import "portfolio.proto";
+import "proto/pokt/portfolio.proto";
 
-option go_package = "x/pokt/keeper";
+option go_package = "github.com/lostak/pokt/keeper";
 
 service Msg {
     rpc CreatePortfolio(MsgCreatePortfolio) returns (MsgCreatePortfolioResponse);
@@ -30,7 +30,7 @@ message MsgCreatePortfolio {
 }
 
 message MsgCreatePortfolioResponse {
-    pokt.types.Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgCreateAccount {
