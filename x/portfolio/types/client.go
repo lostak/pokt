@@ -54,14 +54,14 @@ func GetTokenPrice(coinId string, denom string) (float64, error) {
 					case float64:
 						price = float64(amount)
 					default:
-						fmt.Println("Incorrect type for ", baseDenom)
+						return price, fmt.Errorf("Incorrect type for %s", baseDenom)
 					}
 				default:
-					fmt.Println("Unkown key")
+					return price, fmt.Errorf("Unkown key: %s", baseDenom)
 				}
 			}
 		default:
-			fmt.Println("Expected JSON object, got something else")
+			return price, fmt.Errorf("Expected JSON object, got something else")
 		}
 	}
 
