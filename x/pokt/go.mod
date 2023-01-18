@@ -3,13 +3,16 @@ module github.com/lostak/pokt
 go 1.18
 
 replace github.com/lostak/pokt/types => ./types
+
 replace github.com/lostak/pokt/keeper => ./keeper
+
 replace github.com/lostak/pokt/cmd => ./cmd
 
 require (
 	github.com/golang/protobuf v1.5.2
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.14.0
+	google.golang.org/grpc v1.50.1
 	google.golang.org/protobuf v1.28.1
 )
 
@@ -26,8 +29,10 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
+	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b // indirect
 	golang.org/x/sys v0.0.0-20220908164124-27713097b956 // indirect
 	golang.org/x/text v0.4.0 // indirect
+	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
