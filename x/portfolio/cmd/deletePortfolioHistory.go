@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/types"
+	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +29,7 @@ var deletePortfolioHistoryCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("deletePortfolioHistory called")
 
-		portfolio, err := types.GetPortfolio()
+		portfolio, err := keeper.GetPortfolio()
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -37,7 +37,7 @@ var deletePortfolioHistoryCmd = &cobra.Command{
 
 		portfolio.ClearHistory()
 
-		if err := types.SetPortfolio(portfolio); err != nil {
+		if err := keeper.SetPortfolio(portfolio); err != nil {
 			fmt.Println(err.Error())
 			return
 		}

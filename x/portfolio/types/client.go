@@ -7,27 +7,27 @@ import (
 	"net/http"
 )
 
-func GetTokenPrice(coinId string, denom string) (float64, error) {
+func GetTokenPrice(coinId string, denom string) (price float64, err error) {
 	const baseURL = "https://api.coingecko.com/api/v3/simple/price?ids=%s&vs_currencies=%s"
 	url := fmt.Sprintf(baseURL, coinId, denom)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Print(err.Error())
-		return 0, err
+		return price, err
 	}
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Print(err.Error())
-		return 0, err
+		return price, err
 	}
 
 	defer res.Body.Close()
 	body, readErr := ioutil.ReadAll(res.Body)
 	if readErr != nil {
 		fmt.Print(err.Error())
-		return 0, err
+		return price, err
 	}
 
 	// Unmarshal using a generic interface
@@ -35,12 +35,11 @@ func GetTokenPrice(coinId string, denom string) (float64, error) {
 	err = json.Unmarshal(body, &f)
 	if err != nil {
 		fmt.Println("Error parsing JSON: ", err)
-		return 0, err
+		return price, err
 	}
 
 	// JSON object parses into a map with string keys
 	chainIdMap := f.(map[string]interface{})
-	var price float64
 
 	for _, v := range chainIdMap {
 		// type assert value is JSON

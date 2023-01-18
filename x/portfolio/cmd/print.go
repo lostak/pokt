@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/types"
+	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +29,7 @@ var printCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("print called")
 
-		portfolio, err := types.GetPortfolio()
+		portfolio, err := keeper.GetPortfolio()
 		if err != nil {
 			fmt.Println(err.Error())
 			return
