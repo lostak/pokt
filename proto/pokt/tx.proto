@@ -1,0 +1,164 @@
+syntax = "proto3";
+package pokt;
+
+import "proto/pokt/portfolio.proto";
+
+service Msg {
+    rpc CreatePortfolio(MsgCreatePortfolio) returns (MsgCreatePortfolioResponse);
+    rpc CreateAccount(MsgCreateAccount) returns (MsgCreateAccountResponse);
+    rpc CreateChain(MsgCreateChain) returns (MsgCreateChainResponse);
+    rpc CreateToken(MsgCreateToken) returns (MsgCreateTokenResponse);
+    rpc CreateAmount(MsgCreateAmount) returns (MsgCreateAmountResponse);
+
+    rpc UpdateCoinGeckoId(MsgUpdateCoinGeckoId) returns (MsgUpdateCoinGeckoIdResponse);
+
+    rpc ClearPortfolio(MsgClearPortfolio) returns (MsgClearPortfolioResponse);
+    rpc ClearAccount(MsgClearAccount) returns (MsgClearAccountResponse);
+    rpc ClearChain(MsgClearChain) returns (MsgClearChainResponse);
+    rpc ClearToken(MsgClearToken) returns (MsgClearTokenResponse);
+
+    rpc DeletePortfolio(MsgDeletePortfolio) returns (MsgDeletePortfolioResponse);
+    rpc DeleteAccount(MsgDeleteAccount) returns (MsgDeleteAccountResponse);
+    rpc DeleteChain(MsgDeleteChain) returns (MsgDeleteChainResponse);
+    rpc DeleteToken(MsgDeleteToken) returns (MsgDeleteTokenResponse);
+}
+
+message MsgCreatePortfolio {
+    string name = 1;
+}
+
+message MsgCreatePortfolioResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgCreateAccount {
+    string account = 1;
+    string portfolio = 2;
+}
+
+message MsgCreateAccountResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgCreateChain {
+    string chain = 1;
+    string account = 2;
+    string portfolio = 3;
+    string address = 4; 
+}
+
+message MsgCreateChainResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgCreateToken {
+    string token = 1;
+    string chain = 2;
+    string account = 3;
+    string portfolio = 4;
+}
+
+message MsgCreateTokenResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgCreateAmount {
+    string token = 1;
+    string chain = 2;
+    string account = 3;
+    string portfolio = 4;
+    uint32 amount = 5;
+}
+
+message MsgCreateAmountResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgUpdateCoinGeckoId {
+    string token = 1;
+    string chain = 2;
+    string account = 3;
+    string portfolio = 4;
+    string coinGeckoId = 5;
+}
+
+message MsgUpdateCoinGeckoIdResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgClearPortfolio {
+    string portfolio = 1;
+}
+
+message MsgClearPortfolioResponse {
+    Portfolio portfolio = 1;
+
+}
+
+message MsgClearAccount {
+    string account = 1;
+    string portfolio = 2;
+}
+
+message MsgClearAccountResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgClearChain {
+    string chain = 1;
+    string account = 2;
+    string portfolio = 3;
+}
+
+message MsgClearChainResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgClearToken {
+    string token = 1;
+    string chain = 2;
+    string account = 3;
+    string portfolio = 4;
+}
+
+message MsgClearTokenResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgDeletePortfolio {
+    string portfolio = 1;
+}
+
+message MsgDeletePortfolioResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgDeleteAccount {
+    string account = 1;
+    string portfolio = 2;
+}
+
+message MsgDeleteAccountResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgDeleteChain {
+    string chain = 1;
+    string account = 2; 
+    string portfolio = 3;
+}
+
+message MsgDeleteChainResponse {
+    Portfolio portfolio = 1;
+}
+
+message MsgDeleteToken {
+    string token = 1;
+    string chain = 2;
+    string account = 3; 
+    string portfolio = 4;
+}
+
+message MsgDeleteTokenResponse {
+    Portfolio portfolio = 1;
+}
