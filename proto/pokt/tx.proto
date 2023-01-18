@@ -1,7 +1,9 @@
 syntax = "proto3";
-package pokt;
+package pokt.keeper;
 
 import "proto/pokt/portfolio.proto";
+
+option go_package = "x/pokt/keeper";
 
 service Msg {
     rpc CreatePortfolio(MsgCreatePortfolio) returns (MsgCreatePortfolioResponse);
@@ -28,7 +30,7 @@ message MsgCreatePortfolio {
 }
 
 message MsgCreatePortfolioResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgCreateAccount {
@@ -37,7 +39,7 @@ message MsgCreateAccount {
 }
 
 message MsgCreateAccountResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgCreateChain {
@@ -48,7 +50,7 @@ message MsgCreateChain {
 }
 
 message MsgCreateChainResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgCreateToken {
@@ -59,7 +61,7 @@ message MsgCreateToken {
 }
 
 message MsgCreateTokenResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgCreateAmount {
@@ -71,7 +73,7 @@ message MsgCreateAmount {
 }
 
 message MsgCreateAmountResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgUpdateCoinGeckoId {
@@ -83,7 +85,7 @@ message MsgUpdateCoinGeckoId {
 }
 
 message MsgUpdateCoinGeckoIdResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgClearPortfolio {
@@ -91,7 +93,7 @@ message MsgClearPortfolio {
 }
 
 message MsgClearPortfolioResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 
 }
 
@@ -101,7 +103,7 @@ message MsgClearAccount {
 }
 
 message MsgClearAccountResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgClearChain {
@@ -111,7 +113,7 @@ message MsgClearChain {
 }
 
 message MsgClearChainResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgClearToken {
@@ -122,7 +124,7 @@ message MsgClearToken {
 }
 
 message MsgClearTokenResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgDeletePortfolio {
@@ -130,7 +132,7 @@ message MsgDeletePortfolio {
 }
 
 message MsgDeletePortfolioResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgDeleteAccount {
@@ -139,7 +141,7 @@ message MsgDeleteAccount {
 }
 
 message MsgDeleteAccountResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgDeleteChain {
@@ -149,7 +151,7 @@ message MsgDeleteChain {
 }
 
 message MsgDeleteChainResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
 
 message MsgDeleteToken {
@@ -160,5 +162,5 @@ message MsgDeleteToken {
 }
 
 message MsgDeleteTokenResponse {
-    Portfolio portfolio = 1;
+    types.Portfolio portfolio = 1;
 }
