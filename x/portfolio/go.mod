@@ -3,7 +3,7 @@ module github.com/lostak/pokt
 go 1.18
 
 replace github.com/lostak/pokt/types => ./types
-
+replace github.com/lostak/pokt/keeper => ./keeper
 replace github.com/lostak/pokt/cmd => ./cmd
 
 require (

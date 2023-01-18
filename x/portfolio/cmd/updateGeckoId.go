@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/types"
+	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +30,7 @@ var updateGeckoIdCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("updateGeckoId called")
 
-		portfolio, err := types.GetPortfolio()
+		portfolio, err := keeper.GetPortfolio()
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -42,7 +42,7 @@ var updateGeckoIdCmd = &cobra.Command{
 			return
 		}
 
-		if err := types.SetPortfolio(portfolio); err != nil {
+		if err := keeper.SetPortfolio(portfolio); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -54,14 +54,4 @@ var updateGeckoIdCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(updateGeckoIdCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// updateGeckoIdCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// updateGeckoIdCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
