@@ -2,12 +2,6 @@ module github.com/lostak/pokt
 
 go 1.18
 
-replace github.com/lostak/pokt/types => ./types
-
-replace github.com/lostak/pokt/keeper => ./keeper
-
-replace github.com/lostak/pokt/client/cmd => ./client/cmd
-
 require (
 	github.com/golang/protobuf v1.5.2
 	github.com/spf13/cobra v1.6.1

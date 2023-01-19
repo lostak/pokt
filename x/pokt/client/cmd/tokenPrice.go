@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/gecko"
+	"github.com/lostak/pokt/client/gecko"
 	"github.com/spf13/cobra"
 )
 
