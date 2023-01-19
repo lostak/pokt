@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/types"
+	"github.com/lostak/pokt/gecko"
 	"github.com/spf13/cobra"
 )
 
@@ -35,7 +35,7 @@ var tokenPriceCmd = &cobra.Command{
 			TODO: validate args
 		*/
 
-		price, err := types.GetTokenPrice(args[0], args[1])
+		price, err := gecko.GetTokenPrice(args[0], args[1])
 		if err != nil {
 			fmt.Println(err.Error())
 		}
