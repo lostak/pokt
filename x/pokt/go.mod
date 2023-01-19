@@ -6,7 +6,7 @@ replace github.com/lostak/pokt/types => ./types
 
 replace github.com/lostak/pokt/keeper => ./keeper
 
-replace github.com/lostak/pokt/cmd => ./cmd
+replace github.com/lostak/pokt/client/cmd => ./client/cmd
 
 require (
 	github.com/golang/protobuf v1.5.2
@@ -33,7 +33,6 @@ require (
 	golang.org/x/sys v0.0.0-20220908164124-27713097b956 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e // indirect
-	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.2.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
