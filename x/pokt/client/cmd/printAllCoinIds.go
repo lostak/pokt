@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/types"
+	"github.com/lostak/pokt/gecko"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +29,7 @@ var printAllCoinIdsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("printCoinAllIds called")
 
-		types.PrintAllCoinIds()
+		gecko.PrintAllCoinIds()
 	},
 }
 

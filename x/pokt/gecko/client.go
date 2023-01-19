@@ -1,4 +1,4 @@
-package types
+package gecko
 
 import (
 	"encoding/json"
