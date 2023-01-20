@@ -225,7 +225,7 @@ func (k *Keeper) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearT
 		return &MsgClearTokenResponse{}, err
 	}
 
-	err = portfolio.ClearTokenHistory(args[0], args[1], args[2])
+	err = portfolio.ClearTokenHistory(msg.GetAccount(), msg.GetChain(), msg.GetToken())
 	if err != nil {
 		fmt.Println(err.Error())
 		return &MsgClearTokenResponse{}, err
