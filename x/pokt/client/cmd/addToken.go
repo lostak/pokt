@@ -48,12 +48,12 @@ var addTokenCmd = &cobra.Command{
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := c.CreateChain(ctx, &keeper.MsgCreateChain{Account: args[0], Chain: args[1], Address: args[2]})
+		r, err := c.CreateToken(ctx, &keeper.MsgCreateToken{Account: args[0], Chain: args[1], Token: args[2]})
 		if err != nil {
 			fmt.Printf("Could not update portfolio: %v\n", err)
 			return
 		}
-		fmt.Println("Updated Portfolio: ")
+		fmt.Println("Updated Portfolio:")
 		r.GetPortfolio().Println()
 	},
 }
