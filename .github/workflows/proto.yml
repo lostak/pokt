@@ -32,9 +32,6 @@ jobs:
       - name: Update PATH
         run: export PATH="$PATH:$(go env GOPATH)/bin"
 
-      - name: Delete present generated proto
-        run: find ../.. -name "*.pb.go" -type f -delete
-
       - name: Generate proto 
         run: >
           cd ../.. &&
