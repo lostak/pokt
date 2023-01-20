@@ -36,6 +36,7 @@ func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (
 }
 
 func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -59,6 +60,8 @@ func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*Msg
 	return &MsgCreateAccountResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCreateChainResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
+
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -81,6 +84,8 @@ func (k *Keeper) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCrea
 	return &MsgCreateChainResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCreateTokenResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
+
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -102,6 +107,7 @@ func (k *Keeper) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCrea
 	return &MsgCreateTokenResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateAmount(ctx context.Context, msg *MsgCreateAmount) (*MsgCreateAmountResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -124,6 +130,7 @@ func (k *Keeper) CreateAmount(ctx context.Context, msg *MsgCreateAmount) (*MsgCr
 	return &MsgCreateAmountResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGeckoId) (*MsgUpdateCoinGeckoIdResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -148,26 +155,107 @@ func (k *Keeper) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGeckoI
 	return &MsgUpdateCoinGeckoIdResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) ClearPortfolio(ctx context.Context, msg *MsgClearPortfolio) (*MsgClearPortfolioResponse, error) {
-	return &MsgClearPortfolioResponse{}, nil
+	fmt.Printf("Received: %v\n", msg.String())
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearPortfolioResponse{}, err
+	}
+
+	portfolio.ClearHistory()
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearPortfolioResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgClearPortfolioResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*MsgClearAccountResponse, error) {
-	return &MsgClearAccountResponse{}, nil
+	fmt.Printf("Received: %v\n", msg.String())
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearAccountResponse{}, err
+	}
+
+	err = portfolio.ClearAccountHistory(msg.GetAccount())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearAccountResponse{}, err
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearAccountResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgClearAccountResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) ClearChain(ctx context.Context, msg *MsgClearChain) (*MsgClearChainResponse, error) {
-	return &MsgClearChainResponse{}, nil
+	fmt.Printf("Received: %v\n", msg.String())
+
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearChainResponse{}, err
+	}
+
+	err = portfolio.ClearChainHistory(msg.GetAccount(), msg.GetChain())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearChainResponse{}, err
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearChainResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgClearChainResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearTokenResponse, error) {
-	return &MsgClearTokenResponse{}, nil
+	fmt.Printf("Received: %v\n", msg.String())
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearTokenResponse{}, err
+	}
+
+	err = portfolio.ClearTokenHistory(args[0], args[1], args[2])
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearTokenResponse{}, err
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgClearTokenResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgClearTokenResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) DeletePortfolio(ctx context.Context, msg *MsgDeletePortfolio) (*MsgDeletePortfolioResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
+
 	return &MsgDeletePortfolioResponse{}, nil
 }
 func (k *Keeper) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (*MsgDeleteAccountResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
+
 	return &MsgDeleteAccountResponse{}, nil
 }
 func (k *Keeper) DeleteChain(ctx context.Context, msg *MsgDeleteChain) (*MsgDeleteChainResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
+
 	return &MsgDeleteChainResponse{}, nil
 }
 func (k *Keeper) DeleteToken(ctx context.Context, msg *MsgDeleteToken) (*MsgDeleteTokenResponse, error) {
+	fmt.Printf("Received: %v\n", msg.String())
+
 	return &MsgDeleteTokenResponse{}, nil
 }

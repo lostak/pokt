@@ -16,10 +16,15 @@ limitations under the License.
 package cmd
 
 import (
+	"context"
+	"flag"
 	"fmt"
+	"time"
 
-	"github.com/lostak/pokt/store"
+	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // deleteChainHistoryCmd represents the deleteChainHistory command
@@ -29,25 +34,27 @@ var deleteChainHistoryCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("deleteChainHistory called")
+		flag.Parse()
 
-		portfolio, err := store.GetPortfolio()
+		conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
-		err = portfolio.ClearChainHistory(args[0], args[1])
+		defer conn.Close()
+		c := keeper.NewMsgClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		r, err := c.ClearChain(ctx, &keeper.MsgClearChain{Account: args[0], Chain: args[1]})
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Printf("Could not update portfolio: %v\n", err)
 			return
 		}
-
-		if err := store.SetPortfolio(portfolio); err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		portfolio.Println()
+		fmt.Println("Updated Portfolio:")
+		r.GetPortfolio().Println()
 	},
 }
 
