@@ -16,30 +16,38 @@ limitations under the License.
 package cmd
 
 import (
+	"flag"
 	"fmt"
+	"net"
 
 	"github.com/lostak/pokt/keeper"
-	"github.com/lostak/pokt/types"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
+
+var ()
 
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "Initial setup command for a portfolio - WILL OVERWRITE EXISTING PORTFOLIO",
-	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("serve called")
-		portfolio := types.CreateBlankPortfolio(args[0])
 
-		err := keeper.SetPortfolio(portfolio)
+		flag.Parse()
+		lis, err := net.Listen("tcp", ":8080")
 		if err != nil {
 			fmt.Println(err.Error())
+			return
 		}
 
-		fmt.Printf("Portfolio created with name: %s\n", portfolio.Name)
+		server := grpc.NewServer()
+		keeper.RegisterMsgServer(server, &keeper.Keeper{})
+		fmt.Printf("server listening at: %v\n", lis.Addr())
+		if err := server.Serve(lis); err != nil {
+			fmt.Printf("Failed to serve: %v\n", err)
+		}
 
-		portfolio.Println()
 	},
 }
 

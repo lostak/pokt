@@ -16,11 +16,16 @@ limitations under the License.
 package cmd
 
 import (
+	"context"
+	"flag"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // addAmountCmd represents the addAmount command
@@ -30,31 +35,33 @@ var addAmountCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(4),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addAmount called")
+		flag.Parse()
+
+		conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		defer conn.Close()
+		c := keeper.NewMsgClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
 
 		amount, err := strconv.ParseUint(args[3], 10, 32)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
-
-		portfolio, err := keeper.GetPortfolio()
+		r, err := c.CreateAmount(ctx, &keeper.MsgCreateAmount{Account: args[0], Chain: args[1], Token: args[2], Amount: uint32(amount)})
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Printf("Could not update portfolio: %v\n", err)
 			return
 		}
+		fmt.Println("Updated Portfolio:")
+		r.GetPortfolio().Println()
 
-		err = portfolio.AddTokenAmount(args[0], args[1], args[2], uint32(amount))
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		if err := keeper.SetPortfolio(portfolio); err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		portfolio.Println()
 	},
 }
 

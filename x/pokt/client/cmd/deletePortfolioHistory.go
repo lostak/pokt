@@ -16,10 +16,15 @@ limitations under the License.
 package cmd
 
 import (
+	"context"
+	"flag"
 	"fmt"
+	"time"
 
 	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // deletePortfolioHistoryCmd represents the deletePortfolioHistory command
@@ -29,20 +34,27 @@ var deletePortfolioHistoryCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("deletePortfolioHistory called")
 
-		portfolio, err := keeper.GetPortfolio()
+		flag.Parse()
+
+		conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
-		portfolio.ClearHistory()
+		defer conn.Close()
+		c := keeper.NewMsgClient(conn)
 
-		if err := keeper.SetPortfolio(portfolio); err != nil {
-			fmt.Println(err.Error())
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		r, err := c.ClearPortfolio(ctx, &keeper.MsgClearPortfolio{})
+		if err != nil {
+			fmt.Printf("Could not update portfolio: %v\n", err)
 			return
 		}
-
-		portfolio.Println()
+		fmt.Println("Updated Portfolio:")
+		r.GetPortfolio().Println()
 	},
 }
 
