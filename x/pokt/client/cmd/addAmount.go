@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/lostak/pokt/keeper"
+	"github.com/lostak/pokt/store"
 	"github.com/spf13/cobra"
 )
 
@@ -37,7 +37,7 @@ var addAmountCmd = &cobra.Command{
 			return
 		}
 
-		portfolio, err := keeper.GetPortfolio()
+		portfolio, err := store.GetPortfolio()
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -49,7 +49,7 @@ var addAmountCmd = &cobra.Command{
 			return
 		}
 
-		if err := keeper.SetPortfolio(portfolio); err != nil {
+		if err := store.SetPortfolio(portfolio); err != nil {
 			fmt.Println(err.Error())
 			return
 		}

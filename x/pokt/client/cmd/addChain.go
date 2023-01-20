@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lostak/pokt/keeper"
+	"github.com/lostak/pokt/store"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +31,7 @@ var addChainCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addChain called")
 
-		portfolio, err := keeper.GetPortfolio()
+		portfolio, err := store.GetPortfolio()
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -43,7 +43,7 @@ var addChainCmd = &cobra.Command{
 			return
 		}
 
-		err = keeper.SetPortfolio(portfolio)
+		err = store.SetPortfolio(portfolio)
 		if err != nil {
 			fmt.Println(err.Error())
 			return

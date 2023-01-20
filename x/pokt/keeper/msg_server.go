@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/lostak/pokt/store"
 	"github.com/lostak/pokt/types"
 )
 
@@ -21,7 +22,7 @@ func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (
 
 	portfolio := types.CreateBlankPortfolio(msg.GetName())
 
-	err := SetPortfolio(portfolio)
+	err := store.SetPortfolio(portfolio)
 	if err != nil {
 		fmt.Println(err.Error())
 		return &MsgCreatePortfolioResponse{}, nil
@@ -36,7 +37,7 @@ func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (
 
 func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
 
-	portfolio, err := GetPortfolio()
+	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
 		return &MsgCreateAccountResponse{}, nil
@@ -48,7 +49,7 @@ func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*Msg
 		return &MsgCreateAccountResponse{}, nil
 	}
 
-	if err := SetPortfolio(portfolio); err != nil {
+	if err := store.SetPortfolio(portfolio); err != nil {
 		fmt.Println(err.Error())
 		return &MsgCreateAccountResponse{}, nil
 	}
