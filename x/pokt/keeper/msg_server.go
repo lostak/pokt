@@ -30,7 +30,7 @@ func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (
 
 	portfolio.Println()
 
-	return &MsgCreatePortfolioResponse{}, nil
+	return &MsgCreatePortfolioResponse{Portfolio: portfolio}, nil
 }
 
 func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
