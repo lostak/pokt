@@ -28,8 +28,11 @@ jobs:
     - name: Print $ATOM price
       run: ./pokt tokenPrice cosmos usd
 
-    - name: Create initial PortfolioName Portfolio
-      run: ./pokt serve PortfolioName
+    - name: Serve gRPC 
+      run: ./pokt serve &
+
+    - name: Create Portfolio
+      run: ./pokt createPortfolio PortfolioName
 
     - name: Add Account AccountName to Portfolio
       run: ./pokt addAccount AccountName
