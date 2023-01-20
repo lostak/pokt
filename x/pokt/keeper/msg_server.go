@@ -59,10 +59,47 @@ func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*Msg
 	return &MsgCreateAccountResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCreateChainResponse, error) {
-	return &MsgCreateChainResponse{}, nil
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateChainResponse{}, nil
+	}
+
+	err = portfolio.AddChain(msg.Account, msg.Chain, msg.Address)
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateChainResponse{}, nil
+	}
+
+	err = store.SetPortfolio(portfolio)
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateChainResponse{}, nil
+	}
+	portfolio.Println()
+
+	return &MsgCreateChainResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCreateTokenResponse, error) {
-	return &MsgCreateTokenResponse{}, nil
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateTokenResponse{}, nil
+	}
+
+	err = portfolio.AddToken(msg.GetAccount(), msg.GetChain(), msg.GetToken())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateTokenResponse{}, nil
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateTokenResponse{}, nil
+	}
+
+	portfolio.Println()
+	return &MsgCreateTokenResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateAmount(ctx context.Context, msg *MsgCreateAmount) (*MsgCreateAmountResponse, error) {
 	return &MsgCreateAmountResponse{}, nil
