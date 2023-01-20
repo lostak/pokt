@@ -17,13 +17,14 @@ type Keeper struct {
 }
 
 func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (*MsgCreatePortfolioResponse, error) {
-	fmt.Printf("Received: %v", msg.GetName())
+	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio := types.CreateBlankPortfolio(msg.GetName())
 
 	err := SetPortfolio(portfolio)
 	if err != nil {
 		fmt.Println(err.Error())
+		return &MsgCreatePortfolioResponse{}, nil
 	}
 
 	fmt.Printf("Portfolio created with name: %s\n", portfolio.Name)
@@ -34,7 +35,27 @@ func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (
 }
 
 func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
-	return &MsgCreateAccountResponse{}, nil
+
+	portfolio, err := GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateAccountResponse{}, nil
+	}
+
+	err = portfolio.AddAccount(msg.GetAccount())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateAccountResponse{}, nil
+	}
+
+	if err := SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgCreateAccountResponse{}, nil
+	}
+
+	portfolio.Println()
+
+	return &MsgCreateAccountResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCreateChainResponse, error) {
 	return &MsgCreateChainResponse{}, nil

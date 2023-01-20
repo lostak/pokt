@@ -16,10 +16,15 @@ limitations under the License.
 package cmd
 
 import (
+	"context"
+	"flag"
 	"fmt"
+	"time"
 
 	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // addAccountCmd represents the addAccount command
@@ -30,25 +35,26 @@ var addAccountCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("addAccount called")
+		flag.Parse()
 
-		portfolio, err := keeper.GetPortfolio()
+		conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
-		err = portfolio.AddAccount(args[0])
+		defer conn.Close()
+		c := keeper.NewMsgClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		r, err := c.CreateAccount(ctx, &keeper.MsgCreateAccount{Account: args[0]})
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Printf("Could not create portfolio: %v\n", err)
 			return
 		}
-
-		if err := keeper.SetPortfolio(portfolio); err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		portfolio.Println()
+		fmt.Println("Portfolio Created: ")
+		r.GetPortfolio().Println()
 	},
 }
 
