@@ -242,20 +242,79 @@ func (k *Keeper) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearT
 func (k *Keeper) DeletePortfolio(ctx context.Context, msg *MsgDeletePortfolio) (*MsgDeletePortfolioResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
-	return &MsgDeletePortfolioResponse{}, nil
+	reRoute := &MsgClearPortfolio{Portfolio: msg.GetPortfolio()}
+	resp, err := k.ClearPortfolio(ctx, reRoute)
+	if err != nil {
+		return &MsgDeletePortfolioResponse{}, err
+	}
+
+	return &MsgDeletePortfolioResponse{Portfolio: resp.GetPortfolio()}, nil
 }
 func (k *Keeper) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (*MsgDeleteAccountResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteAccountResponse{}, err
+	}
 
-	return &MsgDeleteAccountResponse{}, nil
+	err = portfolio.RemoveAccount(msg.GetAccount())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteAccountResponse{}, err
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteAccountResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgDeleteAccountResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) DeleteChain(ctx context.Context, msg *MsgDeleteChain) (*MsgDeleteChainResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
-	return &MsgDeleteChainResponse{}, nil
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteChainResponse{}, err
+	}
+
+	err = portfolio.RemoveChain(msg.GetAccount(), msg.GetChain())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteChainResponse{}, err
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteChainResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgDeleteChainResponse{Portfolio: portfolio}, nil
 }
 func (k *Keeper) DeleteToken(ctx context.Context, msg *MsgDeleteToken) (*MsgDeleteTokenResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
-	return &MsgDeleteTokenResponse{}, nil
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteTokenResponse{}, err
+	}
+
+	err = portfolio.RemoveToken(msg.GetAccount(), msg.GetChain(), msg.GetToken())
+	if err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteTokenResponse{}, err
+	}
+
+	if err := store.SetPortfolio(portfolio); err != nil {
+		fmt.Println(err.Error())
+		return &MsgDeleteTokenResponse{}, err
+	}
+
+	portfolio.Println()
+	return &MsgDeleteTokenResponse{Portfolio: portfolio}, nil
 }
