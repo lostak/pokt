@@ -21,9 +21,49 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
+  
+  build-proto: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      
+      - uses: arduino/setup-protoc@v1.1.2
+        with: 
+          version: '3.x'
+
+      - name: Install protoc-gen-go
+        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    
+      - name: Install protoc-gen-go-grpc 
+        run: go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && go mod tidy
+
+      - name: Update PATH
+        run: export PATH="$PATH:$(go env GOPATH)/bin"
+
+      - name: Generate proto 
+        run: >
+          cd ../.. &&
+          protoc --go_out=x/pokt/keeper 
+          --go_opt=paths=source_relative
+          --go-grpc_out=x/pokt/keeper
+          --go-grpc_opt=paths=source_relative
+          proto/pokt/tx.proto &&
+          protoc --proto_path=proto/pokt 
+          --go_out=x/pokt/types 
+          --go_opt=paths=source_relative 
+          portfolio.proto 
 
     - name: Build
       run: go build
+  Demo: 
+  runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
     - name: Print $ATOM price
       run: ./pokt tokenPrice cosmos usd
