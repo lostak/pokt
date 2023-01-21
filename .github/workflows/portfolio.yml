@@ -7,7 +7,7 @@ on: [push, pull_request, fork]
 
 defaults:
   run: 
-    working-directory: ./x/pokt
+    working-directory: ./pokt
 
 
 jobs:
