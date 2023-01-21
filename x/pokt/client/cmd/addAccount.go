@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/lostak/pokt/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
