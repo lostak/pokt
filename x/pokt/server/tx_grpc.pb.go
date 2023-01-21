@@ -4,7 +4,7 @@
 // - protoc             v3.12.4
 // source: proto/pokt/tx.proto
 
-package keeper
+package server
 
 import (
 	context "context"

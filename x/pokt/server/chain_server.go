@@ -7,7 +7,7 @@ import (
 	"github.com/lostak/pokt/store"
 )
 
-func (k *Keeper) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCreateChainResponse, error) {
+func (k *PoktServer) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCreateChainResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
@@ -32,7 +32,7 @@ func (k *Keeper) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCrea
 	return &MsgCreateChainResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) ClearChain(ctx context.Context, msg *MsgClearChain) (*MsgClearChainResponse, error) {
+func (k *PoktServer) ClearChain(ctx context.Context, msg *MsgClearChain) (*MsgClearChainResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
@@ -56,7 +56,7 @@ func (k *Keeper) ClearChain(ctx context.Context, msg *MsgClearChain) (*MsgClearC
 	return &MsgClearChainResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) DeleteChain(ctx context.Context, msg *MsgDeleteChain) (*MsgDeleteChainResponse, error) {
+func (k *PoktServer) DeleteChain(ctx context.Context, msg *MsgDeleteChain) (*MsgDeleteChainResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
