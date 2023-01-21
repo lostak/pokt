@@ -61,13 +61,13 @@ func (p *Portfolio) GetAccount(accountName string) (*Account, error) {
 	return nil, fmt.Errorf("Account: %s not found\n", accountName)
 }
 
-func (p *Portfolio) UpdateAccountName(accountName string) error {
-	account, err := p.GetAccount()
+func (p *Portfolio) UpdateAccountName(accountName, newName string) error {
+	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
 
-	account.updateName(accountName)
+	account.updateName(newName)
 	return nil
 }
 

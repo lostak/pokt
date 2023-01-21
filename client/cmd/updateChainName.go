@@ -12,10 +12,10 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-var updateAccountName = &cobra.Command{
-	Use:   "updateAccountName",
-	Short: "Update the account name of an existing account",
-	Args:  cobra.ExactArgs(2),
+var updateChainName = &cobra.Command{
+	Use:   "updateChainName",
+	Short: "Update the chain name of an existing chain on an account",
+	Args:  cobra.ExactArgs(3),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("updateAccountName called")
 		flag.Parse()
@@ -32,7 +32,7 @@ var updateAccountName = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		r, err := c.UpdateAccountName(ctx, &server.MsgUpdateAccountName{Account: args[0], NewName: args[1]})
+		r, err := c.UpdateChainName(ctx, &server.MsgUpdateChainName{Account: args[0], Chain: args[1], NewName: args[2]})
 		if err != nil {
 			fmt.Printf("Could not update portfolio: %v\n", err)
 			return

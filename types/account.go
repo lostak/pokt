@@ -13,12 +13,22 @@ func createBlankAccount(accountName string) *Account {
 	}
 }
 
+func (a *Account) getChain(chainName string) (*Chain, error) {
+	for _, chain := range a.GetChains() {
+		if chain.GetName() == chainName {
+			return chain, nil
+		}
+	}
+
+	return nil, fmt.Errorf("Chain name: %s not found on account: %s", chainName, a.GetName())
+}
+
 func (a *Account) updateName(name string) {
 	a.Name = name
 }
 
-func (a *Account) updateChainName(chain, newName string) error {
-	chain, err := a.getChain(chain)
+func (a *Account) updateChainName(chainName, newName string) error {
+	chain, err := a.getChain(chainName)
 	if err != nil {
 		return err
 	}
@@ -27,8 +37,8 @@ func (a *Account) updateChainName(chain, newName string) error {
 	return nil
 }
 
-func (a *Account) updateTokenName(chain, token, newName string) error {
-	chain, err := a.getChain(chain)
+func (a *Account) updateTokenName(chainName, token, newName string) error {
+	chain, err := a.getChain(chainName)
 	if err != nil {
 		return err
 	}
@@ -41,24 +51,14 @@ func (a *Account) updateTokenName(chain, token, newName string) error {
 	return nil
 }
 
-func (a *Account) updateAddress(chain, address string) error {
-	chain, err := a.getChain(chain)
+func (a *Account) updateAddress(chainName, address string) error {
+	chain, err := a.getChain(chainName)
 	if err != nil {
 		return err
 	}
 
 	chain.updateAddress(address)
 	return nil
-)
-
-func (a *Account) getChain(chainName string) (*Chain, error) {
-	for _, chain := range a.GetChains() {
-		if chain.GetName() == chainName {
-			return chain, nil
-		}
-	}
-
-	return nil, fmt.Errorf("Chain name: %s not found on account: %s", chainName, a.GetName())
 }
 
 func (a *Account) addChain(chainName, address string) error {

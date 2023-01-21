@@ -117,17 +117,17 @@ func (p *PoktServer) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*M
 func (p *PoktServer) UpdateAccountName(ctx context.Context, msg *MsgUpdateAccountName) (*MsgUpdateAccountNameResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
-	portfolio, err := store.GetPortfolio(msg.GetAccount())
+	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		return &MsgUpdateAccountNameResponse{}, err
 	}
 
-	err := portfolio.UpdateAccountName()
+	err = portfolio.UpdateAccountName(msg.GetAccount(), msg.GetNewName())
 	if err != nil {
 		return &MsgUpdateAccountNameResponse{}, err
 	}
 
-	return &MsgUpdateAccountName{Portfolio: porfolio}, nil
+	return &MsgUpdateAccountNameResponse{Portfolio: portfolio}, nil
 }
 
 func (p *PoktServer) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (*MsgDeleteAccountResponse, error) {

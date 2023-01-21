@@ -29,11 +29,11 @@ func (c *Chain) updateName(name string) {
 }
 
 func (c *Chain) updateAddress(address string) {
-	c.Address = address
+	c.Addr = address
 }
 
-func (c *Chain) updateTokenName(token, newName string) error {
-	token, err := c.getToken(token)
+func (c *Chain) updateTokenName(tokenName, newName string) error {
+	token, err := c.getToken(tokenName)
 	if err != nil {
 		return err
 	}
