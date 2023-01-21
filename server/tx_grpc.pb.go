@@ -27,7 +27,12 @@ type MsgClient interface {
 	CreateChain(ctx context.Context, in *MsgCreateChain, opts ...grpc.CallOption) (*MsgCreateChainResponse, error)
 	CreateToken(ctx context.Context, in *MsgCreateToken, opts ...grpc.CallOption) (*MsgCreateTokenResponse, error)
 	CreateAmount(ctx context.Context, in *MsgCreateAmount, opts ...grpc.CallOption) (*MsgCreateAmountResponse, error)
+	UpdatePortfolioName(ctx context.Context, in *MsgUpdatePortfolioName, opts ...grpc.CallOption) (*MsgUpdatePortfolioNameResponse, error)
+	UpdateAccountName(ctx context.Context, in *MsgUpdateAccountName, opts ...grpc.CallOption) (*MsgUpdateAccountNameResponse, error)
+	UpdateChainName(ctx context.Context, in *MsgUpdateChainName, opts ...grpc.CallOption) (*MsgUpdateChainNameResponse, error)
+	UpdateTokenName(ctx context.Context, in *MsgUpdateTokenName, opts ...grpc.CallOption) (*MsgUpdateTokenNameResponse, error)
 	UpdateCoinGeckoId(ctx context.Context, in *MsgUpdateCoinGeckoId, opts ...grpc.CallOption) (*MsgUpdateCoinGeckoIdResponse, error)
+	UpdateAddress(ctx context.Context, in *MsgUpdateAddress, opts ...grpc.CallOption) (*MsgUpdateAddressResponse, error)
 	ClearPortfolio(ctx context.Context, in *MsgClearPortfolio, opts ...grpc.CallOption) (*MsgClearPortfolioResponse, error)
 	ClearAccount(ctx context.Context, in *MsgClearAccount, opts ...grpc.CallOption) (*MsgClearAccountResponse, error)
 	ClearChain(ctx context.Context, in *MsgClearChain, opts ...grpc.CallOption) (*MsgClearChainResponse, error)
@@ -36,6 +41,7 @@ type MsgClient interface {
 	DeleteAccount(ctx context.Context, in *MsgDeleteAccount, opts ...grpc.CallOption) (*MsgDeleteAccountResponse, error)
 	DeleteChain(ctx context.Context, in *MsgDeleteChain, opts ...grpc.CallOption) (*MsgDeleteChainResponse, error)
 	DeleteToken(ctx context.Context, in *MsgDeleteToken, opts ...grpc.CallOption) (*MsgDeleteTokenResponse, error)
+	DeleteLastAmount(ctx context.Context, in *MsgDeleteLastAmount, opts ...grpc.CallOption) (*MsgDeleteLastAmountResponse, error)
 }
 
 type msgClient struct {
@@ -91,9 +97,54 @@ func (c *msgClient) CreateAmount(ctx context.Context, in *MsgCreateAmount, opts 
 	return out, nil
 }
 
+func (c *msgClient) UpdatePortfolioName(ctx context.Context, in *MsgUpdatePortfolioName, opts ...grpc.CallOption) (*MsgUpdatePortfolioNameResponse, error) {
+	out := new(MsgUpdatePortfolioNameResponse)
+	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdatePortfolioName", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateAccountName(ctx context.Context, in *MsgUpdateAccountName, opts ...grpc.CallOption) (*MsgUpdateAccountNameResponse, error) {
+	out := new(MsgUpdateAccountNameResponse)
+	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateAccountName", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateChainName(ctx context.Context, in *MsgUpdateChainName, opts ...grpc.CallOption) (*MsgUpdateChainNameResponse, error) {
+	out := new(MsgUpdateChainNameResponse)
+	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateChainName", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateTokenName(ctx context.Context, in *MsgUpdateTokenName, opts ...grpc.CallOption) (*MsgUpdateTokenNameResponse, error) {
+	out := new(MsgUpdateTokenNameResponse)
+	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateTokenName", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *msgClient) UpdateCoinGeckoId(ctx context.Context, in *MsgUpdateCoinGeckoId, opts ...grpc.CallOption) (*MsgUpdateCoinGeckoIdResponse, error) {
 	out := new(MsgUpdateCoinGeckoIdResponse)
 	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateCoinGeckoId", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateAddress(ctx context.Context, in *MsgUpdateAddress, opts ...grpc.CallOption) (*MsgUpdateAddressResponse, error) {
+	out := new(MsgUpdateAddressResponse)
+	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -172,6 +223,15 @@ func (c *msgClient) DeleteToken(ctx context.Context, in *MsgDeleteToken, opts ..
 	return out, nil
 }
 
+func (c *msgClient) DeleteLastAmount(ctx context.Context, in *MsgDeleteLastAmount, opts ...grpc.CallOption) (*MsgDeleteLastAmountResponse, error) {
+	out := new(MsgDeleteLastAmountResponse)
+	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/DeleteLastAmount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -181,7 +241,12 @@ type MsgServer interface {
 	CreateChain(context.Context, *MsgCreateChain) (*MsgCreateChainResponse, error)
 	CreateToken(context.Context, *MsgCreateToken) (*MsgCreateTokenResponse, error)
 	CreateAmount(context.Context, *MsgCreateAmount) (*MsgCreateAmountResponse, error)
+	UpdatePortfolioName(context.Context, *MsgUpdatePortfolioName) (*MsgUpdatePortfolioNameResponse, error)
+	UpdateAccountName(context.Context, *MsgUpdateAccountName) (*MsgUpdateAccountNameResponse, error)
+	UpdateChainName(context.Context, *MsgUpdateChainName) (*MsgUpdateChainNameResponse, error)
+	UpdateTokenName(context.Context, *MsgUpdateTokenName) (*MsgUpdateTokenNameResponse, error)
 	UpdateCoinGeckoId(context.Context, *MsgUpdateCoinGeckoId) (*MsgUpdateCoinGeckoIdResponse, error)
+	UpdateAddress(context.Context, *MsgUpdateAddress) (*MsgUpdateAddressResponse, error)
 	ClearPortfolio(context.Context, *MsgClearPortfolio) (*MsgClearPortfolioResponse, error)
 	ClearAccount(context.Context, *MsgClearAccount) (*MsgClearAccountResponse, error)
 	ClearChain(context.Context, *MsgClearChain) (*MsgClearChainResponse, error)
@@ -190,6 +255,7 @@ type MsgServer interface {
 	DeleteAccount(context.Context, *MsgDeleteAccount) (*MsgDeleteAccountResponse, error)
 	DeleteChain(context.Context, *MsgDeleteChain) (*MsgDeleteChainResponse, error)
 	DeleteToken(context.Context, *MsgDeleteToken) (*MsgDeleteTokenResponse, error)
+	DeleteLastAmount(context.Context, *MsgDeleteLastAmount) (*MsgDeleteLastAmountResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -212,8 +278,23 @@ func (UnimplementedMsgServer) CreateToken(context.Context, *MsgCreateToken) (*Ms
 func (UnimplementedMsgServer) CreateAmount(context.Context, *MsgCreateAmount) (*MsgCreateAmountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAmount not implemented")
 }
+func (UnimplementedMsgServer) UpdatePortfolioName(context.Context, *MsgUpdatePortfolioName) (*MsgUpdatePortfolioNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePortfolioName not implemented")
+}
+func (UnimplementedMsgServer) UpdateAccountName(context.Context, *MsgUpdateAccountName) (*MsgUpdateAccountNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccountName not implemented")
+}
+func (UnimplementedMsgServer) UpdateChainName(context.Context, *MsgUpdateChainName) (*MsgUpdateChainNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateChainName not implemented")
+}
+func (UnimplementedMsgServer) UpdateTokenName(context.Context, *MsgUpdateTokenName) (*MsgUpdateTokenNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTokenName not implemented")
+}
 func (UnimplementedMsgServer) UpdateCoinGeckoId(context.Context, *MsgUpdateCoinGeckoId) (*MsgUpdateCoinGeckoIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCoinGeckoId not implemented")
+}
+func (UnimplementedMsgServer) UpdateAddress(context.Context, *MsgUpdateAddress) (*MsgUpdateAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
 }
 func (UnimplementedMsgServer) ClearPortfolio(context.Context, *MsgClearPortfolio) (*MsgClearPortfolioResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClearPortfolio not implemented")
@@ -238,6 +319,9 @@ func (UnimplementedMsgServer) DeleteChain(context.Context, *MsgDeleteChain) (*Ms
 }
 func (UnimplementedMsgServer) DeleteToken(context.Context, *MsgDeleteToken) (*MsgDeleteTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteToken not implemented")
+}
+func (UnimplementedMsgServer) DeleteLastAmount(context.Context, *MsgDeleteLastAmount) (*MsgDeleteLastAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLastAmount not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -342,6 +426,78 @@ func _Msg_CreateAmount_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_UpdatePortfolioName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdatePortfolioName)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdatePortfolioName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pokt.keeper.Msg/UpdatePortfolioName",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdatePortfolioName(ctx, req.(*MsgUpdatePortfolioName))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateAccountName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateAccountName)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateAccountName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pokt.keeper.Msg/UpdateAccountName",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateAccountName(ctx, req.(*MsgUpdateAccountName))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateChainName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateChainName)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateChainName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pokt.keeper.Msg/UpdateChainName",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateChainName(ctx, req.(*MsgUpdateChainName))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateTokenName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateTokenName)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateTokenName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pokt.keeper.Msg/UpdateTokenName",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateTokenName(ctx, req.(*MsgUpdateTokenName))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Msg_UpdateCoinGeckoId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgUpdateCoinGeckoId)
 	if err := dec(in); err != nil {
@@ -356,6 +512,24 @@ func _Msg_UpdateCoinGeckoId_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateCoinGeckoId(ctx, req.(*MsgUpdateCoinGeckoId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateAddress)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pokt.keeper.Msg/UpdateAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateAddress(ctx, req.(*MsgUpdateAddress))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -504,6 +678,24 @@ func _Msg_DeleteToken_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_DeleteLastAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteLastAmount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteLastAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pokt.keeper.Msg/DeleteLastAmount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteLastAmount(ctx, req.(*MsgDeleteLastAmount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -532,8 +724,28 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_CreateAmount_Handler,
 		},
 		{
+			MethodName: "UpdatePortfolioName",
+			Handler:    _Msg_UpdatePortfolioName_Handler,
+		},
+		{
+			MethodName: "UpdateAccountName",
+			Handler:    _Msg_UpdateAccountName_Handler,
+		},
+		{
+			MethodName: "UpdateChainName",
+			Handler:    _Msg_UpdateChainName_Handler,
+		},
+		{
+			MethodName: "UpdateTokenName",
+			Handler:    _Msg_UpdateTokenName_Handler,
+		},
+		{
 			MethodName: "UpdateCoinGeckoId",
 			Handler:    _Msg_UpdateCoinGeckoId_Handler,
+		},
+		{
+			MethodName: "UpdateAddress",
+			Handler:    _Msg_UpdateAddress_Handler,
 		},
 		{
 			MethodName: "ClearPortfolio",
@@ -566,6 +778,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteToken",
 			Handler:    _Msg_DeleteToken_Handler,
+		},
+		{
+			MethodName: "DeleteLastAmount",
+			Handler:    _Msg_DeleteLastAmount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
