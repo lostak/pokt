@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lostak/pokt/keeper"
+	"github.com/lostak/pokt/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -43,12 +43,12 @@ var updateGeckoIdCmd = &cobra.Command{
 		}
 
 		defer conn.Close()
-		c := keeper.NewMsgClient(conn)
+		c := server.NewMsgClient(conn)
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		r, err := c.UpdateCoinGeckoId(ctx, &keeper.MsgUpdateCoinGeckoId{Account: args[0], Chain: args[1], Token: args[2], CoinGeckoId: args[3]})
+		r, err := c.UpdateCoinGeckoId(ctx, &server.MsgUpdateCoinGeckoId{Account: args[0], Chain: args[1], Token: args[2], CoinGeckoId: args[3]})
 		if err != nil {
 			fmt.Printf("Could not update portfolio: %v\n", err)
 			return

@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lostak/pokt/keeper"
+	"github.com/lostak/pokt/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -41,11 +41,11 @@ var removeTokenCmd = &cobra.Command{
 		}
 
 		defer conn.Close()
-		c := keeper.NewMsgClient(conn)
+		c := server.NewMsgClient(conn)
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := c.DeleteToken(ctx, &keeper.MsgDeleteToken{Account: args[0], Chain: args[1], Token: args[2]})
+		r, err := c.DeleteToken(ctx, &server.MsgDeleteToken{Account: args[0], Chain: args[1], Token: args[2]})
 		if err != nil {
 			fmt.Printf("Could not update portfolio: %v\n", err)
 			return

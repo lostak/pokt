@@ -20,7 +20,6 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
@@ -42,7 +41,7 @@ var serveCmd = &cobra.Command{
 		}
 
 		server := grpc.NewServer()
-		keeper.RegisterMsgServer(server, &keeper.Keeper{})
+		server.RegisterMsgServer(server, &server.Keeper{})
 		fmt.Printf("server listening at: %v\n", lis.Addr())
 		if err := server.Serve(lis); err != nil {
 			fmt.Printf("Failed to serve: %v\n", err)

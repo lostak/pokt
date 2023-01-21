@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lostak/pokt/keeper"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -44,11 +43,11 @@ var addAccountCmd = &cobra.Command{
 		}
 
 		defer conn.Close()
-		c := keeper.NewMsgClient(conn)
+		c := server.NewMsgClient(conn)
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := c.CreateAccount(ctx, &keeper.MsgCreateAccount{Account: args[0]})
+		r, err := c.CreateAccount(ctx, &server.MsgCreateAccount{Account: args[0]})
 		if err != nil {
 			fmt.Printf("Could not create portfolio: %v\n", err)
 			return

@@ -3,7 +3,7 @@ package pokt.keeper;
 
 import "proto/pokt/portfolio.proto";
 
-option go_package = "github.com/lostak/pokt/keeper";
+option go_package = "github.com/lostak/pokt/server";
 
 service Msg {
     rpc CreatePortfolio(MsgCreatePortfolio) returns (MsgCreatePortfolioResponse);
