@@ -36,9 +36,6 @@ jobs:
     - name: Generate proto 
       run: protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/pokt/tx.proto && protoc --proto_path=proto/pokt --go_out=types --go_opt=paths=source_relative portfolio.proto 
 
-    - name: Move .pb.go
-      run: mv server/proto/pokt/tx.pb.go server/tx.pb.go && mv server/proto/pokt/tx_grpc.pb.go server/tx_grpc.pb.go && rmdir server/proto/pokt && rmdir server/proto
-
     - name: Build
       run: go build
 
