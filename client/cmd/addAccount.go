@@ -50,10 +50,10 @@ var addAccountCmd = &cobra.Command{
 		defer cancel()
 		r, err := c.CreateAccount(ctx, &server.MsgCreateAccount{Account: args[0]})
 		if err != nil {
-			fmt.Printf("Could not create portfolio: %v\n", err)
+			fmt.Printf("Could not update portfolio: %v\n", err)
 			return
 		}
-		fmt.Println("Portfolio Created: ")
+		fmt.Println("Updated Portfolio: ")
 		r.GetPortfolio().Println()
 	},
 }

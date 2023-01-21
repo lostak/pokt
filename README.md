@@ -2,6 +2,12 @@
 
 ## Approach
 1. Portfolio and children CRUD for CLI
+    - Process addiing new messages w/out adding methods to the type:
+        1. Write proto rpc message(s) w/ format: `rpc ActionType(MsgActionType) returns (MsgActionTypeResponse);`
+        2. Write proto rpc messages for `MsgActionType` and `MsgActionTypeResponse`
+        3. Generate `.pb.go` files
+        4. Write `ActionType(MsgActionType)`  
+        5. Write cobra command to call `ActionType` as a gRPC client 
 2. Portfolio updates w/ API using CLI
 3. Browser charts from local storage
 4. Browser CRUD with portofio  
