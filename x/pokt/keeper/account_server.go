@@ -7,7 +7,7 @@ import (
 	"github.com/lostak/pokt/store"
 )
 
-func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
+func (p *PoktServer) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
@@ -32,7 +32,7 @@ func (k *Keeper) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*Msg
 	return &MsgCreateAccountResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*MsgClearAccountResponse, error) {
+func (p *PoktServer) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*MsgClearAccountResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -55,7 +55,7 @@ func (k *Keeper) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*MsgCl
 	return &MsgClearAccountResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (*MsgDeleteAccountResponse, error) {
+func (p *PoktServer) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (*MsgDeleteAccountResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {

@@ -8,6 +8,6 @@ var (
 	port = flag.Int("port", 8080, "Tx server port")
 )
 
-type Keeper struct {
+type PoktServer struct {
 	UnimplementedMsgServer
 }

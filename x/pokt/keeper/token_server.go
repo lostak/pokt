@@ -7,7 +7,7 @@ import (
 	"github.com/lostak/pokt/store"
 )
 
-func (k *Keeper) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCreateTokenResponse, error) {
+func (p *PoktServer) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCreateTokenResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
@@ -31,7 +31,7 @@ func (k *Keeper) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCrea
 	return &MsgCreateTokenResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGeckoId) (*MsgUpdateCoinGeckoIdResponse, error) {
+func (p *PoktServer) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGeckoId) (*MsgUpdateCoinGeckoIdResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
@@ -57,7 +57,7 @@ func (k *Keeper) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGeckoI
 	return &MsgUpdateCoinGeckoIdResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearTokenResponse, error) {
+func (p *PoktServer) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearTokenResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -80,7 +80,7 @@ func (k *Keeper) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearT
 	return &MsgClearTokenResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) DeleteToken(ctx context.Context, msg *MsgDeleteToken) (*MsgDeleteTokenResponse, error) {
+func (p *PoktServer) DeleteToken(ctx context.Context, msg *MsgDeleteToken) (*MsgDeleteTokenResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()

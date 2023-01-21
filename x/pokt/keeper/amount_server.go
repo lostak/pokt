@@ -7,7 +7,7 @@ import (
 	"github.com/lostak/pokt/store"
 )
 
-func (k *Keeper) CreateAmount(ctx context.Context, msg *MsgCreateAmount) (*MsgCreateAmountResponse, error) {
+func (p *PoktServer) CreateAmount(ctx context.Context, msg *MsgCreateAmount) (*MsgCreateAmountResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()

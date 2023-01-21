@@ -8,7 +8,7 @@ import (
 	"github.com/lostak/pokt/types"
 )
 
-func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (*MsgCreatePortfolioResponse, error) {
+func (p *PoktServer) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (*MsgCreatePortfolioResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	portfolio := types.CreateBlankPortfolio(msg.GetName())
@@ -26,7 +26,7 @@ func (k *Keeper) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (
 	return &MsgCreatePortfolioResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) ClearPortfolio(ctx context.Context, msg *MsgClearPortfolio) (*MsgClearPortfolioResponse, error) {
+func (p *PoktServer) ClearPortfolio(ctx context.Context, msg *MsgClearPortfolio) (*MsgClearPortfolioResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -45,11 +45,11 @@ func (k *Keeper) ClearPortfolio(ctx context.Context, msg *MsgClearPortfolio) (*M
 	return &MsgClearPortfolioResponse{Portfolio: portfolio}, nil
 }
 
-func (k *Keeper) DeletePortfolio(ctx context.Context, msg *MsgDeletePortfolio) (*MsgDeletePortfolioResponse, error) {
+func (p *PoktServer) DeletePortfolio(ctx context.Context, msg *MsgDeletePortfolio) (*MsgDeletePortfolioResponse, error) {
 	fmt.Printf("Received: %v\n", msg.String())
 
 	reRoute := &MsgClearPortfolio{Portfolio: msg.GetPortfolio()}
-	resp, err := k.ClearPortfolio(ctx, reRoute)
+	resp, err := p.ClearPortfolio(ctx, reRoute)
 	if err != nil {
 		return &MsgDeletePortfolioResponse{}, err
 	}
