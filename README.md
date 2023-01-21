@@ -2,7 +2,7 @@
 
 ## Approach
 1. Portfolio and children CRUD for CLI
-    - Process addiing new messages w/out adding methods to the type:
+    - Process for adding new messages w/out adding methods to the type:
         1. Write proto rpc message(s) w/ format: `rpc ActionType(MsgActionType) returns (MsgActionTypeResponse);`
         2. Write proto rpc messages for `MsgActionType` and `MsgActionTypeResponse`
         3. Generate `.pb.go` files

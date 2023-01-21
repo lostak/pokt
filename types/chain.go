@@ -24,6 +24,24 @@ func (c *Chain) getToken(tokenName string) (*Token, error) {
 	return nil, fmt.Errorf("Token name: %s not found on account: %s", tokenName, c.GetName())
 }
 
+func (c *Chain) updateName(name string) {
+	c.Name = name
+}
+
+func (c *Chain) updateAddress(address string) {
+	c.Address = address
+}
+
+func (c *Chain) updateTokenName(token, newName string) error {
+	token, err := c.getToken(token)
+	if err != nil {
+		return err
+	}
+
+	token.updateName(newName)
+	return nil
+}
+
 func (c *Chain) addToken(tokenName string) error {
 	// Check for existence
 	_, err := c.getToken(tokenName)

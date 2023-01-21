@@ -13,6 +13,44 @@ func createBlankAccount(accountName string) *Account {
 	}
 }
 
+func (a *Account) updateName(name string) {
+	a.Name = name
+}
+
+func (a *Account) updateChainName(chain, newName string) error {
+	chain, err := a.getChain(chain)
+	if err != nil {
+		return err
+	}
+
+	chain.updateName(newName)
+	return nil
+}
+
+func (a *Account) updateTokenName(chain, token, newName string) error {
+	chain, err := a.getChain(chain)
+	if err != nil {
+		return err
+	}
+
+	err = chain.updateTokenName(token, newName)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (a *Account) updateAddress(chain, address string) error {
+	chain, err := a.getChain(chain)
+	if err != nil {
+		return err
+	}
+
+	chain.updateAddress(address)
+	return nil
+)
+
 func (a *Account) getChain(chainName string) (*Chain, error) {
 	for _, chain := range a.GetChains() {
 		if chain.GetName() == chainName {
