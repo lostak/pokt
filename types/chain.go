@@ -89,7 +89,7 @@ func (c *Chain) updateTokenGeckoId(tokenName, geckoId string) error {
 	return nil
 }
 
-func (c *Chain) addTokenAmount(tokenName string, amount uint32) error {
+func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
 	token, err := c.getToken(tokenName)
 	if err != nil {
 		return err

@@ -10,8 +10,8 @@ import (
 		- Add StateHistory CRUD
 */
 
-func createAmountHistory(amount uint32) (h *AmountHistory) {
-	amounts := make([]uint32, 0)
+func createAmountHistory(amount float64) (h *AmountHistory) {
+	amounts := make([]float64, 0)
 	times := make([]*timestamppb.Timestamp, 0)
 
 	amounts = append(amounts, amount)
@@ -23,7 +23,7 @@ func createAmountHistory(amount uint32) (h *AmountHistory) {
 	}
 }
 
-func (h *AmountHistory) addAmount(amount uint32) {
+func (h *AmountHistory) addAmount(amount float64) {
 	amounts := h.GetAmount()
 	h.Amount = append(amounts, amount)
 	h.UpdateTimes = append(h.UpdateTimes, timestamppb.Now())
@@ -39,7 +39,7 @@ func (h *AmountHistory) nestedPrint(indent, incr, symbol string) {
 }
 
 func (h *AmountHistory) deleteHistory() {
-	amounts := make([]uint32, 0)
+	amounts := make([]float64, 0)
 	times := make([]*timestamppb.Timestamp, 0)
 
 	h.Amount = append(amounts, 0)

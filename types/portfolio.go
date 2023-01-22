@@ -116,7 +116,7 @@ func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoI
 	return account.updateTokenGeckoId(chainName, tokenName, geckoId)
 }
 
-func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount uint32) error {
+func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount float64) error {
 	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err

@@ -123,7 +123,7 @@ func (a *Account) updateTokenGeckoId(chainName, tokenName, geckoId string) error
 	return chain.updateTokenGeckoId(tokenName, geckoId)
 }
 
-func (a *Account) addTokenAmount(chainName, tokenName string, amount uint32) error {
+func (a *Account) addTokenAmount(chainName, tokenName string, amount float64) error {
 	chain, err := a.getChain(chainName)
 	if err != nil {
 		return err

@@ -18,17 +18,19 @@ message PriceHistory {
 }
 
 message AmountHistory {    
-    repeated uint32 amount = 2;
+    repeated double amount = 1;
     /*
         Time recorded is when the amount is updated and added to the list on manual user input 
     */
-    repeated google.protobuf.Timestamp update_times = 3;
+    repeated google.protobuf.Timestamp update_times = 2;
+    repeated double price = 3;
 }
 
 message Token {
     string name = 1;
     string geckoId = 2;
     AmountHistory amounts = 3;
+    uint64 lastPrice = 4;
 }
 
 message Chain {

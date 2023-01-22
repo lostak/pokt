@@ -49,12 +49,12 @@ var addAmountCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		amount, err := strconv.ParseUint(args[3], 10, 32)
+		amount, err := strconv.ParseFloat(args[3], 32)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
-		r, err := c.CreateAmount(ctx, &server.MsgCreateAmount{Account: args[0], Chain: args[1], Token: args[2], Amount: uint32(amount)})
+		r, err := c.CreateAmount(ctx, &server.MsgCreateAmount{Account: args[0], Chain: args[1], Token: args[2], Amount: amount})
 		if err != nil {
 			fmt.Printf("Could not update portfolio: %v\n", err)
 			return
