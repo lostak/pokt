@@ -50,7 +50,8 @@ func (h *AmountHistory) nestedPrint(indent, incr, symbol string) {
 	indent += incr
 
 	for i := range h.GetAmount() {
-		fmt.Printf("%sEntry #%d @ %s:  %f %s\n", indent, i, h.GetUpdateTimes()[i], h.GetAmount()[i], symbol)
+		nextIndent := indent + incr
+		fmt.Printf("%sEntry #%d:\nTime:%s %sn%sAmount:%f %s\n%sPrice:%f\n", indent, i, nextIndent, h.GetUpdateTimes()[i], nextIndent, h.GetAmount()[i], symbol, nextIndent, h.GetPrice()[i])
 	}
 }
 
