@@ -3,6 +3,7 @@ package types
 import (
 	"fmt"
 
+	"github.com/lostak/pokt/client/gecko"
 	"google.golang.org/protobuf/types/known/timestamppb"
 ) /*
 	TODO:
@@ -10,23 +11,38 @@ import (
 		- Add StateHistory CRUD
 */
 
-func createAmountHistory(amount float64) (h *AmountHistory) {
+func createAmountHistory(amount float64, coinId, baseDenom string) (h *AmountHistory) {
 	amounts := make([]float64, 0)
 	times := make([]*timestamppb.Timestamp, 0)
+	prices := make([]float64, 0)
+
+	price, err := gecko.GetTokenPrice(coinId, baseDenom)
+	if err != nil {
+		price = 0
+	}
 
 	amounts = append(amounts, amount)
 	times = append(times, timestamppb.Now())
+	prices = append(prices, price)
 
 	return &AmountHistory{
 		Amount:      amounts,
 		UpdateTimes: times,
+		Price:       prices,
 	}
 }
 
-func (h *AmountHistory) addAmount(amount float64) {
+func (h *AmountHistory) addAmount(amount float64, coinId, baseDenom string) error {
 	amounts := h.GetAmount()
+	price, err := gecko.GetTokenPrice(coinId, baseDenom)
+	if err != nil {
+		return err
+	}
+
 	h.Amount = append(amounts, amount)
 	h.UpdateTimes = append(h.UpdateTimes, timestamppb.Now())
+	h.Price = append(h.GetPrice(), price)
+	return nil
 }
 
 func (h *AmountHistory) nestedPrint(indent, incr, symbol string) {

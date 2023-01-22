@@ -95,8 +95,12 @@ func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
 		return err
 	}
 
+	/*
+		TODO: add support for any base denom
+	*/
+
 	amounts := token.GetAmounts()
-	amounts.addAmount(amount)
+	amounts.addAmount(amount, token.GetGeckoId(), "usd")
 	return nil
 }
 

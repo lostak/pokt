@@ -8,7 +8,10 @@ import "fmt"
 */
 
 func createBlankToken(name string) *Token {
-	amount := createAmountHistory(0)
+	/*
+		TODO: add support for any base denom
+	*/
+	amount := createAmountHistory(0, name, "usd")
 
 	return &Token{
 		Name:    name,
