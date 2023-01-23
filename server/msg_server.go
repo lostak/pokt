@@ -18,7 +18,7 @@ type PoktServer struct {
 }
 
 func (p *PoktServer) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (*MsgCreatePortfolioResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio := types.CreateBlankPortfolio(msg.GetName())
 
@@ -36,7 +36,7 @@ func (p *PoktServer) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfoli
 }
 
 func (p *PoktServer) ClearPortfolio(ctx context.Context, msg *MsgClearPortfolio) (*MsgClearPortfolioResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -55,7 +55,7 @@ func (p *PoktServer) ClearPortfolio(ctx context.Context, msg *MsgClearPortfolio)
 }
 
 func (p *PoktServer) DeletePortfolio(ctx context.Context, msg *MsgDeletePortfolio) (*MsgDeletePortfolioResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	reRoute := &MsgClearPortfolio{Portfolio: msg.GetPortfolio()}
 	resp, err := p.ClearPortfolio(ctx, reRoute)
@@ -67,7 +67,7 @@ func (p *PoktServer) DeletePortfolio(ctx context.Context, msg *MsgDeletePortfoli
 }
 
 func (p *PoktServer) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (*MsgCreateAccountResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -92,7 +92,7 @@ func (p *PoktServer) CreateAccount(ctx context.Context, msg *MsgCreateAccount) (
 }
 
 func (p *PoktServer) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*MsgClearAccountResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -115,7 +115,7 @@ func (p *PoktServer) ClearAccount(ctx context.Context, msg *MsgClearAccount) (*M
 }
 
 func (p *PoktServer) UpdateAccountName(ctx context.Context, msg *MsgUpdateAccountName) (*MsgUpdateAccountNameResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -131,7 +131,7 @@ func (p *PoktServer) UpdateAccountName(ctx context.Context, msg *MsgUpdateAccoun
 }
 
 func (p *PoktServer) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (*MsgDeleteAccountResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -154,7 +154,7 @@ func (p *PoktServer) DeleteAccount(ctx context.Context, msg *MsgDeleteAccount) (
 }
 
 func (k *PoktServer) CreateChain(ctx context.Context, msg *MsgCreateChain) (*MsgCreateChainResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -179,7 +179,7 @@ func (k *PoktServer) CreateChain(ctx context.Context, msg *MsgCreateChain) (*Msg
 }
 
 func (k *PoktServer) ClearChain(ctx context.Context, msg *MsgClearChain) (*MsgClearChainResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -203,7 +203,7 @@ func (k *PoktServer) ClearChain(ctx context.Context, msg *MsgClearChain) (*MsgCl
 }
 
 func (k *PoktServer) DeleteChain(ctx context.Context, msg *MsgDeleteChain) (*MsgDeleteChainResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -227,7 +227,7 @@ func (k *PoktServer) DeleteChain(ctx context.Context, msg *MsgDeleteChain) (*Msg
 }
 
 func (p *PoktServer) CreateToken(ctx context.Context, msg *MsgCreateToken) (*MsgCreateTokenResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -251,7 +251,7 @@ func (p *PoktServer) CreateToken(ctx context.Context, msg *MsgCreateToken) (*Msg
 }
 
 func (p *PoktServer) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGeckoId) (*MsgUpdateCoinGeckoIdResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -277,7 +277,7 @@ func (p *PoktServer) UpdateCoinGeckoId(ctx context.Context, msg *MsgUpdateCoinGe
 }
 
 func (p *PoktServer) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgClearTokenResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -300,7 +300,7 @@ func (p *PoktServer) ClearToken(ctx context.Context, msg *MsgClearToken) (*MsgCl
 }
 
 func (p *PoktServer) DeleteToken(ctx context.Context, msg *MsgDeleteToken) (*MsgDeleteTokenResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
@@ -324,7 +324,7 @@ func (p *PoktServer) DeleteToken(ctx context.Context, msg *MsgDeleteToken) (*Msg
 }
 
 func (p *PoktServer) CreateAmount(ctx context.Context, msg *MsgCreateAmount) (*MsgCreateAmountResponse, error) {
-	fmt.Printf("Received: %v\n", msg.String())
+	fmt.Printf("\nReceived: %v\n", msg.String())
 
 	portfolio, err := store.GetPortfolio()
 	if err != nil {
