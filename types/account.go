@@ -81,7 +81,7 @@ func (a *Account) updateAddress(chainName, address string) error {
 func (a *Account) addChainEntry(chain *ChainEntry) error {
 	entries := a.GetChains()
 	if entries == nil {
-		return fmt.Errorf("Chain map not allocated")
+		a.Chains = make(map[string]*ChainEntry)
 	}
 
 	entry := entries[chain.GetKey()]
