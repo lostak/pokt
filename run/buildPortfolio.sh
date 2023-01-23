@@ -1,6 +1,9 @@
 # TO BE CALLED FROM BASE DIR
 echo "build a portfolio w/ bash commands"
 
+echo "Run gRPC server"
+./pokt serve &
+
 echo "Print $ATOM price"
 ./pokt tokenPrice cosmos usd
 
@@ -39,3 +42,6 @@ bash ./run/updateGeckoId.sh
 
 echo "remove tokens, chains and accounts"
 bash ./run/removal.sh
+
+echo "create a new portfolio"
+./pokt createPortfolio BrandNew

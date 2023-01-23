@@ -36,10 +36,7 @@ jobs:
     - name: Build
       run: go build
 
-    - name: Run gRPC server  
-      run: ./pokt serve &
-
-    - name: Run bash
+    - name: Run bash demo CRUD
       run: bash ./run/buildPortfolio.sh
 
   #    - name: Print All CoinGecko Coin Names, Ids and Symbols
