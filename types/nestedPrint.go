@@ -2,12 +2,16 @@ package types
 
 import "fmt"
 
+func (d *AmountData) nestedPrint(indent, incr, symbol string, time int64) {
+	fmt.Printf("%sTime: %d \n%sAmount:%f %s\n%sPrice:%f\n", indent, time, indent, d.GetAmount(), symbol, indent, d.GetPrice())
+}
+
 func (e *AmountEntry) nestedPrint(indent, incr, symbol string, num uint32) {
 
 	var nextIndent string
 
 	if len(indent) > 2 {
-		nextIndent = fmt.Sprintf("%s %s ", indent, indent[1])
+		nextIndent = fmt.Sprintf("%s %c ", indent, indent[1])
 	} else {
 		nextIndent = indent + incr
 	}
@@ -18,12 +22,14 @@ func (e *AmountEntry) nestedPrint(indent, incr, symbol string, num uint32) {
 	}
 
 	nextIndent = indent + incr
-	fmt.Printf("%sEntry #%d:\n%sTime: %s \n%sAmount:%f %s\n%sPrice:%f\n", indent, num, nextIndent, e.GetKey(), nextIndent, data.GetAmount(), symbol, data.GetPrice())
+	fmt.Printf("%sEntry #%d:\n", indent, num)
+
+	data.nestedPrint(nextIndent, incr, symbol, e.GetKey())
 }
 
-func (t *Token) nestedPrint(indent, incr, symbol string) {
+func (t *Token) nestedPrint(indent, incr, id, symbol string) {
 	nextIndent := indent + incr
-	fmt.Printf("%sCurrent Amount: %d %s\n%sCoinGecko Id: %s\n", indent)
+	fmt.Printf("%sCoinGecko Id: %s\n", indent, id)
 	var i uint32
 	i = 0
 
@@ -43,7 +49,7 @@ func (e *TokenEntry) nestedPrint(indent, incr string) {
 		return
 	}
 
-	token.nestedPrint(nextIndent, incr, e.GetKey())
+	token.nestedPrint(nextIndent, incr, e.GetKey(), e.GetKey())
 }
 
 func (c *Chain) nestedPrint(indent, incr string) {
@@ -55,7 +61,7 @@ func (c *Chain) nestedPrint(indent, incr string) {
 }
 
 func (e *ChainEntry) nestedPrint(indent, incr string) {
-	fmt.Printf("%sChain: \n", indent, e.GetKey())
+	fmt.Printf("%sChain: %s\n", indent, e.GetKey())
 
 	chain := e.GetValue()
 	if chain == nil {
@@ -80,7 +86,6 @@ func (e *AccountEntry) nestedPrint(indent, incr string) {
 		return
 	}
 
-	indent += incr
 	account.nestedPrint(indent, incr)
 }
 

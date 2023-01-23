@@ -23,6 +23,15 @@ func (e *AccountEntry) getChainEntry(name string) (*ChainEntry, error) {
 	return chains[name], nil
 }
 
+func (e *AccountEntry) addChain(name, address string) error {
+	c := e.GetValue()
+	if c == nil {
+		e.updateValue(createAccount())
+	}
+
+	return e.GetValue().addChain(name, address)
+}
+
 func (e *AccountEntry) updateKey(name string) {
 	e.Key = name
 }

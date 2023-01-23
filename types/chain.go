@@ -12,18 +12,17 @@ import (
 */
 
 func createBlankChain(address string) *Chain {
-	tokens := make(map[string]*TokenEntry)
-
 	return &Chain{
 		Addr:   address,
-		Tokens: tokens,
+		Tokens: make(map[string]*TokenEntry),
 	}
 }
 
 func (c *Chain) getToken(tokenName string) (*Token, error) {
 	entries := c.GetTokens()
 	if entries == nil {
-		return nil, fmt.Errorf("Token entry map is not allocated")
+		c.Tokens = make(map[string]*TokenEntry)
+		return nil, fmt.Errorf("Token entry map was not allocated - now is")
 	}
 
 	entry := entries[tokenName]
@@ -44,15 +43,12 @@ func (c *Chain) updateAddress(address string) {
 }
 
 func (c *Chain) addToken(tokenName string) error {
-	// Check for existence
-	_, err := c.getToken(tokenName)
-	if err == nil {
-		return fmt.Errorf("Token: %s already exists on account", tokenName)
+	if c.GetTokens() == nil {
+		c.Tokens = make(map[string]*TokenEntry)
 	}
 
 	// Create and add new Token
-	token := createTokenEntry(tokenName)
-	c.Tokens[tokenName] = token
+	c.Tokens[tokenName] = createTokenEntry(tokenName)
 
 	fmt.Println("Token added")
 	return nil

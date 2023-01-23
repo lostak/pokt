@@ -8,10 +8,8 @@ import "fmt"
 */
 
 func createAccount() *Account {
-	chains := make(map[string]*ChainEntry)
-
 	return &Account{
-		Chains: chains,
+		Chains: make(map[string]*ChainEntry),
 	}
 }
 
@@ -87,23 +85,16 @@ func (a *Account) addChainEntry(chain *ChainEntry) {
 }
 
 func (a *Account) addChain(chainName, address string) error {
-	entries := a.GetChains()
-	if entries == nil {
-		entries = make(map[string]*ChainEntry)
+	if a.GetChains() == nil {
+		a.Chains = make(map[string]*ChainEntry)
 	}
 
-	_, err := a.getChain(chainName)
-	if err == nil {
-		return fmt.Errorf("Chain w/ key %s already exists", chainName)
+	c, err := a.getChain(chainName)
+	if err == nil && c != nil {
+		return fmt.Errorf("Chain already exists on account")
 	}
 
-	entry := createChainEntry(chainName)
-
-	a.addChainEntry(entry)
-	if err != nil {
-		return err
-	}
-
+	a.Chains[chainName] = createChainEntry(chainName)
 	return nil
 }
 

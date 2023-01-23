@@ -114,26 +114,26 @@ func (p *Portfolio) RemoveAccount(accountName string) error {
 }
 
 func (p *Portfolio) UpdateAccountName(accountName, newName string) error {
-	account, err := p.GetAccountEntry(accountName)
+	entry, err := p.GetAccountEntry(accountName)
 	if err != nil {
 		return err
 	}
 
-	oldKey := account.GetKey()
-	account.updateKey(newName)
-	p.setAccount(newName, account)
+	oldKey := entry.GetKey()
+	entry.updateKey(newName)
+	p.setAccount(newName, entry)
 	delete(p.Accounts, oldKey)
 
 	return nil
 }
 
 func (p *Portfolio) AddChain(accountName, chainName, address string) error {
-	account, err := p.GetAccount(accountName)
+	entry, err := p.GetAccountEntry(accountName)
 	if err != nil {
 		return err
 	}
 
-	return account.addChain(chainName, address)
+	return entry.addChain(chainName, address)
 }
 
 func (p *Portfolio) RemoveChain(accountName, chainName string) error {
