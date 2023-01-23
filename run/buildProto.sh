@@ -1,3 +1,4 @@
+# MUST CALL FROM BASE DIR FOR PATHS
 # Delete existing .pb.go files
 find . -name "*.pb.go" -type f -delete
 # Build proto for tx.proto and protfolio.proto

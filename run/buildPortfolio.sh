@@ -1,4 +1,4 @@
-# TO BE CALLED FROM BASE DIR
+# MUST CALL FROM BASE DIR FOR PATHS
 echo "build a portfolio w/ bash commands"
 
 echo "Run gRPC server"
