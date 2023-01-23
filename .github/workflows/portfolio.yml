@@ -31,8 +31,7 @@ jobs:
       run: export PATH="$PATH:$(go env GOPATH)/bin"
 
     - name: Give .sh permissions and Generate proto 
-      working-directory: .github/workflows
-      run: chmod +x *.sh && bash ./buildProto.sh 
+      run: chmod +x ./github/workflows/*.sh && bash .github/workflows/buildProto.sh 
 
     - name: Build
       run: go build
