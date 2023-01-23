@@ -26,9 +26,3 @@ func (t *Token) setAmount(amount float64) {
 
 	t.Amounts[a.GetKey()] = a
 }
-
-func (t *Token) deleteHistory() {
-	for entry, _ := range t.GetAmounts() {
-		delete(t.Amounts, entry)
-	}
-}

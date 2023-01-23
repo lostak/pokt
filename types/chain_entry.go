@@ -24,7 +24,7 @@ func (e *ChainEntry) getTokenEntry(name string) (*TokenEntry, error) {
 
 	tokens := chain.GetTokens()
 	if tokens == nil {
-		return nil, fmt.Errorf("Chain entry w/ key %s's token map has not been allocated")
+		return nil, fmt.Errorf("Chain entry w/ key %s's token map has not been allocated", e.GetKey())
 	}
 
 	return tokens[name], nil

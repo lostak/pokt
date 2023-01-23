@@ -114,20 +114,6 @@ func (p *Portfolio) RemoveAccount(accountName string) error {
 	return nil
 }
 
-func (p *Portfolio) UpdateAccountName(accountName, newName string) error {
-	entry, err := p.GetAccountEntry(accountName)
-	if err != nil {
-		return err
-	}
-
-	oldKey := entry.GetKey()
-	entry.updateKey(newName)
-	p.setAccount(newName, entry)
-	delete(p.Accounts, oldKey)
-
-	return nil
-}
-
 func (p *Portfolio) AddChain(accountName, chainName, address string) error {
 	entry, err := p.GetAccountEntry(accountName)
 	if err != nil {
@@ -171,47 +157,4 @@ func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amo
 	}
 
 	return account.addTokenAmount(chainName, tokenName, amount)
-}
-
-func (p *Portfolio) ClearTokenHistory(accountName, chainName, tokenName string) error {
-	account, err := p.GetAccount(accountName)
-	if err != nil {
-		return err
-	}
-
-	return account.clearTokenHistory(chainName, tokenName)
-}
-
-func (p *Portfolio) ClearChainHistory(accountName, chainName string) error {
-	account, err := p.GetAccount(accountName)
-	if err != nil {
-		return err
-	}
-
-	return account.clearChainHistory(chainName)
-}
-
-func (p *Portfolio) ClearAccountHistory(accountName string) error {
-	account, err := p.GetAccount(accountName)
-	if err != nil {
-		return err
-	}
-
-	account.deleteHistory()
-	return nil
-}
-
-func (p *Portfolio) deleteHistory() {
-	for _, entry := range p.GetAccounts() {
-		account := entry.GetValue()
-		if account == nil {
-			continue
-		}
-
-		account.deleteHistory()
-	}
-}
-
-func (p *Portfolio) ClearHistory() {
-	p.deleteHistory()
 }

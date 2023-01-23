@@ -17,7 +17,7 @@ func (a *Account) getChain(chainName string) (*Chain, error) {
 	entries := a.GetChains()
 	if entries == nil {
 		a.Chains = make(map[string]*ChainEntry)
-		return nil, fmt.Errorf("Chain map was not allocated in account", chainName)
+		return nil, fmt.Errorf("Chain map was not allocated in account")
 	}
 
 	entry := entries[chainName]
@@ -31,55 +31,6 @@ func (a *Account) getChain(chainName string) (*Chain, error) {
 	}
 
 	return chain, nil
-}
-
-func (a *Account) updateChainName(chainName, newName string) error {
-	entries := a.GetChains()
-	if entries == nil {
-		return fmt.Errorf("Account's chain map has not been allocated")
-	}
-
-	entry := entries[chainName]
-	if entry == nil {
-		return fmt.Errorf("Chain w/ key: %s is nil", chainName)
-	}
-
-	entry.updateKey(newName)
-	return nil
-}
-
-func (a *Account) updateTokenName(chainName, token, newName string) error {
-	entries := a.GetChains()
-	if entries == nil {
-		return fmt.Errorf("Account's chain map has not been allocated")
-	}
-
-	entry := entries[chainName]
-	if entry == nil {
-		return fmt.Errorf("Chain w/ key: %s is nil", chainName)
-	}
-
-	chain := entry.GetValue()
-	if chain == nil {
-		return fmt.Errorf("Chain w/ key: %s's value is nil", chainName)
-	}
-
-	err := chain.updateTokenName(token, newName)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (a *Account) updateAddress(chainName, address string) error {
-	chain, err := a.getChain(chainName)
-	if err != nil {
-		return err
-	}
-
-	chain.updateAddress(address)
-	return nil
 }
 
 func (a *Account) addChainEntry(chain *ChainEntry) {
@@ -139,34 +90,4 @@ func (a *Account) addTokenAmount(chainName, tokenName string, amount float64) er
 	}
 
 	return chain.addTokenAmount(tokenName, amount)
-}
-
-func (a *Account) clearTokenHistory(chainName, tokenName string) error {
-	chain, err := a.getChain(chainName)
-	if err != nil {
-		return err
-	}
-
-	return chain.clearTokenHistory(tokenName)
-}
-
-func (a *Account) clearChainHistory(chainName string) error {
-	chain, err := a.getChain(chainName)
-	if err != nil {
-		return err
-	}
-
-	chain.deleteHistory()
-	return nil
-}
-
-func (a *Account) deleteHistory() {
-	for _, entry := range a.GetChains() {
-		chain := entry.GetValue()
-		if chain == nil {
-			continue
-		}
-
-		chain.deleteHistory()
-	}
 }

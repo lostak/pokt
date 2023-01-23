@@ -19,10 +19,6 @@ func (e *TokenEntry) addTokenAmount(amount float64) error {
 	return nil
 }
 
-func (e *TokenEntry) deleteHistory() {
-	e.GetValue().deleteHistory()
-}
-
 func (e *TokenEntry) getAmountData(time int64) (*AmountData, error) {
 	token := e.GetValue()
 	if token == nil {
@@ -31,7 +27,7 @@ func (e *TokenEntry) getAmountData(time int64) (*AmountData, error) {
 
 	amounts := token.GetAmounts()
 	if amounts == nil {
-		return nil, fmt.Errorf("Token entry w/ key %s's amount map has not been allocated")
+		return nil, fmt.Errorf("Token entry w/ key %s's amount map has not been allocated", e.GetKey())
 	}
 
 	return amounts[time].GetValue(), nil
