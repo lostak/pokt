@@ -23,25 +23,25 @@ echo "Update ATOM's CoinGecko Id to be cosmos"
 ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
 echo "add 4 accounts"
-bash ./run/addAccounts.sh
+bash .github/workflow/addAccounts.sh
 
 echo "add 4 chains to each account"
-bash ./run/addChains.sh
+bash .github/workflow/addChains.sh
 
 echo "add 1 token to each chain on each account"
-bash ./run/addTokens.sh
+bash .github/workflow/addTokens.sh
 
 echo "add amounts to each token on each chain on each account"
-bash ./run/addAmounts.sh
+bash .github/workflow/addAmounts.sh
 
 echo "clear histories"
-bash ./run/clearHistories.sh
+bash .github/workflow/clearHistories.sh
 
 echo "update CoinGecko Id"
-bash ./run/updateGeckoId.sh 
+bash .github/workflow/updateGeckoId.sh 
 
 echo "remove tokens, chains and accounts"
-bash ./run/removal.sh
+bash .github/workflow/removal.sh
 
 echo "create a new portfolio"
 ./pokt createPortfolio BrandNew
