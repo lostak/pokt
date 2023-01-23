@@ -27,9 +27,9 @@ func (e *AmountEntry) nestedPrint(indent, incr, symbol string, num uint32) {
 	data.nestedPrint(nextIndent, incr, symbol, e.GetKey())
 }
 
-func (t *Token) nestedPrint(indent, incr, id, symbol string) {
+func (t *Token) nestedPrint(indent, incr, symbol string) {
 	nextIndent := indent + incr
-	fmt.Printf("%sCoinGecko Id: %s\n", indent, id)
+	fmt.Printf("%sCoinGecko Id: %s\n", indent, t.GetGeckoId())
 	var i uint32
 	i = 0
 
@@ -49,7 +49,7 @@ func (e *TokenEntry) nestedPrint(indent, incr string) {
 		return
 	}
 
-	token.nestedPrint(nextIndent, incr, e.GetKey(), e.GetKey())
+	token.nestedPrint(nextIndent, incr, e.GetKey())
 }
 
 func (c *Chain) nestedPrint(indent, incr string) {
