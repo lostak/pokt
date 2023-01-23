@@ -37,7 +37,7 @@ jobs:
       run: go build
 
     - name: Run bash
-      run: go ./run/buildPortfolio.sh
+      run: bash ./run/buildPortfolio.sh
 
   #    - name: Print All CoinGecko Coin Names, Ids and Symbols
   #      run: ./pokt printAllCoinIds
