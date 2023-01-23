@@ -30,15 +30,3 @@ func (e *TokenEntry) updateKey(name string) {
 func (e *TokenEntry) updateValue(value *Token) {
 	e.Value = value
 }
-
-func (e *TokenEntry) nestedPrint(indent, incr string) {
-	nextIndent := indent + incr
-	fmt.Printf("%sToken: %s\n", indent, e.GetKey())
-
-	token := e.GetValue()
-	if token == nil {
-		return
-	}
-
-	token.nestedPrint(nextIndent, incr, e.GetKey())
-}

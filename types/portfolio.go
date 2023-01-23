@@ -41,6 +41,10 @@ func (p *Portfolio) GetAccount(name string) (*Account, error) {
 }
 
 func (p *Portfolio) setAccount(name string, account *AccountEntry) {
+	if p.GetAccounts() == nil {
+		p.Accounts = make(map[string]*AccountEntry)
+	}
+
 	p.Accounts[name] = account
 }
 
@@ -218,21 +222,4 @@ func (p *Portfolio) deleteHistory() {
 
 func (p *Portfolio) ClearHistory() {
 	p.deleteHistory()
-}
-
-func (p *Portfolio) nestedPrint(indent, incr string) {
-	fmt.Printf("Portfolio: %s\n", p.GetName())
-
-	for _, entry := range p.GetAccounts() {
-		account := entry.GetValue()
-		if account == nil {
-			continue
-		}
-
-		account.nestedPrint(indent, incr)
-	}
-}
-
-func (p *Portfolio) Println() {
-	p.nestedPrint(" | ", " | ")
 }

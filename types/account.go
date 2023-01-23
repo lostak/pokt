@@ -8,7 +8,11 @@ import "fmt"
 */
 
 func createAccount() *Account {
-	return &Account{Chains: make(map[string]*ChainEntry)}
+	chains := make(map[string]*ChainEntry)
+
+	return &Account{
+		Chains: chains,
+	}
 }
 
 func (a *Account) getChain(chainName string) (*Chain, error) {
@@ -81,8 +85,7 @@ func (a *Account) addChain(chainName, address string) error {
 	}
 
 	// Create and add new Chain
-	chain := createBlankChain(address)
-	a.Chains[chainName] = createChainEntry(chainName, chain)
+	a.Chains[chainName] = createChainEntry(chainName)
 
 	fmt.Println("Chain added")
 	return nil
@@ -161,27 +164,5 @@ func (a *Account) deleteHistory() {
 		}
 
 		chain.deleteHistory()
-	}
-}
-
-func (e *AccountEntry) nestedPrint(indent, incr string) {
-	fmt.Printf("%sAccount: %s\n", indent, e.GetKey())
-	account := e.GetValue()
-	if account == nil {
-		return
-	}
-
-	indent += incr
-	account.nestedPrint(indent, incr)
-}
-
-func (a *Account) nestedPrint(indent, incr string) {
-	for _, entry := range a.GetChains() {
-		chain := entry.GetValue()
-		if chain == nil {
-			continue
-		}
-
-		chain.nestedPrint(indent, incr, entry.GetKey())
 	}
 }

@@ -2,10 +2,17 @@ package types
 
 import "fmt"
 
-func createChainEntry(name string, value *Chain) *ChainEntry {
+func createBlankChainEntry() *ChainEntry {
+	return &ChainEntry{
+		Key:   "",
+		Value: createBlankChain(""),
+	}
+}
+
+func createChainEntry(name string) *ChainEntry {
 	return &ChainEntry{
 		Key:   name,
-		Value: createBlankChain("temp"),
+		Value: createBlankChain(name),
 	}
 }
 

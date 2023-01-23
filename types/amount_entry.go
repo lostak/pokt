@@ -1,8 +1,6 @@
 package types
 
 import (
-	"fmt"
-
 	"github.com/lostak/pokt/client/gecko"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -32,23 +30,4 @@ func (e *AmountEntry) updateKey(seconds int64) {
 
 func (e *AmountEntry) updateValue(value *AmountData) {
 	e.Value = value
-}
-
-func (e *AmountEntry) nestedPrint(indent, incr, symbol string, num uint32) {
-
-	var nextIndent string
-
-	if len(indent) > 2 {
-		nextIndent = fmt.Sprintf("%s %s ", indent, indent[1])
-	} else {
-		nextIndent = indent + incr
-	}
-
-	data := e.GetValue()
-	if data == nil {
-		return
-	}
-
-	nextIndent = indent + incr
-	fmt.Printf("%sEntry #%d:\n%sTime: %s \n%sAmount:%f %s\n%sPrice:%f\n", indent, num, nextIndent, e.GetKey(), nextIndent, data.GetAmount(), symbol, data.GetPrice())
 }
