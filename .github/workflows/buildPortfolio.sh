@@ -1,47 +1,47 @@
 # MUST CALL FROM BASE DIR FOR PATHS
-echo "build a portfolio w/ bash commands"
+echo -e "\nbuild a portfolio w/ bash commands\n"
 
-echo "Run gRPC server"
+echo -e "\nRun gRPC server\n"
 ./pokt serve &
 
-echo "Print $ATOM price"
+echo -e "\nPrint ATOM price"
 ./pokt tokenPrice cosmos usd
 
-echo "Create Portfolio"
+echo -e "\nCreate Portfolio\n"
 ./pokt createPortfolio PortfolioName
 
-echo "Add Account AccountName to Portfolio"
+echo -e "\nAdd Account AccountName to Portfolio\n"
 ./pokt addAccount AccountName
 
-echo "Add Chain named Cosmos-Hub to Account named AccountName"
+echo -e "\nAdd Chain named Cosmos-Hub to Account named AccountName\n"
 ./pokt addChain AccountName Cosmos-Hub Address 
 
-echo "Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName"
+echo -e "\nAdd Token named ATOM to Cosmos-Hub Chain for Account named AccountName\n"
 ./pokt addToken AccountName Cosmos-Hub ATOM
 
-echo "Update ATOM's CoinGecko Id to be cosmos"
+echo -e "\nUpdate ATOM's CoinGecko Id to be cosmos\n"
 ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
-echo "add 4 accounts"
+echo -e "\nadd 4 accounts\n"
 bash ./.github/workflows/addAccounts.sh
 
-echo "add 4 chains to each account"
+echo -e "\nadd 4 chains to each account\n"
 bash ./.github/workflows/addChains.sh
 
-echo "add 1 token to each chain on each account"
+echo -e "\nadd 1 token to each chain on each account\n"
 bash ./.github/workflows/addTokens.sh
 
-echo "add amounts to each token on each chain on each account"
+echo -e "\nadd amounts to each token on each chain on each account\n"
 bash ./.github/workflows/addAmounts.sh
 
-echo "clear histories"
+echo -e "\nclear histories\n"
 bash ./.github/workflows/clearHistories.sh
 
-echo "update CoinGecko Id"
+echo -e "\nupdate CoinGecko Id\n"
 bash ./.github/workflows/updateGeckoId.sh 
 
-echo "remove tokens, chains and accounts"
+echo -e "\nremove tokens, chains and accounts\n"
 bash ./.github/workflows/removal.sh
 
-echo "create a new portfolio"
+echo -e "\ncreate a new portfolio\n"
 ./pokt createPortfolio BrandNew

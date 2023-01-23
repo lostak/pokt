@@ -1,8 +1,8 @@
-echo "Remove Token named ATOM from Cosmos-Hub from Account named AccountName"
+echo -e "\nRemove Token named ATOM from Cosmos-Hub from Account named AccountName\n"
 ./pokt removeToken AccountName Cosmos-Hub ATOM
 
-echo "Remove Chain named Cosmos-Hub from Account named AccountName"
+echo -e "\nRemove Chain named Cosmos-Hub from Account named AccountName\n"
 ./pokt removeChain AccountName Cosmos-Hub
 
-echo "Remove Account named AccountName"
+echo -e "\nRemove Account named AccountName\n"
 ./pokt removeAccount AccountName
