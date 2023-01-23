@@ -31,13 +31,13 @@ jobs:
       run: export PATH="$PATH:$(go env GOPATH)/bin"
 
     - name: Give .sh permissions and Generate proto 
-      run: chmod +x .github/workflows/*.sh && bash .github/workflows/buildProto.sh 
+      run: chmod +x ./.github/workflows/*.sh && bash ./.github/workflows/buildProto.sh 
 
     - name: Build
       run: go build
 
     - name: Run bash demo CRUD
-      run: bash .github/workflows/buildPortfolio.sh
+      run: bash ./.github/workflows/buildPortfolio.sh
 
   #    - name: Print All CoinGecko Coin Names, Ids and Symbols
   #      run: ./pokt printAllCoinIds
