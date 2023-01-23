@@ -54,7 +54,7 @@ func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 
 func (c *msgClient) CreatePortfolio(ctx context.Context, in *MsgCreatePortfolio, opts ...grpc.CallOption) (*MsgCreatePortfolioResponse, error) {
 	out := new(MsgCreatePortfolioResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/CreatePortfolio", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/CreatePortfolio", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (c *msgClient) CreatePortfolio(ctx context.Context, in *MsgCreatePortfolio,
 
 func (c *msgClient) CreateAccount(ctx context.Context, in *MsgCreateAccount, opts ...grpc.CallOption) (*MsgCreateAccountResponse, error) {
 	out := new(MsgCreateAccountResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/CreateAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/CreateAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func (c *msgClient) CreateAccount(ctx context.Context, in *MsgCreateAccount, opt
 
 func (c *msgClient) CreateChain(ctx context.Context, in *MsgCreateChain, opts ...grpc.CallOption) (*MsgCreateChainResponse, error) {
 	out := new(MsgCreateChainResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/CreateChain", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/CreateChain", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func (c *msgClient) CreateChain(ctx context.Context, in *MsgCreateChain, opts ..
 
 func (c *msgClient) CreateToken(ctx context.Context, in *MsgCreateToken, opts ...grpc.CallOption) (*MsgCreateTokenResponse, error) {
 	out := new(MsgCreateTokenResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/CreateToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/CreateToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (c *msgClient) CreateToken(ctx context.Context, in *MsgCreateToken, opts ..
 
 func (c *msgClient) CreateAmount(ctx context.Context, in *MsgCreateAmount, opts ...grpc.CallOption) (*MsgCreateAmountResponse, error) {
 	out := new(MsgCreateAmountResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/CreateAmount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/CreateAmount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (c *msgClient) CreateAmount(ctx context.Context, in *MsgCreateAmount, opts 
 
 func (c *msgClient) UpdatePortfolioName(ctx context.Context, in *MsgUpdatePortfolioName, opts ...grpc.CallOption) (*MsgUpdatePortfolioNameResponse, error) {
 	out := new(MsgUpdatePortfolioNameResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdatePortfolioName", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/UpdatePortfolioName", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func (c *msgClient) UpdatePortfolioName(ctx context.Context, in *MsgUpdatePortfo
 
 func (c *msgClient) UpdateAccountName(ctx context.Context, in *MsgUpdateAccountName, opts ...grpc.CallOption) (*MsgUpdateAccountNameResponse, error) {
 	out := new(MsgUpdateAccountNameResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateAccountName", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/UpdateAccountName", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func (c *msgClient) UpdateAccountName(ctx context.Context, in *MsgUpdateAccountN
 
 func (c *msgClient) UpdateChainName(ctx context.Context, in *MsgUpdateChainName, opts ...grpc.CallOption) (*MsgUpdateChainNameResponse, error) {
 	out := new(MsgUpdateChainNameResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateChainName", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/UpdateChainName", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +126,7 @@ func (c *msgClient) UpdateChainName(ctx context.Context, in *MsgUpdateChainName,
 
 func (c *msgClient) UpdateTokenName(ctx context.Context, in *MsgUpdateTokenName, opts ...grpc.CallOption) (*MsgUpdateTokenNameResponse, error) {
 	out := new(MsgUpdateTokenNameResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateTokenName", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/UpdateTokenName", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +135,7 @@ func (c *msgClient) UpdateTokenName(ctx context.Context, in *MsgUpdateTokenName,
 
 func (c *msgClient) UpdateCoinGeckoId(ctx context.Context, in *MsgUpdateCoinGeckoId, opts ...grpc.CallOption) (*MsgUpdateCoinGeckoIdResponse, error) {
 	out := new(MsgUpdateCoinGeckoIdResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateCoinGeckoId", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/UpdateCoinGeckoId", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +144,7 @@ func (c *msgClient) UpdateCoinGeckoId(ctx context.Context, in *MsgUpdateCoinGeck
 
 func (c *msgClient) UpdateAddress(ctx context.Context, in *MsgUpdateAddress, opts ...grpc.CallOption) (*MsgUpdateAddressResponse, error) {
 	out := new(MsgUpdateAddressResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/UpdateAddress", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/UpdateAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func (c *msgClient) UpdateAddress(ctx context.Context, in *MsgUpdateAddress, opt
 
 func (c *msgClient) ClearPortfolio(ctx context.Context, in *MsgClearPortfolio, opts ...grpc.CallOption) (*MsgClearPortfolioResponse, error) {
 	out := new(MsgClearPortfolioResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/ClearPortfolio", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/ClearPortfolio", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +162,7 @@ func (c *msgClient) ClearPortfolio(ctx context.Context, in *MsgClearPortfolio, o
 
 func (c *msgClient) ClearAccount(ctx context.Context, in *MsgClearAccount, opts ...grpc.CallOption) (*MsgClearAccountResponse, error) {
 	out := new(MsgClearAccountResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/ClearAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/ClearAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func (c *msgClient) ClearAccount(ctx context.Context, in *MsgClearAccount, opts 
 
 func (c *msgClient) ClearChain(ctx context.Context, in *MsgClearChain, opts ...grpc.CallOption) (*MsgClearChainResponse, error) {
 	out := new(MsgClearChainResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/ClearChain", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/ClearChain", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +180,7 @@ func (c *msgClient) ClearChain(ctx context.Context, in *MsgClearChain, opts ...g
 
 func (c *msgClient) ClearToken(ctx context.Context, in *MsgClearToken, opts ...grpc.CallOption) (*MsgClearTokenResponse, error) {
 	out := new(MsgClearTokenResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/ClearToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/ClearToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +189,7 @@ func (c *msgClient) ClearToken(ctx context.Context, in *MsgClearToken, opts ...g
 
 func (c *msgClient) DeletePortfolio(ctx context.Context, in *MsgDeletePortfolio, opts ...grpc.CallOption) (*MsgDeletePortfolioResponse, error) {
 	out := new(MsgDeletePortfolioResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/DeletePortfolio", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/DeletePortfolio", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -198,7 +198,7 @@ func (c *msgClient) DeletePortfolio(ctx context.Context, in *MsgDeletePortfolio,
 
 func (c *msgClient) DeleteAccount(ctx context.Context, in *MsgDeleteAccount, opts ...grpc.CallOption) (*MsgDeleteAccountResponse, error) {
 	out := new(MsgDeleteAccountResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/DeleteAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/DeleteAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -207,7 +207,7 @@ func (c *msgClient) DeleteAccount(ctx context.Context, in *MsgDeleteAccount, opt
 
 func (c *msgClient) DeleteChain(ctx context.Context, in *MsgDeleteChain, opts ...grpc.CallOption) (*MsgDeleteChainResponse, error) {
 	out := new(MsgDeleteChainResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/DeleteChain", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/DeleteChain", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -216,7 +216,7 @@ func (c *msgClient) DeleteChain(ctx context.Context, in *MsgDeleteChain, opts ..
 
 func (c *msgClient) DeleteToken(ctx context.Context, in *MsgDeleteToken, opts ...grpc.CallOption) (*MsgDeleteTokenResponse, error) {
 	out := new(MsgDeleteTokenResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/DeleteToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/DeleteToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -225,7 +225,7 @@ func (c *msgClient) DeleteToken(ctx context.Context, in *MsgDeleteToken, opts ..
 
 func (c *msgClient) DeleteLastAmount(ctx context.Context, in *MsgDeleteLastAmount, opts ...grpc.CallOption) (*MsgDeleteLastAmountResponse, error) {
 	out := new(MsgDeleteLastAmountResponse)
-	err := c.cc.Invoke(ctx, "/pokt.keeper.Msg/DeleteLastAmount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.Msg/DeleteLastAmount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -346,7 +346,7 @@ func _Msg_CreatePortfolio_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/CreatePortfolio",
+		FullMethod: "/pokt.server.Msg/CreatePortfolio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreatePortfolio(ctx, req.(*MsgCreatePortfolio))
@@ -364,7 +364,7 @@ func _Msg_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/CreateAccount",
+		FullMethod: "/pokt.server.Msg/CreateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreateAccount(ctx, req.(*MsgCreateAccount))
@@ -382,7 +382,7 @@ func _Msg_CreateChain_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/CreateChain",
+		FullMethod: "/pokt.server.Msg/CreateChain",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreateChain(ctx, req.(*MsgCreateChain))
@@ -400,7 +400,7 @@ func _Msg_CreateToken_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/CreateToken",
+		FullMethod: "/pokt.server.Msg/CreateToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreateToken(ctx, req.(*MsgCreateToken))
@@ -418,7 +418,7 @@ func _Msg_CreateAmount_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/CreateAmount",
+		FullMethod: "/pokt.server.Msg/CreateAmount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).CreateAmount(ctx, req.(*MsgCreateAmount))
@@ -436,7 +436,7 @@ func _Msg_UpdatePortfolioName_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/UpdatePortfolioName",
+		FullMethod: "/pokt.server.Msg/UpdatePortfolioName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdatePortfolioName(ctx, req.(*MsgUpdatePortfolioName))
@@ -454,7 +454,7 @@ func _Msg_UpdateAccountName_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/UpdateAccountName",
+		FullMethod: "/pokt.server.Msg/UpdateAccountName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateAccountName(ctx, req.(*MsgUpdateAccountName))
@@ -472,7 +472,7 @@ func _Msg_UpdateChainName_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/UpdateChainName",
+		FullMethod: "/pokt.server.Msg/UpdateChainName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateChainName(ctx, req.(*MsgUpdateChainName))
@@ -490,7 +490,7 @@ func _Msg_UpdateTokenName_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/UpdateTokenName",
+		FullMethod: "/pokt.server.Msg/UpdateTokenName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateTokenName(ctx, req.(*MsgUpdateTokenName))
@@ -508,7 +508,7 @@ func _Msg_UpdateCoinGeckoId_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/UpdateCoinGeckoId",
+		FullMethod: "/pokt.server.Msg/UpdateCoinGeckoId",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateCoinGeckoId(ctx, req.(*MsgUpdateCoinGeckoId))
@@ -526,7 +526,7 @@ func _Msg_UpdateAddress_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/UpdateAddress",
+		FullMethod: "/pokt.server.Msg/UpdateAddress",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateAddress(ctx, req.(*MsgUpdateAddress))
@@ -544,7 +544,7 @@ func _Msg_ClearPortfolio_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/ClearPortfolio",
+		FullMethod: "/pokt.server.Msg/ClearPortfolio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).ClearPortfolio(ctx, req.(*MsgClearPortfolio))
@@ -562,7 +562,7 @@ func _Msg_ClearAccount_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/ClearAccount",
+		FullMethod: "/pokt.server.Msg/ClearAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).ClearAccount(ctx, req.(*MsgClearAccount))
@@ -580,7 +580,7 @@ func _Msg_ClearChain_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/ClearChain",
+		FullMethod: "/pokt.server.Msg/ClearChain",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).ClearChain(ctx, req.(*MsgClearChain))
@@ -598,7 +598,7 @@ func _Msg_ClearToken_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/ClearToken",
+		FullMethod: "/pokt.server.Msg/ClearToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).ClearToken(ctx, req.(*MsgClearToken))
@@ -616,7 +616,7 @@ func _Msg_DeletePortfolio_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/DeletePortfolio",
+		FullMethod: "/pokt.server.Msg/DeletePortfolio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).DeletePortfolio(ctx, req.(*MsgDeletePortfolio))
@@ -634,7 +634,7 @@ func _Msg_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/DeleteAccount",
+		FullMethod: "/pokt.server.Msg/DeleteAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).DeleteAccount(ctx, req.(*MsgDeleteAccount))
@@ -652,7 +652,7 @@ func _Msg_DeleteChain_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/DeleteChain",
+		FullMethod: "/pokt.server.Msg/DeleteChain",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).DeleteChain(ctx, req.(*MsgDeleteChain))
@@ -670,7 +670,7 @@ func _Msg_DeleteToken_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/DeleteToken",
+		FullMethod: "/pokt.server.Msg/DeleteToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).DeleteToken(ctx, req.(*MsgDeleteToken))
@@ -688,7 +688,7 @@ func _Msg_DeleteLastAmount_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.keeper.Msg/DeleteLastAmount",
+		FullMethod: "/pokt.server.Msg/DeleteLastAmount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).DeleteLastAmount(ctx, req.(*MsgDeleteLastAmount))
@@ -700,7 +700,7 @@ func _Msg_DeleteLastAmount_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Msg_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pokt.keeper.Msg",
+	ServiceName: "pokt.server.Msg",
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package pokt.keeper;
+package pokt.server;
 
 import "proto/pokt/portfolio.proto";
 

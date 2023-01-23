@@ -36,19 +36,31 @@ var printCmd = &cobra.Command{
 		}
 
 		portfolio.Println()
+
+		/* TODO: Add query & print GetPortfolio response
+		conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		defer conn.Close()
+		c := server.NewMsgClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		r, err := c.GetPortfolio(ctx, &server.MsgPrintPortfolio{})
+		if err != nil {
+			fmt.Printf("Could not update portfolio: %v\n", err)
+			return
+		}
+
+		fmt.Println("Updated Portfolio:")
+		r.GetPortfolio().Println()
+		*/
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(printCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// printCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// printCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
