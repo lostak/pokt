@@ -1,85 +1,89 @@
 package types
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /*
 	TODO:
 		- Add Chain CRUD
 */
 
-func createBlankChain(chainName, address string) *Chain {
+func createBlankChain(address string) *Chain {
 	return &Chain{
-		Name: chainName,
-		Addr: address,
+		Addr:   address,
+		Tokens: make(map[string]*TokenEntry),
 	}
 }
 
-func (c *Chain) getToken(tokenName string) (*Token, error) {
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			return token, nil
-		}
+func (c *Chain) getToken(tokenName string) (*TokenEntry, error) {
+	entries := c.GetTokens()
+	if entries == nil {
+		c.Tokens = make(map[string]*TokenEntry)
+		return nil, fmt.Errorf("Token entry map was not allocated - now is")
 	}
 
-	return nil, fmt.Errorf("Token name: %s not found on account: %s", tokenName, c.GetName())
+	entry := entries[tokenName]
+	if entry == nil {
+		return nil, fmt.Errorf("Token entry w/ key: %s is nil", tokenName)
+	}
+
+	return entry, nil
+}
+
+func (c *Chain) updateAddress(address string) {
+	c.Addr = address
 }
 
 func (c *Chain) addToken(tokenName string) error {
-	// Check for existence
-	_, err := c.getToken(tokenName)
-	if err == nil {
-		return fmt.Errorf("Token: %s already exists on account: %s", tokenName, c.GetName())
+	if c.GetTokens() == nil {
+		c.Tokens = make(map[string]*TokenEntry)
 	}
 
 	// Create and add new Token
-	token := createBlankToken(tokenName)
-	c.Tokens = append(c.Tokens, token)
+	c.Tokens[tokenName] = createTokenEntry(tokenName)
 
 	fmt.Println("Token added")
 	return nil
 }
 
 func (c *Chain) removeToken(tokenName string) error {
-	var tokens []*Token
-	found := false
-
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			found = true
-			fmt.Println("Token removed")
-		} else {
-			tokens = append(tokens, token)
-		}
-	}
-
-	if !found {
-		return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
-	}
-
-	c.Tokens = tokens
-
-	return nil
-}
-
-func (c *Chain) updateTokenGeckoId(tokenName, geckoId string) error {
-	token, err := c.getToken(tokenName)
+	_, err := c.getToken(tokenName)
 	if err != nil {
 		return err
 	}
 
-	token.GeckoId = geckoId
+	delete(c.Tokens, tokenName)
+
 	return nil
 }
 
-func (c *Chain) addTokenAmount(tokenName string, amount uint32) error {
-	token, err := c.getToken(tokenName)
+func (c *Chain) updateTokenName(tokenName, newName string) error {
+	entries := c.GetTokens()
+	if entries == nil {
+		return fmt.Errorf("Chain's token map has not been allocated")
+	}
+
+	entry := entries[tokenName]
+	if entry == nil {
+		return fmt.Errorf("Token w/ key: %s is nil", tokenName)
+	}
+
+	entry.updateKey(newName)
+	return nil
+}
+
+func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
+	t, err := c.getToken(tokenName)
 	if err != nil {
 		return err
 	}
 
-	amounts := token.GetAmounts()
-	amounts.addAmount(amount)
-	return nil
+	/*
+		TODO: add support for any base denom
+	*/
+
+	return t.addTokenAmount(amount)
 }
 
 func (c *Chain) clearTokenHistory(tokenName string) error {
@@ -88,21 +92,17 @@ func (c *Chain) clearTokenHistory(tokenName string) error {
 		return err
 	}
 
-	token.GetAmounts().deleteHistory()
+	token.deleteHistory()
 	return nil
 }
 
 func (c *Chain) deleteHistory() {
-	for _, tokens := range c.GetTokens() {
-		tokens.GetAmounts().deleteHistory()
-	}
-}
+	for _, entry := range c.GetTokens() {
+		token := entry.GetValue()
+		if token == nil {
+			continue
+		}
 
-func (c *Chain) nestedPrint(indent, incr string) {
-	fmt.Printf("%sChain: %s\n", indent, c.GetName())
-	indent += incr
-
-	for _, token := range c.GetTokens() {
-		token.nestedPrint(indent, incr)
+		token.deleteHistory()
 	}
 }

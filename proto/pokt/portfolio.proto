@@ -17,35 +17,51 @@ message PriceHistory {
     repeated SpotPrice prices = 4;    
 }
 
-message AmountHistory {    
-    repeated uint32 amount = 2;
-    /*
-        Time recorded is when the amount is updated and added to the list on manual user input 
-    */
-    repeated google.protobuf.Timestamp update_times = 3;
+message AmountData {
+    double amount = 1;
+    double price = 2;
+}
+
+message AmountEntry {
+    int64 key = 1;
+    AmountData value = 2;
 }
 
 message Token {
-    string name = 1;
-    string geckoId = 2;
-    AmountHistory amounts = 3;
+    string geckoId = 1;
+    string baseDenom = 2;
+    uint64 lastPrice = 3;
+    // amounts key is the seconds from the timestamp
+    map<int64, AmountEntry> amounts = 4;
+}
+
+message TokenEntry {
+    string key = 1;
+    Token value = 2;
 }
 
 message Chain {
-    string name = 1; 
-    string addr = 2;
-    repeated Token tokens = 3;
-    google.protobuf.Timestamp last_updated = 4;
+    string addr = 1;
+    map<string, TokenEntry> tokens = 2;
+    google.protobuf.Timestamp last_updated = 3;
+}
+
+message ChainEntry {
+    string key = 1;
+    Chain value = 2;
 }
 
 message Account { 
-    string name = 1;
+    map<string, ChainEntry> chains = 1;
+}
 
-    repeated Chain chains = 3;
+message AccountEntry {
+    string key = 1;
+    Account value = 2;
 }
 
 message Portfolio { 
     string name = 1;
     repeated PriceHistory trackedTokens = 2;
-    repeated Account accounts = 3; 
+    map<string, AccountEntry> accounts = 3; 
 }

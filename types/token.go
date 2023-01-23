@@ -1,24 +1,34 @@
 package types
 
-import "fmt"
-
 /*
 	TODO:
-		- Add Token CRUD
+		- Add set base denom
 */
 
 func createBlankToken(name string) *Token {
-	amount := createAmountHistory(0)
-
 	return &Token{
-		Name:    name,
-		GeckoId: name,
-		Amounts: amount,
+		GeckoId:   name,
+		BaseDenom: "usd",
+		Amounts:   make(map[int64]*AmountEntry),
 	}
 }
 
-func (t *Token) nestedPrint(indent, incr string) {
-	nextIndent := indent + incr
-	fmt.Printf("%sToken: %s\n%sCurrent Amount: %d %s\n%sCoinGecko Id: %s\n", indent, t.GetName(), nextIndent, t.GetAmounts().Amount[len(t.GetAmounts().Amount)-1], t.GetName(), nextIndent, t.GetGeckoId())
-	t.GetAmounts().nestedPrint(nextIndent, " - ", t.GetName())
+func (t *Token) setAmount(amount float64) {
+	if t.GetAmounts() == nil {
+		t.Amounts = make(map[int64]*AmountEntry)
+	}
+
+	if t.GetBaseDenom() == "" {
+		t.BaseDenom = "usd"
+	}
+	// TODO: add baseDenom support
+	a := createAmountEntry(amount, t.GetGeckoId(), t.GetBaseDenom())
+
+	t.Amounts[a.GetKey()] = a
+}
+
+func (t *Token) deleteHistory() {
+	for entry, _ := range t.GetAmounts() {
+		delete(t.Amounts, entry)
+	}
 }

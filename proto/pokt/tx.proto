@@ -75,7 +75,7 @@ message MsgCreateAmount {
     string chain = 2;
     string account = 3;
     string portfolio = 4;
-    uint32 amount = 5;
+    double amount = 5;
 }
 
 message MsgCreateAmountResponse {
@@ -83,7 +83,8 @@ message MsgCreateAmountResponse {
 }
 
 message MsgUpdatePortfolioName {
-    string name = 1;
+    string portfolio = 1;
+    string newName = 2;
 }
 
 message MsgUpdatePortfolioNameResponse {
@@ -91,7 +92,9 @@ message MsgUpdatePortfolioNameResponse {
 }
 
 message MsgUpdateAccountName {
-    string name = 1;
+    string account = 1;
+    string newName = 2;
+    string portfolio = 3;
 }
 
 message MsgUpdateAccountNameResponse {
@@ -99,7 +102,10 @@ message MsgUpdateAccountNameResponse {
 }
 
 message MsgUpdateChainName {
-    string name = 1;
+    string chain = 1;
+    string newName = 2;
+    string account = 3;
+    string portfolio = 4;
 }
 
 message MsgUpdateChainNameResponse {
@@ -107,7 +113,10 @@ message MsgUpdateChainNameResponse {
 }
 
 message MsgUpdateAddress {
-    string address = 1;
+    string chain = 1;
+    string newName = 2;
+    string account = 3;
+    string portfolio = 4;
 }
 
 message MsgUpdateAddressResponse {
@@ -116,6 +125,10 @@ message MsgUpdateAddressResponse {
 
 message MsgUpdateTokenName {
     string name = 1;
+    string newName = 2;
+    string chain = 3;
+    string account = 4;
+    string portfolio = 5;
 }
 
 message MsgUpdateTokenNameResponse {
@@ -140,7 +153,6 @@ message MsgClearPortfolio {
 
 message MsgClearPortfolioResponse {
     types.Portfolio portfolio = 1;
-
 }
 
 message MsgClearAccount {
