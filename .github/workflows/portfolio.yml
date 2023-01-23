@@ -36,29 +36,8 @@ jobs:
     - name: Build
       run: go build
 
-    - name: Print $ATOM price
-      run: ./pokt tokenPrice cosmos usd
-
-    - name: Serve gRPC 
-      run: ./pokt serve &
-
-    - name: Create Portfolio
-      run: ./pokt createPortfolio PortfolioName
-
-    - name: Add Account AccountName to Portfolio
-      run: ./pokt addAccount AccountName
-
-    - name: Add Chain named Cosmos-Hub to Account named AccountName
-      run: ./pokt addChain AccountName Cosmos-Hub Address 
-
-    - name: Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName
-      run: ./pokt addToken AccountName Cosmos-Hub ATOM
-
-    - name: Update ATOM's CoinGecko Id to be cosmos
-      run: ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
-
-    - name: Build portfolio using bash 
-      run: chmod +x run/*.sh && bash ./run/buildPortfolio.sh
+    - name: Run bash
+      run: go ./run/buildPortfolio.sh
 
     - name: Delete the token history for ATOM
       run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 
