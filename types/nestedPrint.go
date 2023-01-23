@@ -34,8 +34,8 @@ func (t *Token) nestedPrint(indent, incr, id, symbol string) {
 	i = 0
 
 	fmt.Printf("%sHistory:\n", nextIndent)
-	for _, amount := range t.GetAmounts() {
-		amount.nestedPrint(nextIndent, " - ", symbol, i)
+	for _, entry := range t.GetAmounts() {
+		entry.nestedPrint(nextIndent, " - ", symbol, i)
 		i++
 	}
 }

@@ -2,8 +2,6 @@ package types
 
 import (
 	"fmt"
-
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 /*
@@ -18,7 +16,7 @@ func createBlankChain(address string) *Chain {
 	}
 }
 
-func (c *Chain) getToken(tokenName string) (*Token, error) {
+func (c *Chain) getToken(tokenName string) (*TokenEntry, error) {
 	entries := c.GetTokens()
 	if entries == nil {
 		c.Tokens = make(map[string]*TokenEntry)
@@ -30,12 +28,7 @@ func (c *Chain) getToken(tokenName string) (*Token, error) {
 		return nil, fmt.Errorf("Token entry w/ key: %s is nil", tokenName)
 	}
 
-	token := entry.GetValue()
-	if token == nil {
-		return nil, fmt.Errorf("Token entry w/ key: %s's value is nil", tokenName)
-	}
-
-	return token, nil
+	return entry, nil
 }
 
 func (c *Chain) updateAddress(address string) {
@@ -65,16 +58,6 @@ func (c *Chain) removeToken(tokenName string) error {
 	return nil
 }
 
-func (c *Chain) updateTokenGeckoId(tokenName, geckoId string) error {
-	token, err := c.getToken(tokenName)
-	if err != nil {
-		return err
-	}
-
-	token.GeckoId = geckoId
-	return nil
-}
-
 func (c *Chain) updateTokenName(tokenName, newName string) error {
 	entries := c.GetTokens()
 	if entries == nil {
@@ -91,7 +74,7 @@ func (c *Chain) updateTokenName(tokenName, newName string) error {
 }
 
 func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
-	token, err := c.getToken(tokenName)
+	t, err := c.getToken(tokenName)
 	if err != nil {
 		return err
 	}
@@ -100,14 +83,7 @@ func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
 		TODO: add support for any base denom
 	*/
 
-	entry := &AmountEntry{
-		Key:   timestamppb.Now().Seconds,
-		Value: createAmountData(amount, tokenName, "usd"),
-	}
-
-	token.setAmount(entry.GetKey(), entry)
-
-	return nil
+	return t.addTokenAmount(amount)
 }
 
 func (c *Chain) clearTokenHistory(tokenName string) error {

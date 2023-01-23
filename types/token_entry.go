@@ -9,6 +9,20 @@ func createTokenEntry(name string) *TokenEntry {
 	}
 }
 
+func (e *TokenEntry) addTokenAmount(amount float64) error {
+	t := e.GetValue()
+	if t == nil {
+		return fmt.Errorf("Token entry w/ key %s has a null value", e.GetKey())
+	}
+
+	t.setAmount(amount)
+	return nil
+}
+
+func (e *TokenEntry) deleteHistory() {
+	e.GetValue().deleteHistory()
+}
+
 func (e *TokenEntry) getAmountData(time int64) (*AmountData, error) {
 	token := e.GetValue()
 	if token == nil {

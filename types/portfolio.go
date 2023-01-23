@@ -29,7 +29,8 @@ func (p *Portfolio) GetAccountEntry(accountName string) (*AccountEntry, error) {
 func (p *Portfolio) GetAccount(name string) (*Account, error) {
 	accounts := p.GetAccounts()
 	if accounts == nil {
-		return nil, fmt.Errorf("Portfolio w/ name: %s's account is not allocated", p.GetName())
+		p.Accounts = make(map[string]*AccountEntry)
+		return nil, fmt.Errorf("Portfolio w/ name: %s's account was not allocated", p.GetName())
 	}
 
 	account := accounts[name]
@@ -41,8 +42,8 @@ func (p *Portfolio) GetAccount(name string) (*Account, error) {
 }
 
 func (p *Portfolio) setAccount(name string, account *AccountEntry) {
-	if p.GetAccounts() == nil {
-		p.Accounts = make(map[string]*AccountEntry)
+	if _, err := p.GetAccount(name); err != nil {
+		fmt.Println("adding new account")
 	}
 
 	p.Accounts[name] = account
@@ -161,15 +162,6 @@ func (p *Portfolio) RemoveToken(accountName, chainName, tokenName string) error 
 	}
 
 	return account.removeToken(chainName, tokenName)
-}
-
-func (p *Portfolio) UpdateTokenGeckoId(accountName, chainName, tokenName, geckoId string) error {
-	account, err := p.GetAccount(accountName)
-	if err != nil {
-		return err
-	}
-
-	return account.updateTokenGeckoId(chainName, tokenName, geckoId)
 }
 
 func (p *Portfolio) AddTokenAmount(accountName, chainName, tokenName string, amount float64) error {

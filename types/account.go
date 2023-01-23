@@ -14,9 +14,15 @@ func createAccount() *Account {
 }
 
 func (a *Account) getChain(chainName string) (*Chain, error) {
-	entry := a.GetChains()[chainName]
+	entries := a.GetChains()
+	if entries == nil {
+		a.Chains = make(map[string]*ChainEntry)
+		return nil, fmt.Errorf("Chain map was not allocated in account", chainName)
+	}
+
+	entry := entries[chainName]
 	if entry == nil {
-		return nil, fmt.Errorf("Chain name: %s not found on account", chainName)
+		return nil, fmt.Errorf("Chain name: %s not found", chainName)
 	}
 
 	chain := entry.GetValue()
@@ -124,15 +130,6 @@ func (a *Account) removeToken(chainName, tokenName string) error {
 	}
 
 	return chain.removeToken(tokenName)
-}
-
-func (a *Account) updateTokenGeckoId(chainName, tokenName, geckoId string) error {
-	chain, err := a.getChain(chainName)
-	if err != nil {
-		return err
-	}
-
-	return chain.updateTokenGeckoId(tokenName, geckoId)
 }
 
 func (a *Account) addTokenAmount(chainName, tokenName string, amount float64) error {

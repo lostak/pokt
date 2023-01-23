@@ -13,12 +13,14 @@ func createBlankToken(name string) *Token {
 	}
 }
 
-func (t *Token) setAmount(key int64, value *AmountEntry) {
+func (t *Token) setAmount(amount float64) {
 	if t.GetAmounts() == nil {
 		t.Amounts = make(map[int64]*AmountEntry)
 	}
 
-	t.Amounts[key] = value
+	a := createAmountEntry(amount, t.GetGeckoId(), t.GetGeckoId())
+
+	t.Amounts[a.GetKey()] = a
 }
 
 func (t *Token) deleteHistory() {
