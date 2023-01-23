@@ -78,6 +78,21 @@ func (a *Account) updateAddress(chainName, address string) error {
 	return nil
 }
 
+func (a *Account) addChainEntry(chain *ChainEntry) error {
+	entries := a.GetChains()
+	if entries == nil {
+		return fmt.Errorf("Chain map not allocated")
+	}
+
+	entry := entries[chain.GetKey()]
+	if entry != nil {
+		return fmt.Errorf("Chain w/ key %s already exists", chain.GetKey())
+	}
+
+	entries[chain.GetKey()] = chain
+	return nil
+}
+
 func (a *Account) addChain(chainName, address string) error {
 	// Check for existence
 	if _, err := a.getChain(chainName); err == nil {
