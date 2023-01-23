@@ -7,43 +7,56 @@ import "fmt"
 		- Add Account CRUD
 */
 
-func createBlankAccount(accountName string) *Account {
-	return &Account{
-		Name: accountName,
-	}
+func createAccount() *Account {
+	return &Account{Chains: make(map[string]*ChainEntry)}
 }
 
 func (a *Account) getChain(chainName string) (*Chain, error) {
-	for _, chain := range a.GetChains() {
-		if chain.GetName() == chainName {
-			return chain, nil
-		}
+	entry := a.GetChains()[chainName]
+	if entry == nil {
+		return nil, fmt.Errorf("Chain name: %s not found on account", chainName)
 	}
 
-	return nil, fmt.Errorf("Chain name: %s not found on account: %s", chainName, a.GetName())
-}
+	chain := entry.GetValue()
+	if chain == nil {
+		return nil, fmt.Errorf("Chain entry w/ key: %s's value is nil", chainName)
+	}
 
-func (a *Account) updateName(name string) {
-	a.Name = name
+	return chain, nil
 }
 
 func (a *Account) updateChainName(chainName, newName string) error {
-	chain, err := a.getChain(chainName)
-	if err != nil {
-		return err
+	entries := a.GetChains()
+	if entries == nil {
+		return fmt.Errorf("Account's chain map has not been allocated")
 	}
 
-	chain.updateName(newName)
+	entry := entries[chainName]
+	if entry == nil {
+		return fmt.Errorf("Chain w/ key: %s is nil", chainName)
+	}
+
+	entry.updateKey(newName)
 	return nil
 }
 
 func (a *Account) updateTokenName(chainName, token, newName string) error {
-	chain, err := a.getChain(chainName)
-	if err != nil {
-		return err
+	entries := a.GetChains()
+	if entries == nil {
+		return fmt.Errorf("Account's chain map has not been allocated")
 	}
 
-	err = chain.updateTokenName(token, newName)
+	entry := entries[chainName]
+	if entry == nil {
+		return fmt.Errorf("Chain w/ key: %s is nil", chainName)
+	}
+
+	chain := entry.GetValue()
+	if chain == nil {
+		return fmt.Errorf("Chain w/ key: %s's value is nil", chainName)
+	}
+
+	err := chain.updateTokenName(token, newName)
 	if err != nil {
 		return err
 	}
@@ -64,35 +77,24 @@ func (a *Account) updateAddress(chainName, address string) error {
 func (a *Account) addChain(chainName, address string) error {
 	// Check for existence
 	if _, err := a.getChain(chainName); err == nil {
-		return fmt.Errorf("Chain name: %s already exists on account: %s", chainName, a.GetName())
+		return fmt.Errorf("Chain name: %s already exists on account", chainName)
 	}
 
 	// Create and add new Chain
-	chain := createBlankChain(chainName, address)
-	a.Chains = append(a.Chains, chain)
+	chain := createBlankChain(address)
+	a.Chains[chainName] = createChainEntry(chainName, chain)
 
 	fmt.Println("Chain added")
 	return nil
 }
 
 func (a *Account) removeChain(chainName string) error {
-	var chains []*Chain
-	found := false
-
-	for _, chain := range a.GetChains() {
-		if chain.GetName() == chainName {
-			found = true
-			fmt.Println("Chain removed")
-		} else {
-			chains = append(chains, chain)
-		}
+	_, err := a.getChain(chainName)
+	if err != nil {
+		return err
 	}
 
-	if !found {
-		return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
-	}
-
-	a.Chains = chains
+	delete(a.Chains, chainName)
 	return nil
 }
 
@@ -142,27 +144,44 @@ func (a *Account) clearTokenHistory(chainName, tokenName string) error {
 }
 
 func (a *Account) clearChainHistory(chainName string) error {
-	for _, chain := range a.GetChains() {
-		if chain.GetName() == chainName {
-			chain.deleteHistory()
-			return nil
-		}
+	chain, err := a.getChain(chainName)
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf("Chain: %s not found in account: %s", chainName, a.GetName())
+	chain.deleteHistory()
+	return nil
 }
 
 func (a *Account) deleteHistory() {
-	for _, chain := range a.GetChains() {
+	for _, entry := range a.GetChains() {
+		chain := entry.GetValue()
+		if chain == nil {
+			continue
+		}
+
 		chain.deleteHistory()
 	}
 }
 
-func (a *Account) nestedPrint(indent, incr string) {
-	fmt.Printf("%sAccount: %s\n", indent, a.GetName())
-	indent += incr
+func (e *AccountEntry) nestedPrint(indent, incr string) {
+	fmt.Printf("%sAccount: %s\n", indent, e.GetKey())
+	account := e.GetValue()
+	if account == nil {
+		return
+	}
 
-	for _, chain := range a.GetChains() {
-		chain.nestedPrint(indent, incr)
+	indent += incr
+	account.nestedPrint(indent, incr)
+}
+
+func (a *Account) nestedPrint(indent, incr string) {
+	for _, entry := range a.GetChains() {
+		chain := entry.GetValue()
+		if chain == nil {
+			continue
+		}
+
+		chain.nestedPrint(indent, incr, entry.GetKey())
 	}
 }

@@ -11,21 +11,33 @@ func createBlankToken(name string) *Token {
 	/*
 		TODO: add support for any base denom
 	*/
-	amount := createAmountHistory(0, name, "usd")
+	amount := make(map[int64]*AmountEntry)
 
 	return &Token{
-		Name:    name,
 		GeckoId: name,
 		Amounts: amount,
 	}
 }
 
-func (t *Token) updateName(name string) {
-	t.Name = name
+func (t *Token) setAmount(key int64, value *AmountEntry) {
+	t.Amounts[key] = value
 }
 
-func (t *Token) nestedPrint(indent, incr string) {
+func (t *Token) deleteHistory() {
+	for entry, _ := range t.GetAmounts() {
+		delete(t.Amounts, entry)
+	}
+}
+
+func (t *Token) nestedPrint(indent, incr, symbol string) {
 	nextIndent := indent + incr
-	fmt.Printf("%sToken: %s\n%sCurrent Amount: %d %s\n%sCoinGecko Id: %s\n", indent, t.GetName(), nextIndent, t.GetAmounts().Amount[len(t.GetAmounts().Amount)-1], t.GetName(), nextIndent, t.GetGeckoId())
-	t.GetAmounts().nestedPrint(nextIndent, " - ", t.GetName())
+	fmt.Printf("%sCurrent Amount: %d %s\n%sCoinGecko Id: %s\n", indent)
+	var i uint32
+	i = 0
+
+	fmt.Printf("%sHistory:\n", nextIndent)
+	for _, amount := range t.GetAmounts() {
+		amount.nestedPrint(nextIndent, " - ", symbol, i)
+		i++
+	}
 }

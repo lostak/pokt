@@ -9,65 +9,117 @@ import (
 */
 
 func CreateBlankPortfolio(name string) *Portfolio {
+	accounts := make(map[string]*AccountEntry)
+
 	return &Portfolio{
-		Name: name,
+		Name:     name,
+		Accounts: accounts,
 	}
 }
 
-func (p *Portfolio) AddAccount(accountName string) error {
-	for _, account := range p.GetAccounts() {
-		if account.GetName() == accountName {
-			return fmt.Errorf("Account name: %s already exists", accountName)
-		}
+func (p *Portfolio) GetAccountEntry(accountName string) (*AccountEntry, error) {
+	account := p.GetAccounts()[accountName]
+	if account == nil {
+		return nil, fmt.Errorf("Account %s not found\n", accountName)
 	}
 
-	account := createBlankAccount(accountName)
-	p.Accounts = append(p.Accounts, account)
+	return account, nil
+}
+
+func (p *Portfolio) GetAccount(name string) (*Account, error) {
+	accounts := p.GetAccounts()
+	if accounts == nil {
+		return nil, fmt.Errorf("Portfolio w/ name: %s's account is not allocated", p.GetName())
+	}
+
+	account := accounts[name]
+	if account == nil {
+		return nil, fmt.Errorf("Account w/ key: %s's value is null", name)
+	}
+
+	return account.GetValue(), nil
+}
+
+func (p *Portfolio) setAccount(name string, account *AccountEntry) {
+	p.Accounts[name] = account
+}
+
+func (p *Portfolio) GetChainEntry(accountName, chainName string) (*ChainEntry, error) {
+	entry, err := p.GetAccountEntry(accountName)
+	if err != nil {
+		return nil, err
+	}
+
+	chain, err := entry.getChainEntry(chainName)
+	if err != nil {
+		return nil, err
+	}
+
+	return chain, nil
+}
+
+func (p *Portfolio) GetTokenEntry(accountName, chainName, tokenName string) (*TokenEntry, error) {
+	entry, err := p.GetChainEntry(accountName, chainName)
+	if err != nil {
+		return nil, err
+	}
+
+	token, err := entry.getTokenEntry(tokenName)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
+}
+
+func (p *Portfolio) GetAmountData(accountName, chainName, tokenName string, time int64) (*AmountData, error) {
+	token, err := p.GetTokenEntry(accountName, chainName, tokenName)
+	if err != nil {
+		return nil, err
+	}
+
+	entry, err := token.getAmountData(time)
+	if err != nil {
+		return nil, err
+	}
+
+	return entry, nil
+}
+
+func (p *Portfolio) AddAccount(accountName string) error {
+	if _, err := p.GetAccount(accountName); err == nil {
+		return fmt.Errorf("Account already exits with name: %s on portfolio: %s", accountName, p.GetName())
+	}
+
+	account := createAccountEntry(accountName)
+	p.setAccount(accountName, account)
 
 	fmt.Println("Account added")
 	return nil
 }
 
 func (p *Portfolio) RemoveAccount(accountName string) error {
-	var accounts []*Account
-	found := false
-
-	// Iterate through accounts and omit all accounts w/ same name
-	for _, account := range p.GetAccounts() {
-		if account.GetName() == accountName {
-			found = true
-			fmt.Println("Account removed")
-		} else {
-			accounts = append(accounts, account)
-		}
-	}
-
-	if !found {
-		return fmt.Errorf("Account: %s not found", accountName)
-	}
-
-	// update portfolio
-	p.Accounts = accounts
-	return nil
-}
-
-func (p *Portfolio) GetAccount(accountName string) (*Account, error) {
-	for _, account := range p.GetAccounts() {
-		if account.GetName() == accountName {
-			return account, nil
-		}
-	}
-
-	return nil, fmt.Errorf("Account: %s not found\n", accountName)
-}
-
-func (p *Portfolio) UpdateAccountName(accountName, newName string) error {
-	account, err := p.GetAccount(accountName)
+	_, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
 
-	account.updateName(newName)
+	delete(p.Accounts, accountName)
+
+	return nil
+}
+
+func (p *Portfolio) UpdateAccountName(accountName, newName string) error {
+	account, err := p.GetAccountEntry(accountName)
+	if err != nil {
+		return err
+	}
+
+	oldKey := account.GetKey()
+	account.updateKey(newName)
+	p.setAccount(newName, account)
+	delete(p.Accounts, oldKey)
+
 	return nil
 }
 
@@ -154,7 +206,12 @@ func (p *Portfolio) ClearAccountHistory(accountName string) error {
 }
 
 func (p *Portfolio) deleteHistory() {
-	for _, account := range p.GetAccounts() {
+	for _, entry := range p.GetAccounts() {
+		account := entry.GetValue()
+		if account == nil {
+			continue
+		}
+
 		account.deleteHistory()
 	}
 }
@@ -166,7 +223,12 @@ func (p *Portfolio) ClearHistory() {
 func (p *Portfolio) nestedPrint(indent, incr string) {
 	fmt.Printf("Portfolio: %s\n", p.GetName())
 
-	for _, account := range p.GetAccounts() {
+	for _, entry := range p.GetAccounts() {
+		account := entry.GetValue()
+		if account == nil {
+			continue
+		}
+
 		account.nestedPrint(indent, incr)
 	}
 }

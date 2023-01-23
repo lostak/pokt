@@ -1,80 +1,70 @@
 package types
 
-import "fmt"
+import (
+	"fmt"
+
+	"google.golang.org/protobuf/types/known/timestamppb"
+)
 
 /*
 	TODO:
 		- Add Chain CRUD
 */
 
-func createBlankChain(chainName, address string) *Chain {
+func createBlankChain(address string) *Chain {
+	tokens := make(map[string]*TokenEntry)
+
 	return &Chain{
-		Name: chainName,
-		Addr: address,
+		Addr:   address,
+		Tokens: tokens,
 	}
 }
 
 func (c *Chain) getToken(tokenName string) (*Token, error) {
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			return token, nil
-		}
+	entries := c.GetTokens()
+	if entries == nil {
+		return nil, fmt.Errorf("Token entry map is not allocated")
 	}
 
-	return nil, fmt.Errorf("Token name: %s not found on account: %s", tokenName, c.GetName())
-}
+	entry := entries[tokenName]
+	if entry == nil {
+		return nil, fmt.Errorf("Token entry w/ key: %s is nil", tokenName)
+	}
 
-func (c *Chain) updateName(name string) {
-	c.Name = name
+	token := entry.GetValue()
+	if token == nil {
+		return nil, fmt.Errorf("Token entry w/ key: %s's value is nil", tokenName)
+	}
+
+	return token, nil
 }
 
 func (c *Chain) updateAddress(address string) {
 	c.Addr = address
 }
 
-func (c *Chain) updateTokenName(tokenName, newName string) error {
-	token, err := c.getToken(tokenName)
-	if err != nil {
-		return err
-	}
-
-	token.updateName(newName)
-	return nil
-}
-
 func (c *Chain) addToken(tokenName string) error {
 	// Check for existence
 	_, err := c.getToken(tokenName)
 	if err == nil {
-		return fmt.Errorf("Token: %s already exists on account: %s", tokenName, c.GetName())
+		return fmt.Errorf("Token: %s already exists on account", tokenName)
 	}
 
 	// Create and add new Token
-	token := createBlankToken(tokenName)
-	c.Tokens = append(c.Tokens, token)
+	token := createTokenEntry(tokenName)
+	c.Tokens[tokenName] = token
 
 	fmt.Println("Token added")
 	return nil
 }
 
 func (c *Chain) removeToken(tokenName string) error {
-	var tokens []*Token
-	found := false
-
-	for _, token := range c.GetTokens() {
-		if token.GetName() == tokenName {
-			found = true
-			fmt.Println("Token removed")
-		} else {
-			tokens = append(tokens, token)
-		}
+	_, err := c.getToken(tokenName)
+	if err != nil {
+		return err
 	}
 
-	if !found {
-		return fmt.Errorf("Token: %s not found in chain: %s", tokenName, c.GetName())
-	}
-
-	c.Tokens = tokens
+	delete(c.Tokens, tokenName)
 
 	return nil
 }
@@ -89,6 +79,21 @@ func (c *Chain) updateTokenGeckoId(tokenName, geckoId string) error {
 	return nil
 }
 
+func (c *Chain) updateTokenName(tokenName, newName string) error {
+	entries := c.GetTokens()
+	if entries == nil {
+		return fmt.Errorf("Chain's token map has not been allocated")
+	}
+
+	entry := entries[tokenName]
+	if entry == nil {
+		return fmt.Errorf("Token w/ key: %s is nil", tokenName)
+	}
+
+	entry.updateKey(newName)
+	return nil
+}
+
 func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
 	token, err := c.getToken(tokenName)
 	if err != nil {
@@ -99,8 +104,13 @@ func (c *Chain) addTokenAmount(tokenName string, amount float64) error {
 		TODO: add support for any base denom
 	*/
 
-	amounts := token.GetAmounts()
-	amounts.addAmount(amount, token.GetGeckoId(), "usd")
+	entry := &AmountEntry{
+		Key:   timestamppb.Now().Seconds,
+		Value: createAmountData(amount, tokenName, "usd"),
+	}
+
+	token.setAmount(entry.GetKey(), entry)
+
 	return nil
 }
 
@@ -110,18 +120,23 @@ func (c *Chain) clearTokenHistory(tokenName string) error {
 		return err
 	}
 
-	token.GetAmounts().deleteHistory()
+	token.deleteHistory()
 	return nil
 }
 
 func (c *Chain) deleteHistory() {
-	for _, tokens := range c.GetTokens() {
-		tokens.GetAmounts().deleteHistory()
+	for _, entry := range c.GetTokens() {
+		token := entry.GetValue()
+		if token == nil {
+			continue
+		}
+
+		token.deleteHistory()
 	}
 }
 
-func (c *Chain) nestedPrint(indent, incr string) {
-	fmt.Printf("%sChain: %s\n", indent, c.GetName())
+func (c *Chain) nestedPrint(indent, incr, name string) {
+	fmt.Printf("%sChain: \n", indent, name)
 	indent += incr
 
 	for _, token := range c.GetTokens() {
