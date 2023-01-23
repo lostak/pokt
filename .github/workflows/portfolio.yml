@@ -37,7 +37,7 @@ jobs:
       run: go build
 
     - name: Run bash demo CRUD
-      run: bash ./run/buildPortfolio.sh
+      run: bash .github/wokrflows/buildPortfolio.sh
 
   #    - name: Print All CoinGecko Coin Names, Ids and Symbols
   #      run: ./pokt printAllCoinIds
