@@ -23,7 +23,7 @@ echo "Update ATOM's CoinGecko Id to be cosmos"
 ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
 echo "add 4 accounts"
-bash ./addAccounts.sh
+bash ./../../addAccounts.sh
 
 echo "add 4 chains to each account"
 bash ./addChains.sh
