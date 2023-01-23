@@ -2,11 +2,11 @@ package types
 
 import "fmt"
 
-func (d *AmountData) nestedPrint(indent, incr, symbol string, time int64) {
-	fmt.Printf("%sTime: %d \n%sAmount:%f %s\n%sPrice:%f\n", indent, time, indent, d.GetAmount(), symbol, indent, d.GetPrice())
+func (d *AmountData) nestedPrint(indent, incr, symbol, baseDenom string, time int64) {
+	fmt.Printf("%sTime: \t%d\n%sAmount:\t%f %s\n%sPrice:\t%f %s\n", indent, time, indent, d.GetAmount(), symbol, indent, d.GetPrice(), baseDenom)
 }
 
-func (e *AmountEntry) nestedPrint(indent, incr, symbol string, num uint32) {
+func (e *AmountEntry) nestedPrint(indent, incr, symbol, baseDenom string, num uint32) {
 
 	var nextIndent string
 
@@ -24,7 +24,7 @@ func (e *AmountEntry) nestedPrint(indent, incr, symbol string, num uint32) {
 	nextIndent = indent + incr
 	fmt.Printf("%sEntry #%d:\n", indent, num)
 
-	data.nestedPrint(nextIndent, incr, symbol, e.GetKey())
+	data.nestedPrint(nextIndent, incr, symbol, baseDenom, e.GetKey())
 }
 
 func (t *Token) nestedPrint(indent, incr, symbol string) {
@@ -33,9 +33,10 @@ func (t *Token) nestedPrint(indent, incr, symbol string) {
 	var i uint32
 	i = 0
 
-	fmt.Printf("%sHistory:\n", nextIndent)
+	// Entries are not printed in chronological order
+	fmt.Printf("%sEntries:\n", indent)
 	for _, entry := range t.GetAmounts() {
-		entry.nestedPrint(nextIndent, " - ", symbol, i)
+		entry.nestedPrint(nextIndent, " - ", symbol, t.GetBaseDenom(), i)
 		i++
 	}
 }
