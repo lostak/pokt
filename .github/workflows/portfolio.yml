@@ -58,7 +58,7 @@ jobs:
       run: ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
     - name: Build portfolio using bash 
-      run: chmod +x run/buildPortfolio.sh && bash ./run/buildPortfolio.sh
+      run: chmod +x run/*.sh && bash ./run/buildPortfolio.sh
 
     - name: Delete the token history for ATOM
       run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 
