@@ -36,6 +36,9 @@ jobs:
     - name: Build
       run: go build
 
+    - name: Run gRPC server  
+      run: ./pokt serve &
+
     - name: Run bash
       run: bash ./run/buildPortfolio.sh
 
