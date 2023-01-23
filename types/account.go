@@ -78,31 +78,28 @@ func (a *Account) updateAddress(chainName, address string) error {
 	return nil
 }
 
-func (a *Account) addChainEntry(chain *ChainEntry) error {
-	entries := a.GetChains()
-	if entries == nil {
-		a.Chains = make(map[string]*ChainEntry)
-	}
-
-	entry := entries[chain.GetKey()]
-	if entry != nil {
-		return fmt.Errorf("Chain w/ key %s already exists", chain.GetKey())
-	}
-
-	entries[chain.GetKey()] = chain
-	return nil
+func (a *Account) addChainEntry(chain *ChainEntry) {
+	a.Chains[chain.GetKey()] = chain
 }
 
 func (a *Account) addChain(chainName, address string) error {
-	// Check for existence
-	if _, err := a.getChain(chainName); err == nil {
-		return fmt.Errorf("Chain name: %s already exists on account", chainName)
+	entries := a.GetChains()
+	if entries == nil {
+		entries = make(map[string]*ChainEntry)
 	}
 
-	// Create and add new Chain
-	a.Chains[chainName] = createChainEntry(chainName)
+	_, err := a.getChain(chainName)
+	if err == nil {
+		return fmt.Errorf("Chain w/ key %s already exists", chainName)
+	}
 
-	fmt.Println("Chain added")
+	entry := createChainEntry(chainName)
+
+	a.addChainEntry(entry)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

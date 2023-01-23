@@ -128,24 +128,12 @@ func (p *Portfolio) UpdateAccountName(accountName, newName string) error {
 }
 
 func (p *Portfolio) AddChain(accountName, chainName, address string) error {
-
-	_, err := p.GetChainEntry(accountName, chainName)
-	if err == nil {
-		return fmt.Errorf("Chain w/ key %s already exists", chainName)
-	}
-
-	entry := createChainEntry(chainName)
 	account, err := p.GetAccount(accountName)
 	if err != nil {
 		return err
 	}
 
-	err = account.addChainEntry(entry)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return account.addChain(chainName, address)
 }
 
 func (p *Portfolio) RemoveChain(accountName, chainName string) error {
