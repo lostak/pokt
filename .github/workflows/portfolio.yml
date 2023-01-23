@@ -63,18 +63,17 @@ jobs:
     - name: Update ATOM's CoinGecko Id to be cosmos
       run: ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
-    - name: Add 10 amount to ATOM's amount history 
-      run: >
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 10 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 9 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 8 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 7 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 6 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 5 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 4 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 3 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 2 &&
-        ./pokt addAmount AccountName Cosmos-Hub ATOM 1 
+    - name: Add 10 accounts
+      run: bash ./run/addAccounts.sh
+
+    - name: Add 10 chains
+      run: bash ./run/addChains.sh
+
+    - name: Add 10 tokens
+      run: bash ./run/addTokens.sh
+    
+    - name: Add 10 amounts
+      run: bash ./run/addAmounts.sh
 
     - name: Delete the token history for ATOM
       run: ./pokt deleteTokenHistory AccountName Cosmos-Hub ATOM 

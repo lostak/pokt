@@ -18,8 +18,11 @@ func (t *Token) setAmount(amount float64) {
 		t.Amounts = make(map[int64]*AmountEntry)
 	}
 
+	if t.GetBaseDenom() == "" {
+		t.BaseDenom = "usd"
+	}
 	// TODO: add baseDenom support
-	a := createAmountEntry(amount, t.GetGeckoId(), "usd")
+	a := createAmountEntry(amount, t.GetGeckoId(), t.GetBaseDenom())
 
 	t.Amounts[a.GetKey()] = a
 }
