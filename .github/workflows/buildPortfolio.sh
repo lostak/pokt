@@ -22,9 +22,6 @@ echo "Add Token named ATOM to Cosmos-Hub Chain for Account named AccountName"
 echo "Update ATOM's CoinGecko Id to be cosmos"
 ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
-echo "cur dir"
-ls .
-
 echo "add 4 accounts"
 bash ./.github/workflows/addAccounts.sh
 
