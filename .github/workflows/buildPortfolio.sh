@@ -26,25 +26,25 @@ echo "cur dir"
 ls .
 
 echo "add 4 accounts"
-bash ./addAccounts.sh
+bash ./.github/workflows/addAccounts.sh
 
 echo "add 4 chains to each account"
-bash ./addChains.sh
+bash ./.github/workflows/addChains.sh
 
 echo "add 1 token to each chain on each account"
-bash ./addTokens.sh
+bash ./.github/workflows/addTokens.sh
 
 echo "add amounts to each token on each chain on each account"
-bash ./addAmounts.sh
+bash ./.github/workflows/addAmounts.sh
 
 echo "clear histories"
-bash ./clearHistories.sh
+bash ./.github/workflows/clearHistories.sh
 
 echo "update CoinGecko Id"
-bash ./updateGeckoId.sh 
+bash ./.github/workflows/updateGeckoId.sh 
 
 echo "remove tokens, chains and accounts"
-bash ./removal.sh
+bash ./.github/workflows/removal.sh
 
 echo "create a new portfolio"
 ./pokt createPortfolio BrandNew
