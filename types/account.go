@@ -79,6 +79,10 @@ func (a *Account) updateAddress(chainName, address string) error {
 }
 
 func (a *Account) addChainEntry(chain *ChainEntry) {
+	if x := a.GetChains(); x == nil {
+		a.Chains = make(map[string]*ChainEntry)
+	}
+
 	a.Chains[chain.GetKey()] = chain
 }
 
