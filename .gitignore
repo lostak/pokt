@@ -1,3 +1,4 @@
 *.db
 pokt
 ./node_modules/*
+node_modules/
