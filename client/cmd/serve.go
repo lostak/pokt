@@ -42,7 +42,7 @@ var serveCmd = &cobra.Command{
 		}
 
 		s := grpc.NewServer()
-		server.RegisterMsgServer(s, &server.PoktServer{})
+		server.RegisterMsgServiceServer(s, &server.PoktServer{})
 		fmt.Printf("server listening at: %v\n", lis.Addr())
 		if err := s.Serve(lis); err != nil {
 			fmt.Printf("Failed to serve: %v\n", err)

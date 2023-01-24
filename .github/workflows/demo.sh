@@ -13,17 +13,8 @@ echo -e "\nAdd Token named ATOM to Cosmos-Hub Chain for Account named AccountNam
 echo -e "\nUpdate ATOM's CoinGecko Id to be cosmos\n"
 ./pokt updateGeckoId AccountName Cosmos-Hub ATOM cosmos
 
-echo -e "\nadd 4 accounts\n"
-bash ./.github/workflows/addAccounts.sh
-
-echo -e "\nadd 4 chains to each account\n"
-bash ./.github/workflows/addChains.sh
-
-echo -e "\nadd 1 token to each chain on each account\n"
-bash ./.github/workflows/addTokens.sh
-
-echo -e "\nadd amounts to each token on each chain on each account\n"
-bash ./.github/workflows/addAmounts.sh
+echo -e "\nadd types"
+bash ./.github/workflows/addTypes.sh
 
 echo -e "\nclear histories\n"
 bash ./.github/workflows/clearHistories.sh

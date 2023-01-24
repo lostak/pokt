@@ -3,7 +3,7 @@ package types
 import "fmt"
 
 func (d *AmountData) nestedPrint(indent, incr, symbol, baseDenom string, time int64) {
-	fmt.Printf("%sTime: \t%d\n%sAmount:\t%f %s\n%sPrice:\t%f %s\n", indent, time, indent, d.GetAmount(), symbol, indent, d.GetPrice(), baseDenom)
+	fmt.Printf("%sTime: \t%d seconds\n%sAmount:\t%f %s\n%sPrice:\t%f %s\n", indent, time, indent, d.GetAmount(), symbol, indent, d.GetPrice(), baseDenom)
 }
 
 func (e *AmountEntry) nestedPrint(indent, incr, symbol, baseDenom string, num uint32) {

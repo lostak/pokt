@@ -18,10 +18,10 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// QueryClient is the client API for Query service.
+// QueryServiceClient is the client API for QueryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type QueryClient interface {
+type QueryServiceClient interface {
 	GetPortfolio(ctx context.Context, in *MsgGetPortfolio, opts ...grpc.CallOption) (*MsgGetPortfolioResponse, error)
 	// rpc GetAccounts(MsgGetAccounts) returns (stream MsgGetAccountsResponse);
 	GetAccount(ctx context.Context, in *MsgGetAccount, opts ...grpc.CallOption) (*MsgGetAccountResponse, error)
@@ -32,63 +32,63 @@ type QueryClient interface {
 	GetAmounts(ctx context.Context, in *MsgGetAmounts, opts ...grpc.CallOption) (*MsgGetAmountsResponse, error)
 }
 
-type queryClient struct {
+type queryServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewQueryClient(cc grpc.ClientConnInterface) QueryClient {
-	return &queryClient{cc}
+func NewQueryServiceClient(cc grpc.ClientConnInterface) QueryServiceClient {
+	return &queryServiceClient{cc}
 }
 
-func (c *queryClient) GetPortfolio(ctx context.Context, in *MsgGetPortfolio, opts ...grpc.CallOption) (*MsgGetPortfolioResponse, error) {
+func (c *queryServiceClient) GetPortfolio(ctx context.Context, in *MsgGetPortfolio, opts ...grpc.CallOption) (*MsgGetPortfolioResponse, error) {
 	out := new(MsgGetPortfolioResponse)
-	err := c.cc.Invoke(ctx, "/pokt.server.Query/GetPortfolio", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.QueryService/GetPortfolio", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetAccount(ctx context.Context, in *MsgGetAccount, opts ...grpc.CallOption) (*MsgGetAccountResponse, error) {
+func (c *queryServiceClient) GetAccount(ctx context.Context, in *MsgGetAccount, opts ...grpc.CallOption) (*MsgGetAccountResponse, error) {
 	out := new(MsgGetAccountResponse)
-	err := c.cc.Invoke(ctx, "/pokt.server.Query/GetAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.QueryService/GetAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetChain(ctx context.Context, in *MsgGetChain, opts ...grpc.CallOption) (*MsgGetChainResponse, error) {
+func (c *queryServiceClient) GetChain(ctx context.Context, in *MsgGetChain, opts ...grpc.CallOption) (*MsgGetChainResponse, error) {
 	out := new(MsgGetChainResponse)
-	err := c.cc.Invoke(ctx, "/pokt.server.Query/GetChain", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.QueryService/GetChain", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetToken(ctx context.Context, in *MsgGetToken, opts ...grpc.CallOption) (*MsgGetTokenResponse, error) {
+func (c *queryServiceClient) GetToken(ctx context.Context, in *MsgGetToken, opts ...grpc.CallOption) (*MsgGetTokenResponse, error) {
 	out := new(MsgGetTokenResponse)
-	err := c.cc.Invoke(ctx, "/pokt.server.Query/GetToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.QueryService/GetToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *queryClient) GetAmounts(ctx context.Context, in *MsgGetAmounts, opts ...grpc.CallOption) (*MsgGetAmountsResponse, error) {
+func (c *queryServiceClient) GetAmounts(ctx context.Context, in *MsgGetAmounts, opts ...grpc.CallOption) (*MsgGetAmountsResponse, error) {
 	out := new(MsgGetAmountsResponse)
-	err := c.cc.Invoke(ctx, "/pokt.server.Query/GetAmounts", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pokt.server.QueryService/GetAmounts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// QueryServer is the server API for Query service.
-// All implementations must embed UnimplementedQueryServer
+// QueryServiceServer is the server API for QueryService service.
+// All implementations must embed UnimplementedQueryServiceServer
 // for forward compatibility
-type QueryServer interface {
+type QueryServiceServer interface {
 	GetPortfolio(context.Context, *MsgGetPortfolio) (*MsgGetPortfolioResponse, error)
 	// rpc GetAccounts(MsgGetAccounts) returns (stream MsgGetAccountsResponse);
 	GetAccount(context.Context, *MsgGetAccount) (*MsgGetAccountResponse, error)
@@ -97,157 +97,157 @@ type QueryServer interface {
 	// rpc GetTokens(MsgGetTokens) returns (stream MsgGetTokensResponse)
 	GetToken(context.Context, *MsgGetToken) (*MsgGetTokenResponse, error)
 	GetAmounts(context.Context, *MsgGetAmounts) (*MsgGetAmountsResponse, error)
-	mustEmbedUnimplementedQueryServer()
+	mustEmbedUnimplementedQueryServiceServer()
 }
 
-// UnimplementedQueryServer must be embedded to have forward compatible implementations.
-type UnimplementedQueryServer struct {
+// UnimplementedQueryServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedQueryServiceServer struct {
 }
 
-func (UnimplementedQueryServer) GetPortfolio(context.Context, *MsgGetPortfolio) (*MsgGetPortfolioResponse, error) {
+func (UnimplementedQueryServiceServer) GetPortfolio(context.Context, *MsgGetPortfolio) (*MsgGetPortfolioResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPortfolio not implemented")
 }
-func (UnimplementedQueryServer) GetAccount(context.Context, *MsgGetAccount) (*MsgGetAccountResponse, error) {
+func (UnimplementedQueryServiceServer) GetAccount(context.Context, *MsgGetAccount) (*MsgGetAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
-func (UnimplementedQueryServer) GetChain(context.Context, *MsgGetChain) (*MsgGetChainResponse, error) {
+func (UnimplementedQueryServiceServer) GetChain(context.Context, *MsgGetChain) (*MsgGetChainResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetChain not implemented")
 }
-func (UnimplementedQueryServer) GetToken(context.Context, *MsgGetToken) (*MsgGetTokenResponse, error) {
+func (UnimplementedQueryServiceServer) GetToken(context.Context, *MsgGetToken) (*MsgGetTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetToken not implemented")
 }
-func (UnimplementedQueryServer) GetAmounts(context.Context, *MsgGetAmounts) (*MsgGetAmountsResponse, error) {
+func (UnimplementedQueryServiceServer) GetAmounts(context.Context, *MsgGetAmounts) (*MsgGetAmountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAmounts not implemented")
 }
-func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
+func (UnimplementedQueryServiceServer) mustEmbedUnimplementedQueryServiceServer() {}
 
-// UnsafeQueryServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to QueryServer will
+// UnsafeQueryServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to QueryServiceServer will
 // result in compilation errors.
-type UnsafeQueryServer interface {
-	mustEmbedUnimplementedQueryServer()
+type UnsafeQueryServiceServer interface {
+	mustEmbedUnimplementedQueryServiceServer()
 }
 
-func RegisterQueryServer(s grpc.ServiceRegistrar, srv QueryServer) {
-	s.RegisterService(&Query_ServiceDesc, srv)
+func RegisterQueryServiceServer(s grpc.ServiceRegistrar, srv QueryServiceServer) {
+	s.RegisterService(&QueryService_ServiceDesc, srv)
 }
 
-func _Query_GetPortfolio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _QueryService_GetPortfolio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgGetPortfolio)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetPortfolio(ctx, in)
+		return srv.(QueryServiceServer).GetPortfolio(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.server.Query/GetPortfolio",
+		FullMethod: "/pokt.server.QueryService/GetPortfolio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetPortfolio(ctx, req.(*MsgGetPortfolio))
+		return srv.(QueryServiceServer).GetPortfolio(ctx, req.(*MsgGetPortfolio))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _QueryService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgGetAccount)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetAccount(ctx, in)
+		return srv.(QueryServiceServer).GetAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.server.Query/GetAccount",
+		FullMethod: "/pokt.server.QueryService/GetAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetAccount(ctx, req.(*MsgGetAccount))
+		return srv.(QueryServiceServer).GetAccount(ctx, req.(*MsgGetAccount))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _QueryService_GetChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgGetChain)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetChain(ctx, in)
+		return srv.(QueryServiceServer).GetChain(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.server.Query/GetChain",
+		FullMethod: "/pokt.server.QueryService/GetChain",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetChain(ctx, req.(*MsgGetChain))
+		return srv.(QueryServiceServer).GetChain(ctx, req.(*MsgGetChain))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _QueryService_GetToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgGetToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetToken(ctx, in)
+		return srv.(QueryServiceServer).GetToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.server.Query/GetToken",
+		FullMethod: "/pokt.server.QueryService/GetToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetToken(ctx, req.(*MsgGetToken))
+		return srv.(QueryServiceServer).GetToken(ctx, req.(*MsgGetToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_GetAmounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _QueryService_GetAmounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgGetAmounts)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetAmounts(ctx, in)
+		return srv.(QueryServiceServer).GetAmounts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pokt.server.Query/GetAmounts",
+		FullMethod: "/pokt.server.QueryService/GetAmounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetAmounts(ctx, req.(*MsgGetAmounts))
+		return srv.(QueryServiceServer).GetAmounts(ctx, req.(*MsgGetAmounts))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Query_ServiceDesc is the grpc.ServiceDesc for Query service.
+// QueryService_ServiceDesc is the grpc.ServiceDesc for QueryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Query_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pokt.server.Query",
-	HandlerType: (*QueryServer)(nil),
+var QueryService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pokt.server.QueryService",
+	HandlerType: (*QueryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetPortfolio",
-			Handler:    _Query_GetPortfolio_Handler,
+			Handler:    _QueryService_GetPortfolio_Handler,
 		},
 		{
 			MethodName: "GetAccount",
-			Handler:    _Query_GetAccount_Handler,
+			Handler:    _QueryService_GetAccount_Handler,
 		},
 		{
 			MethodName: "GetChain",
-			Handler:    _Query_GetChain_Handler,
+			Handler:    _QueryService_GetChain_Handler,
 		},
 		{
 			MethodName: "GetToken",
-			Handler:    _Query_GetToken_Handler,
+			Handler:    _QueryService_GetToken_Handler,
 		},
 		{
 			MethodName: "GetAmounts",
-			Handler:    _Query_GetAmounts_Handler,
+			Handler:    _QueryService_GetAmounts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

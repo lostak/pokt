@@ -14,7 +14,7 @@ var (
 )
 
 type PoktServer struct {
-	UnimplementedMsgServer
+	UnimplementedMsgServiceServer
 }
 
 func (p *PoktServer) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (*MsgCreatePortfolioResponse, error) {
