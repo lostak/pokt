@@ -14,7 +14,97 @@ var (
 )
 
 type PoktServer struct {
-	UnimplementedMsgServer
+	UnimplementedMsgServiceServer
+	UnimplementedQueryServiceServer
+}
+
+func (p *PoktServer) GetPortfolio(ctx context.Context, msg *MsgGetPortfolio) (*MsgGetPortfolioResponse, error) {
+	fmt.Printf("\nReceived: %v\n", msg.String())
+
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		return &MsgGetPortfolioResponse{}, err
+	}
+
+	return &MsgGetPortfolioResponse{Portfolio: portfolio}, nil
+}
+
+func (p *PoktServer) GetAccount(ctx context.Context, msg *MsgGetAccount) (*MsgGetAccountResponse, error) {
+	fmt.Printf("\nReceived: %v\n", msg.String())
+
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		return &MsgGetAccountResponse{}, err
+	}
+
+	account, err := portfolio.GetAccount(msg.GetName())
+
+	return &MsgGetAccountResponse{Account: account}, nil
+}
+
+func (p *PoktServer) GetChain(ctx context.Context, msg *MsgGetChain) (*MsgGetChainResponse, error) {
+	fmt.Printf("\nReceived: %v\n", msg.String())
+
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		return &MsgGetChainResponse{}, err
+	}
+
+	entry, err := portfolio.GetChainEntry(msg.GetAccount(), msg.GetName())
+	if err != nil {
+		return &MsgGetChainResponse{}, err
+	}
+
+	chain := entry.GetValue()
+	if chain == nil {
+		return &MsgGetChainResponse{}, fmt.Errorf("Chain w/ key: %s has nil value", entry.GetKey())
+	}
+
+	return &MsgGetChainResponse{Chain: chain}, nil
+
+}
+
+func (p *PoktServer) GetToken(ctx context.Context, msg *MsgGetToken) (*MsgGetTokenResponse, error) {
+	fmt.Printf("\nReceived: %v\n", msg.String())
+
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		return &MsgGetTokenResponse{}, err
+	}
+
+	entry, err := portfolio.GetTokenEntry(msg.GetAccount(), msg.GetName(), msg.GetName())
+	if err != nil {
+		return &MsgGetTokenResponse{}, err
+	}
+
+	token := entry.GetValue()
+	if token == nil {
+		return &MsgGetTokenResponse{}, fmt.Errorf("Token w/ key: %s has nil value", entry.GetKey())
+	}
+
+	return &MsgGetTokenResponse{Token: token}, nil
+
+}
+
+func (p *PoktServer) GetAmounts(ctx context.Context, msg *MsgGetAmounts) (*MsgGetAmountsResponse, error) {
+	fmt.Printf("\nReceived: %v\n", msg.String())
+
+	portfolio, err := store.GetPortfolio()
+	if err != nil {
+		return &MsgGetAmountsResponse{}, err
+	}
+
+	entry, err := portfolio.GetTokenEntry(msg.GetAccount(), msg.GetName(), msg.GetName())
+	if err != nil {
+		return &MsgGetAmountsResponse{}, err
+	}
+
+	token := entry.GetValue()
+	if token == nil {
+		return &MsgGetAmountsResponse{}, fmt.Errorf("Amounts w/ key: %s has nil value", entry.GetKey())
+	}
+
+	return &MsgGetAmountsResponse{Amounts: token.GetAmounts()}, nil
 }
 
 func (p *PoktServer) CreatePortfolio(ctx context.Context, msg *MsgCreatePortfolio) (*MsgCreatePortfolioResponse, error) {

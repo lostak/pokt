@@ -5,7 +5,7 @@ import "proto/pokt/portfolio.proto";
 
 option go_package = "github.com/lostak/pokt/server";
 
-service Msg {
+service MsgService {
     rpc CreatePortfolio(MsgCreatePortfolio) returns (MsgCreatePortfolioResponse);
     rpc CreateAccount(MsgCreateAccount) returns (MsgCreateAccountResponse);
     rpc CreateChain(MsgCreateChain) returns (MsgCreateChainResponse);

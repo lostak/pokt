@@ -26,9 +26,8 @@ import (
 	"google.golang.org/grpc"
 )
 
-const portMsgGRPC = ":8080"
-const portQueryGRPC = ":8081"
-const portHTTP = ":8082"
+const portGRPC = ":8080"
+const portHTTP = ":8090"
 
 // serveCmd represents the serve command
 var serveMsgGrpcCmd = &cobra.Command{
@@ -38,37 +37,14 @@ var serveMsgGrpcCmd = &cobra.Command{
 		fmt.Println("serveMsgGrpcS called")
 
 		flag.Parse()
-		lis, err := net.Listen("tcp", portMsgGRPC)
+		lis, err := net.Listen("tcp", portGRPC)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
 		s := grpc.NewServer()
-		server.RegisterMsgServer(s, &server.PoktServer{})
-		fmt.Printf("server listening at: %v\n", lis.Addr())
-		if err := s.Serve(lis); err != nil {
-			fmt.Printf("Failed to serve: %v\n", err)
-		}
-
-	},
-}
-
-var serveQueryGrpcCmd = &cobra.Command{
-	Use:   "serveQueryGrpc",
-	Short: "start portfolio query gRPC server - WILL OVERWRITE EXISTING PORTFOLIO",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serveMsgGrpcS called")
-
-		flag.Parse()
-		lis, err := net.Listen("tcp", portMsgGRPC)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		s := grpc.NewServer()
-		server.RegisterQueryServer(s, &server.QueryService{})
+		server.RegisterMsgServiceServer(s, &server.PoktServer{})
 		fmt.Printf("server listening at: %v\n", lis.Addr())
 		if err := s.Serve(lis); err != nil {
 			fmt.Printf("Failed to serve: %v\n", err)

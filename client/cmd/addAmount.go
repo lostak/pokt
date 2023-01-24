@@ -44,7 +44,7 @@ var addAmountCmd = &cobra.Command{
 		}
 
 		defer conn.Close()
-		c := server.NewMsgClient(conn)
+		c := server.NewMsgServiceClient(conn)
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
