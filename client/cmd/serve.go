@@ -19,23 +19,25 @@ import (
 	"flag"
 	"fmt"
 	"net"
+	"net/http"
 
 	"github.com/lostak/pokt/server"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
 
-var ()
+const portRPC = ":8080"
+const portHTTP = ":8081"
 
 // serveCmd represents the serve command
-var serveCmd = &cobra.Command{
-	Use:   "serve",
-	Short: "Initial setup command for a portfolio - WILL OVERWRITE EXISTING PORTFOLIO",
+var serveRPCCmd = &cobra.Command{
+	Use:   "serveRPC",
+	Short: "start portfolio gRPC server - WILL OVERWRITE EXISTING PORTFOLIO",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serve called")
+		fmt.Println("serveRPCS called")
 
 		flag.Parse()
-		lis, err := net.Listen("tcp", ":8080")
+		lis, err := net.Listen("tcp", portRPC)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -51,6 +53,21 @@ var serveCmd = &cobra.Command{
 	},
 }
 
+var serveHTTPCmd = &cobra.Command{
+	Use:   "serveHTTP",
+	Short: "start HTTP server",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("serveHTTP called")
+
+		err := http.ListenAndServe(portHTTP, http.FileServer(http.Dir("../../assets")))
+		if err != nil {
+			fmt.Println("Failed to start server", err)
+			return
+		}
+	},
+}
+
 func init() {
-	rootCmd.AddCommand(serveCmd)
+	rootCmd.AddCommand(serveRPCCmd)
+	rootCmd.AddCommand(serveHTTPCmd)
 }
