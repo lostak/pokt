@@ -1,28 +1,24 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+    </head>
+    <body>
+        <button onClick="getPortfolio()" type="button" id="a">Get Portfolio</button>
+        <p id="b"></p>
+
         <script src="wasm_exec.js"></script>
         <script>
             const go = new Go();
-            WebAssembly.instantiateStreaming(fetch("json.wasm"), go.importObject).then((result) => {
-                go.run(result.instance)
+            let mod, inst;
+            WebAssembly.instantiateStreaming(
+                    fetch("main.wasm", {cache: 'no-cache'}), go.importObject).then((result) => {
+                    mod = result.module;
+                    inst = result.instance;
+                    run();
             });
+            async function run() {
+                    await go.run(inst);
+            };
         </script>
-    </head>
-    <body>
-        <input id="button" type="submit" name="button" value="Print Portfolio" onClick="portfolioJSON()"\>
-        <textarea name="jsonoutput" id="jsonoutput" cols="80" row="20"></textarea> 
-    </body>
-    <script>
-        var portfolioJSON = function() {
-            let result = formatPortfolioJSON()
-            if ( (result != null) && ('error' in result)) {
-                console.log("Error returned from Go: ", result['error'])
-                jsonoutput.value = "";
-                alert(result.error)
-            } else {
-                console.log("Go updated jsonoutput textarea")
-            }
-        }
-    </script>
+            </body>
 </html>

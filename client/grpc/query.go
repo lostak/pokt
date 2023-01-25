@@ -1,10 +1,14 @@
 package grpc
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/lostak/pokt/server"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
@@ -24,10 +28,17 @@ func bytesToPretty(b []byte) (string, error) {
 }
 
 func GetPortfolioJSON() (string, error) {
-	client, ctx, err := getQueryClient()
+	conn, err := grpc.Dial(*adr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		return "", err
+		return "", nil
 	}
+
+	defer conn.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	client := server.NewQueryServiceClient(conn)
 
 	response, err := client.GetPortfolio(ctx, &server.MsgGetPortfolio{})
 	if err != nil {

@@ -1,10 +1,22 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"flag"
 	"fmt"
 	"syscall/js"
+	"time"
 
 	"github.com/lostak/pokt/client/grpc"
+	"github.com/lostak/pokt/server"
+	g "google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/encoding/protojson"
+)
+
+var (
+	addr = flag.String("addr", "localhost:8080", "the address to connect to for grpc")
 )
 
 func getOutputText() (js.Value, error) {
@@ -13,7 +25,7 @@ func getOutputText() (js.Value, error) {
 		return js.Null(), fmt.Errorf("unable to get document object")
 	}
 
-	outputText := jsDoc.Call("querySelector", "#jsonoutput")
+	outputText := jsDoc.Call("querySelector", "#b")
 	if !outputText.Truthy() {
 		return js.Null(), fmt.Errorf("unable to get output textarea")
 	}
@@ -21,32 +33,98 @@ func getOutputText() (js.Value, error) {
 	return outputText, nil
 }
 
+//exports getPortfolioWrapper
 func GetPortfolioWrapper() js.Func {
 	jsonFunc := js.FuncOf(func(this js.Value, args []js.Value) any {
-		if len(args) == 1 {
+		fmt.Println("GetPortfolioWrapper called")
+
+		jsDoc := js.Global().Get("document")
+		if !jsDoc.Truthy() {
+			fmt.Println("unable to get ddocument")
+
 			return map[string]any{
-				"error": "named portfolios not yet supported",
+				"error": fmt.Errorf("unable to get document object"),
 			}
 		}
 
-		output, err := getOutputText()
+		outputText := jsDoc.Call("querySelector", "#b")
+		if !outputText.Truthy() {
+			fmt.Println("unable to get output textarea")
+
+			return map[string]any{
+				"error": fmt.Errorf("unable to get output textarea"),
+			}
+		}
+
+		conn, err := g.Dial(*addr, g.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
+			fmt.Println("unable to dial")
+
 			return map[string]any{
 				"error": err.Error(),
 			}
 		}
 
-		portfolio, err := grpc.GetPortfolioJSON()
+		defer conn.Close()
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		client := server.NewQueryServiceClient(conn)
+
+		response, err := client.GetPortfolio(ctx, &server.MsgGetPortfolio{})
 		if err != nil {
+			fmt.Println("error w/ getting output text ", err.Error())
+
 			return map[string]any{
 				"error": err.Error(),
 			}
 		}
 
-		output.Set("value", portfolio)
-		fmt.Printf("Porfolio as JSON: \n%s", portfolio)
+		portfolio := response.GetPortfolio()
+		if portfolio == nil {
+			fmt.Println("portfolio recieved is nil")
+
+			return map[string]any{
+				"error": "portfolio recieved is nil",
+			}
+		}
+
+		fmt.Println("Portfolio Recieved:")
+		portfolio.Println()
+
+		b, err := protojson.Marshal(portfolio)
+		if err != nil {
+			fmt.Println("error marshaling portfolio")
+
+			return map[string]any{
+				"error": err.Error(),
+			}
+		}
+
+		var ugly any
+		err = json.Unmarshal(b, &ugly)
+		if err != nil {
+			fmt.Println("unable to unmarshal bytes")
+
+			return map[string]any{
+				"error": err.Error(),
+			}
+		}
+
+		pretty, err := json.MarshalIndent(ugly, "", "  ")
+		if err != nil {
+			fmt.Println("unable to marshalIndent")
+
+			return map[string]any{
+				"error": err.Error(),
+			}
+		}
+
+		outputText.Set("value", pretty)
+		fmt.Printf("Porfolio as JSON: \n%s", pretty)
 		return map[string]any{
-			"portfolio": portfolio,
+			"portfolio": pretty,
 		}
 	})
 
@@ -88,14 +166,23 @@ func GetAccountWrapper() js.Func {
 }
 
 func main() {
+	wait := make(chan struct{}, 0)
+
 	fmt.Println("Go web assembly")
 
-	// Get js.Funcs to be supported
-	js.Global().Set("formatPortfolioJSON", GetPortfolioWrapper())
-	fmt.Println("formatPortfolioJSON set to be the js.Func returned from GetPortfolioWrapper()")
+	jsDoc := js.Global().Get("document")
+	if !jsDoc.Truthy() {
+		fmt.Println("Wasm failed - could not get document")
+		return
+	}
 
-	js.Global().Set("formatAccountJSON", GetAccountWrapper())
-	fmt.Println("formatAccountJSON set to be the js.Func returned from GetAccountWrapper()")
+	button := jsDoc.Call("querySelector", "#a")
+	if !button.Truthy() {
+		fmt.Println("wasm failed - could not get button #a")
+		return
+	}
 
-	<-make(chan bool)
+	button.Call("addEventListener", "click", GetPortfolioWrapper())
+
+	<-wait
 }

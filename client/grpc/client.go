@@ -11,11 +11,11 @@ import (
 )
 
 var (
-	addr = flag.String("addr", "localhost:8080", "the address to connect to for grpc")
+	adr = flag.String("adr", "localhost:8080", "the address to connect to for grpc")
 )
 
 func getMsgClientAndContext() (server.MsgServiceClient, context.Context, error) {
-	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(*adr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -29,7 +29,7 @@ func getMsgClientAndContext() (server.MsgServiceClient, context.Context, error) 
 }
 
 func getQueryClient() (server.QueryServiceClient, context.Context, error) {
-	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(*adr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, nil, err
 	}

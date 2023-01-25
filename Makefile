@@ -14,6 +14,8 @@ build-servers:
 
 build: build-proto build-cobra build-wasm build-servers 
 
+build-no-proto: build-cobra build-wasm build-servers
+
 run-grpc-server:
 	cd runner/server/grpc && make run-server
 

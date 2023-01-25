@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/golang/protobuf v1.5.2
+	github.com/siongui/godom v0.0.0-20200920152407-31a6de96fdf6
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.14.0
 	google.golang.org/grpc v1.50.1
