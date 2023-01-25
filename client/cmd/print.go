@@ -16,55 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"context"
-	"encoding/json"
 	"fmt"
-	"time"
 
-	"github.com/lostak/pokt/server"
+	"github.com/lostak/pokt/client/grpc"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/protobuf/encoding/protojson"
 )
-
-func GetPortfolioJSON() (string, error) {
-	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		return "", err
-	}
-
-	defer conn.Close()
-	c := server.NewQueryServiceClient(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.GetPortfolio(ctx, &server.MsgGetPortfolio{})
-	if err != nil {
-		return "", err
-	}
-
-	fmt.Println("Portfolio Recieved:")
-	r.GetPortfolio().Println()
-
-	b, err := protojson.Marshal(r)
-	if err != nil {
-		return "", err
-	}
-
-	var j any
-	err = json.Unmarshal(b, &j)
-	if err != nil {
-
-	}
-
-	pretty, err := json.MarshalIndent(j, "", "  ")
-	if err != nil {
-		return "", err
-	}
-
-	return string(pretty), nil
-}
 
 // printCmd represents the print command
 var printCmd = &cobra.Command{
@@ -73,7 +29,7 @@ var printCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("print called")
 
-		_, err := GetPortfolioJSON()
+		_, err := grpc.GetPortfolioJSON()
 		if err != nil {
 			fmt.Printf("Could not get portfolio JSON: %v\n", err.Error())
 			return

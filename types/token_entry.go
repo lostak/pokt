@@ -31,7 +31,7 @@ func (e *TokenEntry) getAmountData(time int64) (*AmountData, error) {
 
 	amounts := token.GetAmounts()
 	if amounts == nil {
-		return nil, fmt.Errorf("Token entry w/ key %s's amount map has not been allocated")
+		return nil, fmt.Errorf("Token entry w/ key %s's amount map has not been allocated", e.GetKey())
 	}
 
 	return amounts[time].GetValue(), nil

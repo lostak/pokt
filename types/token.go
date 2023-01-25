@@ -28,7 +28,7 @@ func (t *Token) setAmount(amount float64) {
 }
 
 func (t *Token) deleteHistory() {
-	for entry, _ := range t.GetAmounts() {
+	for entry := range t.GetAmounts() {
 		delete(t.Amounts, entry)
 	}
 }

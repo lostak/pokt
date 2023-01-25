@@ -17,7 +17,7 @@ func (a *Account) getChain(chainName string) (*Chain, error) {
 	entries := a.GetChains()
 	if entries == nil {
 		a.Chains = make(map[string]*ChainEntry)
-		return nil, fmt.Errorf("Chain map was not allocated in account", chainName)
+		return nil, fmt.Errorf("Chain map was not allocated in account")
 	}
 
 	entry := entries[chainName]

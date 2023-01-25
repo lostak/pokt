@@ -16,15 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"context"
 	"flag"
 	"fmt"
-	"time"
 
-	"github.com/lostak/pokt/server"
+	"github.com/lostak/pokt/client/grpc"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 // addAccountCmd represents the addAccount command
@@ -37,24 +33,14 @@ var addAccountCmd = &cobra.Command{
 		fmt.Println("addAccount called")
 		flag.Parse()
 
-		conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		portfolio, err := grpc.AddAccount(args[0])
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Println("Error adding account: ", err.Error())
 			return
 		}
 
-		defer conn.Close()
-		c := server.NewMsgServiceClient(conn)
-
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-		r, err := c.CreateAccount(ctx, &server.MsgCreateAccount{Account: args[0]})
-		if err != nil {
-			fmt.Printf("Could not update portfolio: %v\n", err)
-			return
-		}
-		fmt.Println("Updated Portfolio: ")
-		r.GetPortfolio().Println()
+		fmt.Println("New portfolio:")
+		portfolio.Println()
 	},
 }
 

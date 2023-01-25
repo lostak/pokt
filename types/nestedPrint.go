@@ -100,3 +100,19 @@ func (p *Portfolio) nestedPrint(indent, incr string) {
 func (p *Portfolio) Println() {
 	p.nestedPrint(" + ", " + ")
 }
+
+func (a *Account) Println() {
+	a.nestedPrint(" + ", " + ")
+}
+
+func (c *Chain) Println() {
+	c.nestedPrint(" + ", " + ")
+}
+
+func (t *Token) Println() {
+	t.nestedPrint(" + ", " + ", t.GetGeckoId())
+}
+
+func (e *AmountEntry) Println(symbol string, num uint32) {
+	e.nestedPrint(" + ", " + ", symbol, num)
+}
