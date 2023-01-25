@@ -1,2 +1,2 @@
 echo -e "Generate and Move Protobuf files\n"
-bash ./.github/workflows/buildProto.sh
+sh ./.github/workflows/buildProto.sh
