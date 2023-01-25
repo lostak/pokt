@@ -98,5 +98,5 @@ func (p *Portfolio) nestedPrint(indent, incr string) {
 }
 
 func (p *Portfolio) Println() {
-	p.nestedPrint(" | ", " | ")
+	p.nestedPrint(" + ", " + ")
 }

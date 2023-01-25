@@ -60,4 +60,6 @@ var updateGeckoIdCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(updateGeckoIdCmd)
+	rootCmd.AddCommand(ServeGrpcCmd)
+	rootCmd.AddCommand(ServeHTTPCmd)
 }

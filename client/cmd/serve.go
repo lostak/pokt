@@ -19,7 +19,6 @@ import (
 	"flag"
 	"fmt"
 	"net"
-	"net/http"
 
 	"github.com/lostak/pokt/server"
 	"github.com/spf13/cobra"
@@ -27,11 +26,11 @@ import (
 )
 
 const portGRPC = ":8080"
-const portHTTP = ":8090"
+const portHTTP = ":3333"
 
 // serveCmd represents the serve command
-var serveMsgGrpcCmd = &cobra.Command{
-	Use:   "serveMsgGrpc",
+var ServeGrpcCmd = &cobra.Command{
+	Use:   "serveGrpc",
 	Short: "start portfolio msg gRPC server - WILL OVERWRITE EXISTING PORTFOLIO",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("serveMsgGrpcS called")
@@ -45,6 +44,7 @@ var serveMsgGrpcCmd = &cobra.Command{
 
 		s := grpc.NewServer()
 		server.RegisterMsgServiceServer(s, &server.PoktServer{})
+		server.RegisterQueryServiceServer(s, &server.PoktServer{})
 		fmt.Printf("server listening at: %v\n", lis.Addr())
 		if err := s.Serve(lis); err != nil {
 			fmt.Printf("Failed to serve: %v\n", err)
@@ -53,21 +53,15 @@ var serveMsgGrpcCmd = &cobra.Command{
 	},
 }
 
-var serveHTTPCmd = &cobra.Command{
+var ServeHTTPCmd = &cobra.Command{
 	Use:   "serveHTTP",
 	Short: "start HTTP server",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serveHTTP called")
-
-		err := http.ListenAndServe(portHTTP, http.FileServer(http.Dir("../../assets")))
+		fmt.Println("serveHTTP w/ port :3333")
+		err := server.ServeHTTP(portHTTP)
 		if err != nil {
 			fmt.Println("Failed to start server", err)
 			return
 		}
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(serveMsgGrpcCmd)
-	rootCmd.AddCommand(serveHTTPCmd)
 }

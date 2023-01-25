@@ -1,5 +1,9 @@
 {
-	"go.buildFlags": [
+    "go.toolsEnvVars": {
+        "GOOS": "js",
+        "GOARCH": "wasm"
+    },
+    "go.buildFlags": [
 		"-tags=functional"
 	],
 	"go.testFlags": [
@@ -19,5 +23,5 @@
             "source.organizeImports": true
         }
     },
-    "go.docsTool": "gogetdoc"
+    "go.docsTool": "gogetdoc",
 }

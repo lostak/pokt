@@ -9,4 +9,20 @@
             });
         </script>
     </head>
+    <body>
+        <input id="button" type="submit" name="button" value="pretty json" onClick="portfolioJSON()"\>
+        <textarea name="jsonoutput" id="jsonoutput" cols="80" row="20"></textarea> 
+    </body>
+    <script>
+        var portfolioJSON = function() {
+            let result = formatPortfolioJSON()
+            if ( (result != null) && ('error' in result)) {
+                console.log("Error returned from Go: ", result['error'])
+                jsonoutput.value = "";
+                alert(result.error)
+            } else {
+                console.log("Go updated jsonoutput textarea")
+            }
+        }
+    </script>
 </html>

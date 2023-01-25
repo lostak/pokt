@@ -26,6 +26,9 @@ func (p *PoktServer) GetPortfolio(ctx context.Context, msg *MsgGetPortfolio) (*M
 		return &MsgGetPortfolioResponse{}, err
 	}
 
+	fmt.Println("\nSending Portfolio:")
+	portfolio.Println()
+
 	return &MsgGetPortfolioResponse{Portfolio: portfolio}, nil
 }
 
